@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocationsLibrary", "Vocatio
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "VocationsDB", "VocationsDB\VocationsDB.sqlproj", "{459AFC71-199C-43A8-B1E2-F104D371ADBA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VocationsModel", "VocationsModel\VocationsModel.csproj", "{4D990786-5528-4C5C-8462-31B1FC912623}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -29,6 +31,10 @@ Global
 		{459AFC71-199C-43A8-B1E2-F104D371ADBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{459AFC71-199C-43A8-B1E2-F104D371ADBA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{459AFC71-199C-43A8-B1E2-F104D371ADBA}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{4D990786-5528-4C5C-8462-31B1FC912623}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4D990786-5528-4C5C-8462-31B1FC912623}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4D990786-5528-4C5C-8462-31B1FC912623}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4D990786-5528-4C5C-8462-31B1FC912623}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
