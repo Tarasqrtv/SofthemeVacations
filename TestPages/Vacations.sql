@@ -19,7 +19,7 @@ Create table [User]
 	TelephoneNumber nvarchar,
 	Skype nvarchar,
 	StartDate date,
-	Status nvarchar CHECK (Status in('active','dismissed','vacation')),
+	Status bit,
 	EndDate date,
 	TeamID uniqueidentifier references Team(TeamID)
 );
@@ -27,14 +27,6 @@ Create table [User]
 Alter table Team
 ADD TeamLeadID uniqueidentifier,
 FOREIGN KEY (TeamLeadID) REFERENCES [User](UserID)
-
-Create table [Transaction]
-(
-	TransactionID uniqueidentifier Primary key,
-	UserID uniqueidentifier references [User](UserID),
-	[Description] nvarchar,
-	Balance int
-);
 
 Create table Vacation
 (

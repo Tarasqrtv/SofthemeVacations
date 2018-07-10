@@ -4,16 +4,22 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Runtime.Serialization;
 
 namespace Vacations.Controllers
 {
     public class SignInController : ApiController
     {
+        [DataContractAttribute]
         public class Accaunt
         {
+            [DataMemberAttribute]
             public int id;
+            [DataMemberAttribute]
             public string login;
+            [DataMemberAttribute]
             public string pass;
+
             public Accaunt(int id, string login, string pass)
             {
                 this.id = id;
@@ -29,7 +35,7 @@ namespace Vacations.Controllers
          };
 
         // GET api/values
-        public Accaunt[] Get()
+        public IEnumerable<Accaunt> Get()
         {
             return accaunts;
         }
