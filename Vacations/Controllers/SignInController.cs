@@ -31,7 +31,8 @@ namespace Vacations.Controllers
         Accaunt[] accaunts = new Accaunt[] {
                 new Accaunt ( 1, "Alex1", "1234"),
                 new Accaunt ( 2, "Alex2", "1234"),
-                new Accaunt ( 3, "Alex3", "1234")
+                new Accaunt ( 3, "Alex3", "1234"),
+                new Accaunt ( 4, "Alex3", "1234")
          };
 
         // GET api/values
