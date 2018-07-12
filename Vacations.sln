@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.27703.2018
+VisualStudioVersion = 15.0.27703.2035
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vacations", "Vacations\Vacations.csproj", "{6BF4E727-C5B5-42FF-8C9B-D97B55BF55F8}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vacations", "Vacations\Vacations.csproj", "{8A8D2B7B-8AE3-4758-883D-040CC7EB190B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{6BF4E727-C5B5-42FF-8C9B-D97B55BF55F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{6BF4E727-C5B5-42FF-8C9B-D97B55BF55F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{6BF4E727-C5B5-42FF-8C9B-D97B55BF55F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{6BF4E727-C5B5-42FF-8C9B-D97B55BF55F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A8D2B7B-8AE3-4758-883D-040CC7EB190B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A8D2B7B-8AE3-4758-883D-040CC7EB190B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A8D2B7B-8AE3-4758-883D-040CC7EB190B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A8D2B7B-8AE3-4758-883D-040CC7EB190B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {81787268-A7FE-4FF3-A842-804BE26C936E}
+		SolutionGuid = {520BC821-E6DC-411D-B6CF-F43B968A73CB}
 	EndGlobalSection
 EndGlobal
