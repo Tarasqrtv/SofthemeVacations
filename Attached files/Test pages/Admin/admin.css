@@ -1,0 +1,80 @@
+h1 {     
+    text-align: center;   
+    color: white;
+    text-transform: uppercase;
+    font-size: 15px;   
+    font-weight:Bold ; 
+    margin-top: 7px;  
+    font-family: Muli-BoldItalic; 
+}
+.span {    
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-size: 15px; 
+    font-weight:normal; 
+    font-family: Muli-BoldItalic;
+}
+
+.navbar-brand {
+    margin-left: 175px; 
+    margin-right: 50px
+}
+.navbar-nav > li{
+    padding-top:10px;
+    padding-bottom:10px;
+  }
+
+.navbar-nav a:hover {    
+    background: 
+    linear-gradient(to right, skyblue -50%, purple 150%)
+      left 
+      bottom       
+      no-repeat; 
+    background-size:100% 3px ;
+}
+.navigation-container .nav-link{
+    color: white;
+    font-family: Muli-BoldItalic;    
+    border-top: 3px solid rgb(38,38,38);
+}  
+.navigation-conteiner {    
+    flex: 0 0 19%;
+    max-width: 30%;
+    max-height: 30%;
+}
+.bg-dark {
+    background-color: #353535!important;
+}
+.dropdown-menu{
+    background-color:transparent;   
+}
+.dropdown-item{
+    color: white;
+    font-family: Muli-BoldItalic;  
+}
+.jumbotron{
+    background: url('fontsicons/home\ request\ background.png');
+    background-position: center center;   
+    background-size: cover;     
+    border-radius: 125px; 
+}
+a.knopka {
+    color: #fff; /* цвет текста */
+    text-decoration: none; /* убирать подчёркивание у ссылок */
+    user-select: none; /* убирать выделение текста */
+    background: linear-gradient(to right, skyblue -50%, purple 150%);
+    padding: .7em 1.5em; /* отступ от текста */
+    outline: none; /* убирать контур в Mozilla */
+    text-transform: uppercase;
+    font-family: Muli-BoldItalic;
+    border-radius: 5px;
+  } 
+  a.knopka:hover { background: rgb(232, 76, 206); } /* при наведении курсора мышки */
+  a.knopka:active { background: rgb(110, 81, 218); } /* при нажатии */
+ 
+  .badge-secondary {
+    color: #fff;
+    background: linear-gradient(to right, purple -50%, skyblue 150%)!important;
+    font-family: Muli-BoldItalic;
+}
