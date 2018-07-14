@@ -1,0 +1,48 @@
+<div class="body">
+  <div class="main container">
+    <div class="row">
+      <div class="col-12">
+
+        <div class="logo">
+          <div><i class="icon-logo-softheme"></i></div>
+          <h1>Softheme <span>Vacations</span> </h1>
+        </div>
+<router-outlet></router-outlet>
+        <form class="login-form" (submit)="login()">
+          <div class="input-container">
+            <div class="input-group mb-3">
+              <input
+                [(ngModel)]="user.email"
+                #inputEmail
+                type="email"
+                class="form-control"
+                required
+                name="email"
+                placeholder="email">
+              <div>
+                <i class="icon-user-icon"></i>
+              </div>
+            </div>
+
+            <div class="input-group mb-3">
+              <input
+                [(ngModel)]="user.password"
+                type="password"
+                class="form-control"
+                name="password"
+                placeholder="password">
+              <div>
+                <i class="icon-password-icon"></i>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" #buttonSubmit class="btn btn-primary btn-block">log in</button>
+          <button type="button" class="btn btn-link btn-block">forgot password?</button>
+        </form>
+
+
+      </div>
+    </div>
+  </div>
+</div>

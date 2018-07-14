@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./assets/fonts/icomoon/icomoon.css";
+
+@font-face {
+  font-family: Muli-Bold;
+  src: url(./assets/fonts/Muli-Bold.ttf);
+}
+
+@font-face {
+  font-family: Muli-Regular;
+  src: url(./assets/fonts/Muli-Regular.ttf);
+}
+
+@font-face {
+  font-family: Muli-Light;
+  src: url(./assets/fonts/Muli-Light.ttf);
+}
+
+* {
+  font-family: Muli-Regular;
+}
