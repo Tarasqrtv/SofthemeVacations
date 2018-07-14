@@ -12,8 +12,7 @@ import { AuthComponent } from './auth.component';
     RouterModule
   ],
   declarations: [
-    LoginComponent,
-    AuthComponent
+    LoginComponent
   ],
   exports: [
     LoginComponent
