@@ -1,4 +1,4 @@
-﻿CREATE DATABASE Vacations
+CREATE DATABASE Vacations
 
 USE Vacations
 
@@ -32,7 +32,7 @@ CREATE TABLE Employee
 	EmployeeID uniqueidentifier PRIMARY KEY,
 	Name nvarchar(50),
 	Surname nvarchar(50), --50
-	WorkEmail nvarchar(150), --256
+	WorkEmail nvarchar(256), --256
 	TelephoneNumber nvarchar(20), --20
 	Birthday date,
 	Skype nvarchar(50),
@@ -53,9 +53,9 @@ CREATE TABLE [User]
 	UserID uniqueidentifier PRIMARY KEY,
 	EmployeeID uniqueidentifier UNIQUE,
 	Password nvarchar(300),
-	PersonalEmail nvarchar(150) NOT NULL, 
+	PersonalEmail nvarchar(256) NOT NULL, 
 	RoleID uniqueidentifier,
-	CONSTRAINT User_RoleID_FK FOREIGN KEY (RoleID) REFERENCES Role(RoleID),
+	CONSTRAINT User_RoleID_FK FOREIGN KEY (RoleID) REFERENCES [Role](RoleID),
 	CONSTRAINT User_EmployeeID_FK FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
 
@@ -77,10 +77,12 @@ CREATE TABLE TransactionType
 CREATE TABLE [Transaction]
 (
 	TransactionID uniqueidentifier PRIMARY KEY,
-	TransactionTypeID uniqueidentifier, --Отдельная таблица
+	TransactionTypeID uniqueidentifier,
+	EmployeeID uniqueidentifier, --Отдельная таблица
 	Days int,
 	Сomment nvarchar(200),
-	CONSTRAINT Transaction_TransactionTypeID_FK FOREIGN KEY (TransactionTypeID) REFERENCES TransactionType(TransactionTypeID)
+	CONSTRAINT Transaction_TransactionTypeID_FK FOREIGN KEY (TransactionTypeID) REFERENCES TransactionType(TransactionTypeID),
+	CONSTRAINT Transaction_EmployeeID_FK FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
 
 CREATE TABLE VacationStatus
@@ -100,11 +102,3 @@ CREATE TABLE Vacation
 	CONSTRAINT Vacation_EmployeeID_FK FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID),
 	CONSTRAINT Vacation_VacationStatusID_FK FOREIGN KEY (VacationStatusID) REFERENCES VacationStatus(VacationStatusID)
 );
-
-CREATE TABLE VacationTransaction
-(
-	VacationID uniqueidentifier,
-	TransactionID uniqueidentifier,
-	CONSTRAINT EmployeeTeam_VacationID_FK FOREIGN KEY (VacationID) REFERENCES Vacation(VacationID),
-	CONSTRAINT EmployeeTeam_TransactionID_FK FOREIGN KEY (TransactionID) REFERENCES [Transaction](TransactionID)
-)

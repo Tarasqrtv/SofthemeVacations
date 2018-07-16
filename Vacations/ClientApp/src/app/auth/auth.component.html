@@ -1,13 +1,12 @@
-<div class="body">
+<div [routerLink]='["/auth"]' class="body">
   <div class="main container">
     <div class="row">
       <div class="col-12">
-
         <div class="logo">
           <div><i class="icon-logo-softheme"></i></div>
           <h1>Softheme <span>Vacations</span> </h1>
         </div>
-<router-outlet></router-outlet>
+      <router-outlet></router-outlet>
         <form class="login-form" (submit)="login()">
           <div class="input-container">
             <div class="input-group mb-3">

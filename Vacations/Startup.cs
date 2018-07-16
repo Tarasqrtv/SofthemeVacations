@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -6,7 +6,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Vacations.Model.Models;
 
 namespace Vacations
 {
@@ -44,6 +46,8 @@ namespace Vacations
             {
                 configuration.RootPath = "ClientApp/dist";
             });
+
+            services.AddDbContext<VacationsDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

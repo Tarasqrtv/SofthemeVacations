@@ -2,35 +2,42 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './home/nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './home/counter/counter.component';
-import { FetchDataComponent } from './home/fetch-data/fetch-data.component';
 import { AuthComponent } from './auth/auth.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileModule } from './profile/profile.module';
+import { AuthModule } from './auth/auth.module';
+import { HomeComponent } from './profile/home/home.component';
+import { CounterComponent } from './profile/counter/counter.component';
+import { FetchDataComponent } from './profile/fetch-data/fetch-data.component';
+
+const routes: Routes = [      
+  { path: 'auth', component: AuthComponent},
+  { path: '**', component: ProfileComponent}
+];
+
+const childRoutes: Routes = [      
+  { path: 'profile', component: ProfileComponent, children: [      
+    { path: 'home', component: HomeComponent },
+    { path: 'counter', component: CounterComponent },
+    { path: 'fetch-data', component: FetchDataComponent }
+  ]}
+];
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    AuthComponent
+    AppComponent
   ],
   imports: [
+    ProfileModule,
+    AuthModule,
+    RouterModule.forRoot(routes),
+    RouterModule.forChild(childRoutes),
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'auth', component: AuthComponent },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: '**', component: HomeComponent }
-    ])
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

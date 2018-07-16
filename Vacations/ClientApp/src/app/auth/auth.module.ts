@@ -12,10 +12,12 @@ import { AuthComponent } from './auth.component';
     RouterModule
   ],
   declarations: [
-    LoginComponent
+    LoginComponent,
+    AuthComponent
   ],
   exports: [
     LoginComponent
-  ]
+  ],
+  bootstrap: [AuthComponent]
 })
 export class AuthModule { }
