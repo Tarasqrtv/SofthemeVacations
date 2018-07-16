@@ -2,7 +2,9 @@ div.body {
     height: 100vh;
     background-image: url('../../assets/login-bg.png');
     background-repeat: no-repeat;
-    background-size: cover;
+    background-position: center center;
+    background-attachment: fixed;
+    background-size: cover; 
 
     div.logo {
         text-align: center;
@@ -68,7 +70,7 @@ div.body {
 
             button.btn-primary {
                 text-transform: uppercase;
-                background: linear-gradient(to right, #667DE9, #764CA4);
+                background: linear-gradient(to right, skyblue -50%, purple 150%);
                 border: none;
             }
 
