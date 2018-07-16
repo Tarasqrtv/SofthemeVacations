@@ -9,6 +9,7 @@ import { NavMenuComponent } from './nav-menu/nav-menu.component';
 import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HomeComponent } from './home/home.component';
+import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { HomeComponent } from './home/home.component';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    ProfileComponent
+    ProfileComponent,
+    EmployeeProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -33,7 +35,8 @@ import { HomeComponent } from './home/home.component';
     NavMenuComponent,
     HomeComponent,
     CounterComponent,
-    FetchDataComponent],
+    FetchDataComponent,
+    EmployeeProfileComponent],
     bootstrap: [ProfileComponent]
 })
 export class ProfileModule { }

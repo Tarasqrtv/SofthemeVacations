@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './profile/home/home.component';
 import { CounterComponent } from './profile/counter/counter.component';
 import { FetchDataComponent } from './profile/fetch-data/fetch-data.component';
+import { EmployeeProfileComponent } from './profile/employee-profile/employee-profile.component';
 
 const routes: Routes = [      
   { path: 'auth', component: AuthComponent},
@@ -22,7 +23,8 @@ const childRoutes: Routes = [
   { path: 'profile', component: ProfileComponent, children: [      
     { path: 'home', component: HomeComponent },
     { path: 'counter', component: CounterComponent },
-    { path: 'fetch-data', component: FetchDataComponent }
+    { path: 'fetch-data', component: FetchDataComponent },
+    { path: 'employee-profile', component: EmployeeProfileComponent }
   ]}
 ];
 

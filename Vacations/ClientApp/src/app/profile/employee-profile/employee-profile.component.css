@@ -1,0 +1,11 @@
+.profileBorder {
+    border: 0.5px solid grey;
+    color: silver;
+} 
+
+.border {
+    border-radius: 15px;
+    background-color: #29292c;
+    border: 1px solid grey;
+    color: silver;
+}
