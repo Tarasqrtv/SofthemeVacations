@@ -19,27 +19,19 @@ const routes: Routes = [
   { path: '**', component: ProfileComponent}
 ];
 
-const childRoutes: Routes = [      
-  { path: 'profile', component: ProfileComponent, children: [      
-    { path: 'home', component: HomeComponent },
-    { path: 'counter', component: CounterComponent },
-    { path: 'fetch-data', component: FetchDataComponent },
-    { path: 'employee-profile', component: EmployeeProfileComponent }
-  ]}
-];
-
 @NgModule({
   declarations: [
     AppComponent
   ],
   imports: [
-    ProfileModule,
-    AuthModule,
-    RouterModule.forRoot(routes),
-    RouterModule.forChild(childRoutes),
-    BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
+    BrowserModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+
+    RouterModule.forRoot(routes),
+
+    ProfileModule,
+    AuthModule
   ],
   providers: [],
   bootstrap: [AppComponent]

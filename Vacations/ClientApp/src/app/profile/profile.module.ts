@@ -12,6 +12,20 @@ import { HomeComponent } from './home/home.component';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
 import { GetEmployeeService } from './employee-profile/get-employee.service';
 
+const childRoutes: Routes = [
+  {
+    path: 'profile',
+    component: ProfileComponent,
+    children: [{
+      path: '',
+      component: HomeComponent
+    }]
+  }
+
+  // { path: 'counter', component: CounterComponent },
+  // { path: 'fetch-data', component: FetchDataComponent },
+  // { path: 'employee-profile', component: EmployeeProfileComponent }
+];
 
 @NgModule({
   declarations: [
@@ -26,13 +40,7 @@ import { GetEmployeeService } from './employee-profile/get-employee.service';
     CommonModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'employee-profile', component: EmployeeProfileComponent }
-
-    ])
+    RouterModule.forChild(childRoutes),
   ],
   providers: [GetEmployeeService],
   exports: [
@@ -40,7 +48,7 @@ import { GetEmployeeService } from './employee-profile/get-employee.service';
     HomeComponent,
     CounterComponent,
     FetchDataComponent,
-    EmployeeProfileComponent],
-    bootstrap: [ProfileComponent]
+    EmployeeProfileComponent
+  ],
 })
 export class ProfileModule { }
