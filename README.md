@@ -10,6 +10,7 @@ Get, Post, Put, Delete
 ```
 #### Available api routes
 ```
+/api/auth/login - test login withouta a token
 /api/auth/token
 /api/auth/test1
 /api/auth/test2
