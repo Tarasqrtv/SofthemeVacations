@@ -1,8 +1,8 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule, Routes } from '@angular/router';
+import { CommonModule } from '@angular/common';
 
 import { ProfileComponent } from './profile.component';
 import { NavMenuComponent } from './nav-menu/nav-menu.component';
@@ -10,6 +10,8 @@ import { CounterComponent } from './counter/counter.component';
 import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HomeComponent } from './home/home.component';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
+import { GetEmployeeService } from './employee-profile/get-employee.service';
+
 
 @NgModule({
   declarations: [
@@ -21,16 +23,18 @@ import { EmployeeProfileComponent } from './employee-profile/employee-profile.co
     EmployeeProfileComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     HttpClientModule,
     FormsModule,
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
       { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent }
+      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'employee-profile', component: EmployeeProfileComponent }
+
     ])
   ],
-  providers: [],
+  providers: [GetEmployeeService],
   exports: [
     NavMenuComponent,
     HomeComponent,
