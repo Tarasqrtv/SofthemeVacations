@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule, Routes } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 
 import { ProfileComponent } from './profile.component';
@@ -11,21 +11,7 @@ import { FetchDataComponent } from './fetch-data/fetch-data.component';
 import { HomeComponent } from './home/home.component';
 import { EmployeeProfileComponent } from './employee-profile/employee-profile.component';
 import { GetEmployeeService } from './employee-profile/get-employee.service';
-
-const childRoutes: Routes = [
-  {
-    path: 'profile',
-    component: ProfileComponent,
-    children: [
-      { path: '',  component: HomeComponent },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-      { path: 'employee-profile', component: EmployeeProfileComponent }
-    ]
-  }
-
-
-];
+import { ProfileRoutes } from './profile.routes';
 
 @NgModule({
   declarations: [
@@ -40,15 +26,9 @@ const childRoutes: Routes = [
     CommonModule,
     HttpClientModule,
     FormsModule,
-    RouterModule.forChild(childRoutes),
+
+    RouterModule.forChild(ProfileRoutes),
   ],
-  providers: [GetEmployeeService],
-  exports: [
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent,
-    EmployeeProfileComponent
-  ],
+  providers: [GetEmployeeService]
 })
 export class ProfileModule { }

@@ -1,20 +1,15 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { Routes, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { AuthComponent } from './auth/auth.component';
-import { ProfileComponent } from './profile/profile.component';
 import { ProfileModule } from './profile/profile.module';
 import { AuthModule } from './auth/auth.module';
+import { AppRoutes } from './app.routes';
 
-const routes: Routes = [      
-  { path: 'auth', component: AuthComponent},
-  { path: '', redirectTo: 'profile', pathMatch: 'full'},
-  { path: '**', component: ProfileComponent}
-];
+
 
 @NgModule({
   declarations: [
@@ -25,7 +20,7 @@ const routes: Routes = [
     HttpClientModule,
     FormsModule,
 
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(AppRoutes),
 
     ProfileModule,
     AuthModule

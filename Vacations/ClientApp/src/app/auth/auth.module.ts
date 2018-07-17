@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LoginComponent } from './components/login/login.component';
+import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
@@ -17,7 +17,6 @@ import { AuthComponent } from './auth.component';
   ],
   exports: [
     LoginComponent
-  ],
-  bootstrap: [AuthComponent]
+  ]
 })
 export class AuthModule { }
