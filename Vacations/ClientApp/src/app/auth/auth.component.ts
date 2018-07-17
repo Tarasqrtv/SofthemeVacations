@@ -1,25 +1,33 @@
 import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, HostListener } from '@angular/core';
 
+import { AuthService } from './auth.service';
+
+const requestUrl = '/api/auth/token';
+
 @Component({
   selector: 'app-auth',
   templateUrl: './auth.component.html',
   styleUrls: ['./auth.component.scss']
 })
+
 export class AuthComponent implements OnInit, AfterViewInit {
   @ViewChild('inputEmail') inputEmail: ElementRef;
 
-  user = {
-    email: '',
-    password: ''
-  };
+  token: string
+  user: { email: string, password: string};
 
-  constructor() { }
+  constructor(private service: AuthService) { }
 
-  ngOnInit() {
+  login()
+  {
+    this.service.post(requestUrl, this.user).subscribe(response => this.token = response);
+    console.log(this.user);
+    console.log(this.token);
   }
 
-  login() {
-    console.log(this.user);
+  ngOnInit() {
+    this.token = '';
+    this.user = { email: '', password: '' };
   }
 
   ngAfterViewInit() {

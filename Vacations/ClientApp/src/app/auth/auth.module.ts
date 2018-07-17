@@ -4,6 +4,7 @@ import { LoginComponent } from './login/login.component';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
+import { AuthService } from './auth.service';
 
 @NgModule({
   imports: [
@@ -15,6 +16,7 @@ import { AuthComponent } from './auth.component';
     LoginComponent,
     AuthComponent
   ],
+  providers: [AuthService],
   exports: [
     LoginComponent
   ]

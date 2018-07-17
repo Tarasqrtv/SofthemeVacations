@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { RouterModule } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { ProfileModule } from './profile/profile.module';
@@ -17,6 +18,7 @@ import { AppRoutes } from './app.routes';
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     HttpClientModule,
     FormsModule,
 
