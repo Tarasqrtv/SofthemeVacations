@@ -2,31 +2,44 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { RouterModule } from '@angular/router';
+import { Routes, RouterModule } from '@angular/router';
 
 import { AppComponent } from './app.component';
-import { NavMenuComponent } from './nav-menu/nav-menu.component';
-import { HomeComponent } from './home/home.component';
-import { CounterComponent } from './counter/counter.component';
-import { FetchDataComponent } from './fetch-data/fetch-data.component';
+import { AuthComponent } from './auth/auth.component';
+import { ProfileComponent } from './profile/profile.component';
+import { ProfileModule } from './profile/profile.module';
+import { AuthModule } from './auth/auth.module';
+import { HomeComponent } from './profile/home/home.component';
+import { CounterComponent } from './profile/counter/counter.component';
+import { FetchDataComponent } from './profile/fetch-data/fetch-data.component';
+import { EmployeeProfileComponent } from './profile/employee-profile/employee-profile.component';
+
+const routes: Routes = [      
+  { path: 'auth', component: AuthComponent},
+  { path: '**', component: ProfileComponent}
+];
+
+const childRoutes: Routes = [      
+  { path: 'profile', component: ProfileComponent, children: [      
+    { path: 'home', component: HomeComponent },
+    { path: 'counter', component: CounterComponent },
+    { path: 'fetch-data', component: FetchDataComponent },
+    { path: 'employee-profile', component: EmployeeProfileComponent }
+  ]}
+];
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavMenuComponent,
-    HomeComponent,
-    CounterComponent,
-    FetchDataComponent
+    AppComponent
   ],
   imports: [
+    ProfileModule,
+    AuthModule,
+    RouterModule.forRoot(routes),
+    RouterModule.forChild(childRoutes),
     BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
     HttpClientModule,
-    FormsModule,
-    RouterModule.forRoot([
-      { path: '', component: HomeComponent, pathMatch: 'full' },
-      { path: 'counter', component: CounterComponent },
-      { path: 'fetch-data', component: FetchDataComponent },
-    ])
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

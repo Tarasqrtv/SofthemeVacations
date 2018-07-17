@@ -1,23 +1,20 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Vacations.Controllers
 {
-    public class User
+    public class Userr
     {
         public string Name { get; }
         public string Pass { get; }
         public string Role { get; }
 
-        public User(string name, string pass, string role)
+        public Userr(string name, string pass, string role)
         {
             Name = name;
             Pass = pass;
@@ -29,11 +26,11 @@ namespace Vacations.Controllers
     [Route("api/Auth")]
     public class AuthController : Controller
     {
-        User[] _users = new User[]
+        Userr[] _users = new Userr[]
         {
-            new User("Alex", "pass", "admin"),
-            new User("Taras", "pass", "teamlead"),
-            new User("Luda", "pass", "user"),
+            new Userr("Alex", "pass", "admin"),
+            new Userr("Taras", "pass", "teamlead"),
+            new Userr("Luda", "pass", "user"),
         };
 
         [HttpPost("token")]

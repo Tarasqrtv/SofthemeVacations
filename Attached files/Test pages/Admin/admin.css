@@ -5,7 +5,7 @@ h1 {
     font-size: 15px;   
     font-weight:Bold ; 
     margin-top: 7px;  
-    font-family: Muli-BoldItalic; 
+    font-family: Muli-Bold; 
 }
 .span {    
     text-align: center;
@@ -13,9 +13,8 @@ h1 {
     text-transform: uppercase;
     font-size: 15px; 
     font-weight:normal; 
-    font-family: Muli-BoldItalic;
+    font-family: Muli-Light;
 }
-
 .navbar-brand {
     margin-left: 175px; 
     margin-right: 50px
@@ -35,7 +34,7 @@ h1 {
 }
 .navigation-container .nav-link{
     color: white;
-    font-family: Muli-BoldItalic;    
+    font-family: Muli-Bold;    
     border-top: 3px solid rgb(38,38,38);
 }  
 .navigation-conteiner {    
@@ -51,13 +50,14 @@ h1 {
 }
 .dropdown-item{
     color: white;
-    font-family: Muli-BoldItalic;  
+    font-family: Muli-Bold;  
 }
 .jumbotron{
     background: url('fontsicons/home\ request\ background.png');
-    background-position: center center;   
-    background-size: cover;     
-    border-radius: 125px; 
+    /* background-position: center center;    */
+    background-size: 406px 227px;
+    border-radius: 15px; 
+    border-style: none;
 }
 a.knopka {
     color: #fff; /* цвет текста */
@@ -67,14 +67,14 @@ a.knopka {
     padding: .7em 1.5em; /* отступ от текста */
     outline: none; /* убирать контур в Mozilla */
     text-transform: uppercase;
-    font-family: Muli-BoldItalic;
+    font-family: Muli-Bold;
     border-radius: 5px;
   } 
-  a.knopka:hover { background: rgb(232, 76, 206); } /* при наведении курсора мышки */
-  a.knopka:active { background: rgb(110, 81, 218); } /* при нажатии */
+   /* a.knopka:hover { background: rgb(232, 76, 206); } при наведении курсора мышки 
+  a.knopka:active { background: rgb(110, 81, 218); } при нажатии  */
  
   .badge-secondary {
     color: #fff;
     background: linear-gradient(to right, purple -50%, skyblue 150%)!important;
-    font-family: Muli-BoldItalic;
+    font-family: Muli-Bold;
 }
