@@ -9,13 +9,10 @@ import { AuthComponent } from './auth/auth.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ProfileModule } from './profile/profile.module';
 import { AuthModule } from './auth/auth.module';
-import { HomeComponent } from './profile/home/home.component';
-import { CounterComponent } from './profile/counter/counter.component';
-import { FetchDataComponent } from './profile/fetch-data/fetch-data.component';
-import { EmployeeProfileComponent } from './profile/employee-profile/employee-profile.component';
 
 const routes: Routes = [      
   { path: 'auth', component: AuthComponent},
+  { path: '', redirectTo: 'profile', pathMatch: 'full'},
   { path: '**', component: ProfileComponent}
 ];
 

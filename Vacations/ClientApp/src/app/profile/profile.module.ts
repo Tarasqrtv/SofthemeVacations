@@ -16,15 +16,15 @@ const childRoutes: Routes = [
   {
     path: 'profile',
     component: ProfileComponent,
-    children: [{
-      path: '',
-      component: HomeComponent
-    }]
+    children: [
+      { path: '',  component: HomeComponent },
+      { path: 'counter', component: CounterComponent },
+      { path: 'fetch-data', component: FetchDataComponent },
+      { path: 'employee-profile', component: EmployeeProfileComponent }
+    ]
   }
 
-  // { path: 'counter', component: CounterComponent },
-  // { path: 'fetch-data', component: FetchDataComponent },
-  // { path: 'employee-profile', component: EmployeeProfileComponent }
+
 ];
 
 @NgModule({
