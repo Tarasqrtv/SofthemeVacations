@@ -69,6 +69,22 @@ namespace Vacations.Controllers
             // return View();
         }
 
+
+        [HttpGet("login")]
+        public IActionResult Token(string login)
+        {
+                var usernameAndPass = login.Split(":");
+
+                foreach (var user in _users)
+                {
+                    if (usernameAndPass[0] == user.Name && usernameAndPass[1] == user.Pass)
+                    {
+                        return Ok();
+                    }
+                }
+            return BadRequest("wrong request");
+        }
+
         [HttpGet("test1")]
         public string GetTest1()
         {

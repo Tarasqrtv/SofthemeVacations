@@ -7,9 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vacations", "Vacations\Vaca
 EndProject
 Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "VacationsDB", "VacationsDB\VacationsDB.sqlproj", "{9DA4C2A4-41F2-4A0D-A23A-5A448C326AF1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vacations.Model", "Vacations.Model\Vacations.Model.csproj", "{CD60C1B7-5C65-48BC-B952-494FE176FE7D}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Vacations.Data", "Vacations.Data\Vacations.Data.csproj", "{77594B1A-F63E-4B85-BE4D-A7F33ECF6FAE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Vacations.Model", "Vacations.Model\Vacations.Model.csproj", "{CD60C1B7-5C65-48BC-B952-494FE176FE7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -31,10 +29,6 @@ Global
 		{CD60C1B7-5C65-48BC-B952-494FE176FE7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD60C1B7-5C65-48BC-B952-494FE176FE7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD60C1B7-5C65-48BC-B952-494FE176FE7D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77594B1A-F63E-4B85-BE4D-A7F33ECF6FAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77594B1A-F63E-4B85-BE4D-A7F33ECF6FAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77594B1A-F63E-4B85-BE4D-A7F33ECF6FAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77594B1A-F63E-4B85-BE4D-A7F33ECF6FAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
