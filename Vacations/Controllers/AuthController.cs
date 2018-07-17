@@ -70,11 +70,16 @@ namespace Vacations.Controllers
         }
 
 
-        [HttpGet("login")]
-        public IActionResult Token(string login)
+        [HttpPost("login")]
+        public IActionResult Login()
         {
-                var usernameAndPass = login.Split(":");
-
+            var header = Request.Headers["Authorization"];
+            if (header.ToString().StartsWith("Basic"))
+            {
+                var credValue = header.ToString().Substring("Basic ".Length).Trim();
+                var usernameAndPassenc = Encoding.UTF8.GetString(Convert.FromBase64String(credValue)); //Alex:pass
+                var usernameAndPass = usernameAndPassenc.Split(":");
+                //check in DB username and pass exist
                 foreach (var user in _users)
                 {
                     if (usernameAndPass[0] == user.Name && usernameAndPass[1] == user.Pass)
@@ -82,7 +87,10 @@ namespace Vacations.Controllers
                         return Ok();
                     }
                 }
+            }
             return BadRequest("wrong request");
+
+            // return View();
         }
 
         [HttpGet("test1")]
