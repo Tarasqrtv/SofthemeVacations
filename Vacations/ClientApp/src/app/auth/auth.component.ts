@@ -20,7 +20,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
 
   login() {
     this.service.post(requestUrl, this.user).subscribe(response => this.serviceResponse = response.json());
-    localStorage.setItem("token", JSON.stringify(this.serviceResponse.token))
+    localStorage.setItem("token", this.serviceResponse.token)
     localStorage.setItem("role", JSON.stringify(this.serviceResponse.role))
     console.log(this.user);
     console.log(this.serviceResponse.token);
