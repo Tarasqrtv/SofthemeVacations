@@ -1,0 +1,77 @@
+/* You can add global styles to this file, and also import other style files */
+@import "./assets/fonts/icomoon/icomoon.css";
+
+@font-face {
+  font-family: Muli-Bold;
+  src: url(./assets/fonts/Muli-Bold.ttf);
+}
+
+@font-face {
+  font-family: Muli-Regular;
+  src: url(./assets/fonts/Muli-Regular.ttf);
+}
+
+@font-face {
+  font-family: Muli-Light;
+  src: url(./assets/fonts/Muli-Light.ttf);
+}
+
+* {
+  font-family: Muli-Regular;
+}
+
+body {
+  background-color: black;
+}
+
+.comp-container {
+  color: white;
+
+  > h3 {
+      background-color: #222222;
+      border: 1px solid #878787;
+      border-radius: 10px 10px 0 0;
+      margin-bottom: 0;
+      font-size: 18px;
+      padding: 10px 25px;
+
+      button {
+          background: transparent;
+          border: none;
+          color: white;
+      }
+  }
+
+  > .details {
+      background-color: #2E2E2E;
+      padding: 25px;
+      font-size: 13px;
+      border: 1px solid #878787;
+      border-radius: 0 0 10px 10px;
+      border-top: 0;
+  }
+}
+
+.form-group {
+  label {
+    color: #878787;
+  }
+
+  input {
+    background-color: #2E2E2E;
+  }
+}
+
+form {
+  div.left {
+    float: left; width: 50%; padding-right: 12px;
+  }
+
+  div.right {
+    float: left; width: 50%; padding-left: 13px;
+  }
+
+  button.btn-primary {
+    background: linear-gradient(to right, #667DE9, #764CA4);
+  }
+}
