@@ -10,6 +10,7 @@ import { AppRoutes } from './app.routes';
 import { MyFirstInterceptor } from './app.service';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
+import { MainModule } from './main/main.module';
 
 
 @NgModule({
@@ -22,6 +23,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 
     RouterModule.forRoot(AppRoutes),
 
+    MainModule,
     ProfileModule,
     AuthModule
   ],
