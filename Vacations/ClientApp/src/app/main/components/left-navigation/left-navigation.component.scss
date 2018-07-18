@@ -1,0 +1,25 @@
+.left-menu {
+    height: 100vh;
+    background-color: #2E2E2E;
+
+    a {
+        height: 80px;
+        line-height: 68px;
+        background-color: #2E2E2E;
+        color: #878787;
+        font-family: Muli-Regular;
+        border-bottom: 3px solid #222222;
+
+        &:hover {
+            background-color: #878787;
+            color: white;
+        }
+
+        .badge {
+            background: linear-gradient(to right, #667DE9, #764CA4);
+            padding: 4px 11px;
+            margin-left: 5px;
+            color: white;
+        }
+    }
+}

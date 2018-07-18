@@ -1,0 +1,79 @@
+.navbar-container {
+    background-color: #222222;
+    padding-left: 0;
+    padding-right: 0;
+
+    nav.navbar {
+        padding: 0 243px;
+        background-color: #2E2E2E;
+        color: white;
+
+        a {
+            color: white;
+            font-size: 16px;
+        }
+
+        ul li {
+            padding-left: 37px;
+            padding-right: 37px;
+            height: 85px;
+            line-height: 85px;
+
+            a {
+                display: block;
+                line-height: 81px;
+                padding: 0;
+
+                span {
+                    padding: 0 10px;
+                }
+
+                &.active div {
+                    height: 3px;
+                    background: linear-gradient(to right, #667DE9, #764CA4);
+                }
+            }
+        }
+
+        .logo {
+            margin: 23px 0;
+            font-size: 18px;
+            font-family: Muli-Bold;
+            width: 346px;
+
+            h1 {
+                font-size: 20px;
+                margin-left: 53px;
+                margin-top: 7px;
+                text-transform: uppercase;
+            }
+
+            i.icon-logo-softheme {
+                font-size: 38px;
+            }
+        }
+
+        .user-dropdown {
+            color: #878787;
+            font-size: 16px;
+
+            .rounded-circle {
+                margin-left: 5px;
+                border: 0;
+                background-color: #878787;
+                width: 38px;
+                height: 38px;
+
+                i.icon-user-icon:before {
+                    color: black;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 1600px) {
+    .container {
+        max-width: 1443px;
+    }
+}

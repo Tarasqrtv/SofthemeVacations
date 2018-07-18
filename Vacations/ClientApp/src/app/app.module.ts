@@ -10,6 +10,7 @@ import { ProfileModule } from './profile/profile.module';
 import { AuthModule } from './auth/auth.module';
 import { AppRoutes } from './app.routes';
 
+import { MainModule } from './main/main.module';
 
 
 @NgModule({
@@ -24,6 +25,7 @@ import { AppRoutes } from './app.routes';
 
     RouterModule.forRoot(AppRoutes),
 
+    MainModule,
     ProfileModule,
     AuthModule
   ],
