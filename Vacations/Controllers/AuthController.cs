@@ -22,6 +22,18 @@ namespace Vacations.Controllers
         }
     }
 
+    public class RoleAndToken
+    {
+        public string Token { get; }
+        public string Role { get; }
+
+        public RoleAndToken(string token, string role)
+        {
+            Token = token;
+            Role = role;
+        }
+    }
+
     [Produces("application/json")]
     [Route("api/Auth")]
     public class AuthController : Controller
@@ -60,7 +72,7 @@ namespace Vacations.Controllers
                             signingCredentials: signInCred
                         );
                         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                        return Ok(tokenString);
+                        return Ok(new RoleAndToken(tokenString, user.Role));
                     }
                 }
             }
