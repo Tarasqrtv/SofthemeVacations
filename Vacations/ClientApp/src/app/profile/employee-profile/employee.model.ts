@@ -7,7 +7,7 @@ export interface Employee {
     skype: string;
     startDate: Date;
     endDate: Date;
-    balance:number;
+    balance: number;
     employeeStatus: string;
     jobTitle: string;
     team: string[];

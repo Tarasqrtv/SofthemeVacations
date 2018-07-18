@@ -22,6 +22,18 @@ namespace Vacations.Controllers
         }
     }
 
+    public class RoleAndToken
+    {
+        public string Token { get; }
+        public string Role { get; }
+
+        public RoleAndToken(string token, string role)
+        {
+            Token = token;
+            Role = role;
+        }
+    }
+
     [Produces("application/json")]
     [Route("api/Auth")]
     public class AuthController : Controller
@@ -60,7 +72,31 @@ namespace Vacations.Controllers
                             signingCredentials: signInCred
                         );
                         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                        return Ok(tokenString);
+                        return Ok(new RoleAndToken(tokenString, user.Role));
+                    }
+                }
+            }
+            return BadRequest("wrong request");
+
+            // return View();
+        }
+
+
+        [HttpPost("login")]
+        public IActionResult Login()
+        {
+            var header = Request.Headers["Authorization"];
+            if (header.ToString().StartsWith("Basic"))
+            {
+                var credValue = header.ToString().Substring("Basic ".Length).Trim();
+                var usernameAndPassenc = Encoding.UTF8.GetString(Convert.FromBase64String(credValue)); //Alex:pass
+                var usernameAndPass = usernameAndPassenc.Split(":");
+                //check in DB username and pass exist
+                foreach (var user in _users)
+                {
+                    if (usernameAndPass[0] == user.Name && usernameAndPass[1] == user.Pass)
+                    {
+                        return Ok();
                     }
                 }
             }

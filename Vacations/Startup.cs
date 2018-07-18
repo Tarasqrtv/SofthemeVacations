@@ -24,6 +24,8 @@ namespace Vacations
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<VacationsDBContext>(options => options.UseSqlServer(Configuration.GetSection("VacationsDBConn").Value));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
@@ -46,8 +48,6 @@ namespace Vacations
             {
                 configuration.RootPath = "ClientApp/dist";
             });
-
-            services.AddDbContext<VacationsDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
