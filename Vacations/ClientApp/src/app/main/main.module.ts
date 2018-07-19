@@ -9,7 +9,7 @@ import { TopNavigationComponent } from './components/top-navigation/top-navigati
 import { VacationRequestComponent } from './components/vacation-request/vacation-request.component';
 
 @NgModule({
-  imports: [
+  imports: [ 
     CommonModule
   ],
   declarations: [
