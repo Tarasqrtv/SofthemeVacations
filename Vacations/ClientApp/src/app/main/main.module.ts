@@ -19,7 +19,6 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { MainRoutes } from './main.routes';
 
 
-
 @NgModule({
   imports: [ 
     CommonModule,
@@ -30,12 +29,14 @@ import { MainRoutes } from './main.routes';
   ],
   declarations: [
     BannerComponent,
+    VacationComponent,
     LeftNavigationComponent,
     MainComponent,
     MyProfileComponent,
     TopNavigationComponent,
     VacationRequestComponent,
     // EditProfileComponent,
+
     MyVacationsComponent,
     ProfileComponent
   ],
@@ -43,5 +44,6 @@ import { MainRoutes } from './main.routes';
     EmployeeService,
     VacationService
   ]
+
 })
 export class MainModule { }
