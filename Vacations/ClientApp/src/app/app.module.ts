@@ -9,7 +9,6 @@ import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { AppComponent } from './app.component';
-import { ProfileModule } from './profile/profile.module';
 import { AuthModule } from './auth/auth.module';
 import { AppRoutes } from './app.routes';
 import { MyFirstInterceptor, MyDataService } from './app.service';
@@ -30,7 +29,6 @@ import { MainModule } from './main/main.module';
     RouterModule.forRoot(AppRoutes),
 
     MainModule,
-    ProfileModule,
     AuthModule
   ],
   providers: [{

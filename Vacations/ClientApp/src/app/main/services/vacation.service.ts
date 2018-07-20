@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
 import {environment} from '../../../environments/environment';
-import { Vacation } from '../components/vacation/vacation.model';
+import { Vacation } from '../components/profile/my-vacations/vacation.model';
 
 @Injectable()
 export class VacationService {

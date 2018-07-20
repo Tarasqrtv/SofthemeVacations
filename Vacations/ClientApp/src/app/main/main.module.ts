@@ -1,33 +1,49 @@
 import { NgModule } from '@angular/core';
-
-import { BannerComponent } from './components/banner/banner.component';
+import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { HttpClientModule } from '@angular/common/http';
+
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
 import { MainComponent } from './main.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { TopNavigationComponent } from './components/top-navigation/top-navigation.component';
-import { VacationRequestComponent } from './components/vacation-request/vacation-request.component';
-// import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
-import { MyVacationsComponent } from './components/my-vacations/my-vacations.component';
-import { VacationComponent } from './components/vacation/vacation.component';
+
 import { EmployeeService } from './services/employee.service';
 import { VacationService } from './services/vacation.service';
 
+import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
+import { TopNavigationComponent } from './components/top-navigation/top-navigation.component';
+import { VacationRequestComponent } from './components/vacation-request/vacation-request.component';
+// import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { MyVacationsComponent } from './components/profile/my-vacations/my-vacations.component';
+import { BannerComponent } from './components/profile/banner/banner.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { MainRoutes } from './main.routes';
+
+
 @NgModule({
   imports: [ 
-    CommonModule
+    CommonModule,
+    RouterModule,
+    HttpClientModule,
+
+    RouterModule.forChild(MainRoutes),
   ],
   declarations: [
     BannerComponent,
     VacationComponent,
     LeftNavigationComponent,
     MainComponent,
-    ProfileComponent,
+    MyProfileComponent,
     TopNavigationComponent,
     VacationRequestComponent,
     // EditProfileComponent,
-    MyVacationsComponent
+
+    MyVacationsComponent,
+    ProfileComponent
   ],
-  providers: [EmployeeService, VacationService]
+  providers: [
+    EmployeeService,
+    VacationService
+  ]
+
 })
 export class MainModule { }
