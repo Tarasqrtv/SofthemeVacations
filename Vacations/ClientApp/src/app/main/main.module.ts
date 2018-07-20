@@ -29,7 +29,6 @@ import { MainRoutes } from './main.routes';
   ],
   declarations: [
     BannerComponent,
-    VacationComponent,
     LeftNavigationComponent,
     MainComponent,
     MyProfileComponent,
