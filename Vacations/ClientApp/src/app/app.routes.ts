@@ -5,7 +5,7 @@ import { MainComponent } from './main/main.component';
 
 export const AppRoutes: Routes = [
     { path: 'auth', component: AuthComponent },
-    { path: '', redirectTo: 'profile', pathMatch: 'full' },
+    { path: '', redirectTo: 'main', pathMatch: 'full' },
     { path: 'main', component: MainComponent },
-    { path: '**', component: ProfileComponent }
+    { path: '**', component: MainComponent }
 ];

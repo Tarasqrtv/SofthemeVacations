@@ -9,6 +9,9 @@ import { TopNavigationComponent } from './components/top-navigation/top-navigati
 import { VacationRequestComponent } from './components/vacation-request/vacation-request.component';
 // import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { MyVacationsComponent } from './components/my-vacations/my-vacations.component';
+import { VacationComponent } from './components/vacation/vacation.component';
+import { EmployeeService } from './services/employee.service';
+import { VacationService } from './services/vacation.service';
 
 @NgModule({
   imports: [ 
@@ -16,6 +19,7 @@ import { MyVacationsComponent } from './components/my-vacations/my-vacations.com
   ],
   declarations: [
     BannerComponent,
+    VacationComponent,
     LeftNavigationComponent,
     MainComponent,
     ProfileComponent,
@@ -23,6 +27,7 @@ import { MyVacationsComponent } from './components/my-vacations/my-vacations.com
     VacationRequestComponent,
     // EditProfileComponent,
     MyVacationsComponent
-  ]
+  ],
+  providers: [EmployeeService, VacationService]
 })
 export class MainModule { }
