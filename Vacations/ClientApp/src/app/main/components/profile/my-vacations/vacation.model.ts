@@ -3,7 +3,7 @@ export class Vacation {
     startVocationDate: Date;
     endVocationDate: Date;
     vacationStatusId: string;
-    сomment: string;
+    comment: string;
     employeeId: string;
     employee: string;
     vacationStatus: string;
