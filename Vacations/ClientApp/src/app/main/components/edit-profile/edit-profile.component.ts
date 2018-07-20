@@ -14,7 +14,7 @@ export class EditProfileComponent implements OnInit {
   
   constructor(private service: EditService) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
   //save(): void {
   //  this.service.updateEmployee(this.employee)
   //    .subscribe(() => this.location.back();;
