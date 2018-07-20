@@ -12,11 +12,11 @@ import { VacationService } from './services/vacation.service';
 import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
 import { TopNavigationComponent } from './components/top-navigation/top-navigation.component';
 import { VacationRequestComponent } from './components/vacation-request/vacation-request.component';
-// import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { MyVacationsComponent } from './components/profile/my-vacations/my-vacations.component';
 import { BannerComponent } from './components/profile/banner/banner.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MainRoutes } from './main.routes';
+import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 
 
 @NgModule({
@@ -34,7 +34,7 @@ import { MainRoutes } from './main.routes';
     MyProfileComponent,
     TopNavigationComponent,
     VacationRequestComponent,
-    // EditProfileComponent,
+    EditProfileComponent,
 
     MyVacationsComponent,
     ProfileComponent
