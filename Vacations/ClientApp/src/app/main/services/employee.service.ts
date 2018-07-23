@@ -10,7 +10,7 @@ export class EmployeeService {
     constructor (private http: HttpClient) { }
 
     getEmployee(): Observable<Employee> {
-        let requestUrl = environment.baseUrl + '/employees/f15e0f3d-ce3b-4b16-981b-0510fcf1fe45';
+        let requestUrl = environment.baseUrl + '/employees';
         return this.http.get<Employee>(`${requestUrl}`);
     }
 }

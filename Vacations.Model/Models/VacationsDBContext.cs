@@ -6,8 +6,11 @@ namespace Vacations.Model.Models
 {
     public partial class VacationsDBContext : DbContext
     {
-        public VacationsDBContext()
+        private readonly string connectionString;
+
+        public VacationsDBContext(string connectionString) : base()
         {
+            this.connectionString = connectionString;
         }
 
         public VacationsDBContext(DbContextOptions<VacationsDBContext> options)
@@ -26,13 +29,11 @@ namespace Vacations.Model.Models
         public virtual DbSet<Vacation> Vacation { get; set; }
         public virtual DbSet<VacationStatus> VacationStatus { get; set; }
 
-        // Unable to generate entity type for table 'dbo.EmployeeTeam'. Please see the warning messages.
-        //TODO: if (!optionsBuilder.IsConfigured)
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("");
+                optionsBuilder.UseSqlServer(connectionString);
             }
         }
 

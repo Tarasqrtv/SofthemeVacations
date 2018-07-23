@@ -1,26 +1,24 @@
 import { Injectable } from '@angular/core';
-import { Http, Headers } from '@angular/http';
 import { Observable } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { User } from './auth.model';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private http: Http) { }
+    constructor(private http: HttpClient) { }
 
     user = {
         email: '',
         password: ''
     };
 
-    createAuthorizationHeader(headers: Headers, user) {
-        headers.append('Authorization', 'Basic ' +
-            btoa(user.email + ':' + user.password));
-    }
+    get(url, user) : Observable<User>{
+        let headers = new HttpHeaders();
+        headers = headers.append('Authorization', 'Basic ' + btoa(user.email + ':' + user.password));
+        headers = headers.append("Content-Type", "application/x-www-form-urlencoded");
 
-    post(url, data): Observable<any> {
-        let headers = new Headers();
-        this.createAuthorizationHeader(headers, data);
-        return this.http.post(url, null, {
+        return this.http.get<User>(url, {
             headers: headers
         });
     }

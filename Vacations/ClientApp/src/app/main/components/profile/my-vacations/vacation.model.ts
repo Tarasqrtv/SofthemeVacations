@@ -1,10 +1,10 @@
 export class Vacation {
-    vacationId: string;
-    startVocationDate: Date;
-    endVocationDate: Date;
-    vacationStatusId: string;
-    comment: string;
-    employeeId: string;
-    employee: string;
-    vacationStatus: string;
+    VacationId: string;
+    StartVocationDate: Date;
+    EndVocationDate: Date;
+    VacationStatusId: string;
+    Comment: string;
+    EmployeeId: string;
+    Employee: string;
+    VacationStatus: string;
 }

@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vacations.Model.Models;
@@ -20,15 +23,38 @@ namespace Vacations.Controllers
             _context = context;
         }
 
-        // GET: api/Employees
+        [Authorize]
         [HttpGet]
+        public async Task<IActionResult> GetCurrentEmployee()
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            var currentUser = User.FindFirst(ClaimTypes.Email)?.Value;
+            var result = _context.User.Include(x => x.Role).FirstOrDefault(x => x.PersonalEmail == currentUser);
+            var employee = await _context.Employee.FindAsync(result.EmployeeId);
+
+            if (employee == null)
+            {
+                return NotFound("employee NotFound");
+            }
+
+            return Ok(employee);
+        }
+
+        // GET: api/Employees
+        [Authorize(Roles = "Admin")]
+        [HttpGet("all")]
         public IEnumerable<Employee> GetEmployee()
         {
             return _context.Employee;
         }
 
         // GET: api/Employees/5
-        [HttpGet("{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("employee/{id}")]
         public async Task<IActionResult> GetEmployee([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)
@@ -36,7 +62,8 @@ namespace Vacations.Controllers
                 return BadRequest(ModelState);
             }
 
-            var employee = await _context.Employee.FindAsync(id);
+            var employee = await _context.Employee.Include(i => i.JobTitle).Include(i => i.EmployeeStatus)
+                                    .FirstOrDefaultAsync(i => i.EmployeeId == id);
 
             if (employee == null)
             {
@@ -47,6 +74,7 @@ namespace Vacations.Controllers
         }
 
         // PUT: api/Employees/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<IActionResult> PutEmployee([FromRoute] Guid id, [FromBody] Employee employee)
         {
@@ -81,8 +109,10 @@ namespace Vacations.Controllers
             return NoContent();
         }
 
+        //TODO: Сделать без id
         // POST: api/Employees
-        [HttpPost]
+        [Authorize(Roles = "Admin")]
+        [HttpPost("{id}")]
         public async Task<IActionResult> PostEmployee([FromBody] Employee employee)
         {
             if (!ModelState.IsValid)
@@ -111,7 +141,8 @@ namespace Vacations.Controllers
         }
 
         // DELETE: api/Employees/5
-        [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
+        [HttpDelete("employee/{id}")]
         public async Task<IActionResult> DeleteEmployee([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 import { EmployeeService } from '../../../services/employee.service';
 import { Employee } from './employee.model';
@@ -11,13 +11,15 @@ import { Employee } from './employee.model';
 
 export class MyProfileComponent implements OnInit {
   title = 'profile';
-  employee: Employee;
+  
+  employee: Employee = <Employee>{};
   
   constructor(private service: EmployeeService) { }
 
   ngOnInit() {
-    this.service.getEmployee().subscribe(response => this.employee = response);
+    this.service.getEmployee().subscribe(response => {this.employee = response;
+    console.log(this.employee);
+    console.log(response);
+  });
   }
-
-
 }
