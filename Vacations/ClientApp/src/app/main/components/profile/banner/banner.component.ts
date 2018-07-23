@@ -10,7 +10,7 @@ import { EmployeeService } from '../../../services/employee.service';
 })
 export class BannerComponent implements OnInit {
 
-  employee: Employee;
+  employee: Employee = <Employee>{};
   
   constructor(private service: EmployeeService) { }
 
