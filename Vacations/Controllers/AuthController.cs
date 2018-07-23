@@ -2,26 +2,16 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
+using Vacations.Model.Models;
 
 namespace Vacations.Controllers
 {
-    public class Userr
-    {
-        public string Name { get; }
-        public string Pass { get; }
-        public string Role { get; }
-
-        public Userr(string name, string pass, string role)
-        {
-            Name = name;
-            Pass = pass;
-            Role = role;
-        }
-    }
-
     public class RoleAndToken
     {
         public string Token { get; }
@@ -35,75 +25,88 @@ namespace Vacations.Controllers
     }
 
     [Produces("application/json")]
-    [Route("api/Auth")]
+    [Route("api/auth")]
     public class AuthController : Controller
     {
-        Userr[] _users = new Userr[]
-        {
-            new Userr("Alex", "pass", "admin"),
-            new Userr("Taras", "pass", "teamlead"),
-            new Userr("Luda", "pass", "user"),
-        };
+        private readonly VacationsDBContext _db;
 
-        [HttpPost("token")]
-        public IActionResult Token()
+        private readonly IConfiguration _configuration;
+
+        public AuthController(IConfiguration configuration)
         {
-            //string tokenString = "test";
+            _configuration = configuration;
+            _db = new VacationsDBContext(_configuration.GetConnectionString("VacationsDBConn"));
+        }
+
+        [AllowAnonymous]
+        [HttpGet("token")]
+        public async Task<IActionResult> GetTokenAsync()
+        {
             var header = Request.Headers["Authorization"];
+
             if (header.ToString().StartsWith("Basic"))
             {
                 var credValue = header.ToString().Substring("Basic ".Length).Trim();
-                var usernameAndPassenc = Encoding.UTF8.GetString(Convert.FromBase64String(credValue)); //admin:pass
-                var usernameAndPass = usernameAndPassenc.Split(":");
-                //check in DB username and pass exist
-                foreach (var user in _users)
-                {
-                    if (usernameAndPass[0] == user.Name && usernameAndPass[1] == user.Pass)
-                    {
-                        var claimsdata = new[] { new Claim(ClaimTypes.Name, usernameAndPass[0]), new Claim(ClaimTypes.Role, user.Role), };
-                        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ahbasshfbsahjfbshajbfhjasbfashjbfsajhfvashjfashfbsahfbsahfksdjf"));
-                        var signInCred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256Signature);
-                        var token = new JwtSecurityToken(
+                var usernameAndPassenc = Encoding.UTF8.GetString(Convert.FromBase64String(credValue));
+                var userEmailAndPass = usernameAndPassenc.Split(":");
 
-                            issuer: "mysite.com",
-                            audience: "mysite.com",
-                            expires: DateTime.Now.AddMinutes(1),
+                var user = await _db.User.Include(x => x.Role).FirstOrDefaultAsync(x => x.PersonalEmail == userEmailAndPass[0]);
+
+                if (user != null)
+                {
+                    if (userEmailAndPass[1] == user.Password)
+                    {
+                        var claimsdata = new[] { new Claim(ClaimTypes.Email, user.PersonalEmail), new Claim(ClaimTypes.Role, user.Role.Name) };
+
+                        var token = new JwtSecurityToken
+                        (
+                            issuer: _configuration["Token:Issuer"],
+                            audience: _configuration["Token:Audience"],
                             claims: claimsdata,
-                            signingCredentials: signInCred
+                            expires: DateTime.UtcNow.AddDays(60),
+                            notBefore: DateTime.UtcNow,
+                            signingCredentials: new SigningCredentials(new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"])),
+                                    SecurityAlgorithms.HmacSha256)
                         );
+
                         var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
-                        return Ok(new RoleAndToken(tokenString, user.Role));
+
+                        return Ok(new RoleAndToken(tokenString, user.Role.Name));
                     }
                 }
-            }
-            return BadRequest("wrong request");
 
-            // return View();
+                return Unauthorized();
+            }
+
+            return BadRequest();
         }
 
+        //[HttpPost("sendnewpass")]
+        //public async Task<IActionResult> SendNewPass([FromBody] string userEmail)
+        //{
+        //    var user = await _db.User.FirstOrDefaultAsync(x => x.PersonalEmail == userEmail);
 
-        [HttpPost("login")]
-        public IActionResult Login()
-        {
-            var header = Request.Headers["Authorization"];
-            if (header.ToString().StartsWith("Basic"))
-            {
-                var credValue = header.ToString().Substring("Basic ".Length).Trim();
-                var usernameAndPassenc = Encoding.UTF8.GetString(Convert.FromBase64String(credValue)); //Alex:pass
-                var usernameAndPass = usernameAndPassenc.Split(":");
-                //check in DB username and pass exist
-                foreach (var user in _users)
-                {
-                    if (usernameAndPass[0] == user.Name && usernameAndPass[1] == user.Pass)
-                    {
-                        return Ok();
-                    }
-                }
-            }
-            return BadRequest("wrong request");
+        //    if (user != null)
+        //    {
+        //        return Ok();
+        //    }
 
-            // return View();
-        }
+        //    return BadRequest();
+        //}
+
+
+        //[HttpPost("setnewpass")]
+        //public async Task<IActionResult> SetNewPass([FromBody] string userEmail)
+        //{
+        //    var user = await _db.User.FirstOrDefaultAsync(x => x.PersonalEmail == userEmail);
+
+        //    if (user != null)
+        //    {
+        //        return Ok();
+        //    }
+
+        //    return BadRequest();
+        //}
 
         [HttpGet("test1")]
         public string GetTest1()
@@ -118,7 +121,7 @@ namespace Vacations.Controllers
             return "authorized";
         }
 
-        [Authorize(Roles = "admin")]
+        [Authorize(Roles = "Admin")]
         [HttpGet("test3")]
         public string GetTest3()
         {
