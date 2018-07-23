@@ -10,7 +10,7 @@ export class VacationService {
     constructor (private http: HttpClient) { }
 
     getVacations(): Observable<Vacation[]> {
-        let requestUrl = environment.baseUrl + '/vacations/';
+        let requestUrl = environment.baseUrl + '/vacations/employee';
         return this.http.get<Vacation[]>(`${requestUrl}`);
     }
 }

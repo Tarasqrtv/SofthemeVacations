@@ -10,19 +10,19 @@ export class AppComponent {
   title = 'app';
   constructor(private toastr: ToastrService) {}
 
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
+  showSuccess(message: string) {
+    this.toastr.success('Hello world!', message);
   }
 
-  showError() {
-    this.toastr.error('Error message', 'Toastr error!');
+  showError(message: string) {
+    this.toastr.error('Error message', message);
   }
   
-  showInfo() {
-    this.toastr.info('Info message', 'Toastr info!');
+  showInfo(message: string) {
+    this.toastr.info('Info message', message);
   }
   
-  showWarning() {
-    this.toastr.warning('Warnig message', 'Toastr warning!');
+  showWarning(message: string) {
+    this.toastr.warning('Warnig message', message);
   }
 }
