@@ -31,5 +31,6 @@ namespace Vacations.Model.Models
         public ICollection<Team> Team { get; set; }
         public ICollection<Transaction> Transaction { get; set; }
         public ICollection<Vacation> Vacation { get; set; }
+        public ICollection<EmployeeTeam> EmployeeTeam { get; set; }
     }
 }

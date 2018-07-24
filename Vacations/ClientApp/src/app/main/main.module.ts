@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
 import { MainComponent } from './main.component';
@@ -17,8 +17,8 @@ import { BannerComponent } from './components/profile/banner/banner.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { MainRoutes } from './main.routes';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { MyFirstInterceptor } from '../app.service';
 import { AddNewTeamComponent } from './components/add-new-team/add-new-team.component';
-
 
 @NgModule({
   imports: [

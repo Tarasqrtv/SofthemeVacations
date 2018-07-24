@@ -10,6 +10,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Vacations.Model.Models;
 using Microsoft.AspNetCore.Cors.Infrastructure;
+using Microsoft.AspNetCore.Mvc.Formatters;
+using Newtonsoft.Json;
+using System.Buffers;
 
 namespace Vacations
 {
@@ -29,33 +32,45 @@ namespace Vacations
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        //This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddApplicationInsightsTelemetry(Configuration);
+            services.AddDbContext<VacationsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
 
-            services.AddDbContext<VacationsDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
-
-            services.AddCors(options =>
+            services.AddCors(o => o.AddPolicy("CORSPolicy", builder =>
             {
-                options.AddPolicy("AllowAllOrigins", GenerateCorsPolicy());
-            });
+                builder.AllowAnyOrigin()
+                       .AllowAnyMethod()
+                       .AllowAnyHeader();
+            }));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
-            {
-                options.TokenValidationParameters = new TokenValidationParameters
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                    //.AddCookie()
+                    .AddJwtBearer(jwtBearerOptions =>
+                    {
+                        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
+                        {
+                            ValidateActor = false,
+                            ValidateAudience = false,
+                            ValidateLifetime = true,
+                            ValidateIssuerSigningKey = true,
+                            ValidIssuer = Configuration["Token:Issuer"],
+                            ValidAudience = Configuration["Token:Audience"],
+
+                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
+                        };
+                    });
+
+            services.AddMvc(
+                options =>
                 {
-                    ValidateIssuer = true,
-                    ValidateAudience = true,
-                    ValidateIssuerSigningKey = true,
-                    ValidIssuer = "mysite.com",
-                    ValidAudience = "mysite.com",
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("ahbasshfbsahjfbshajbfhjasbfashjbfsajhfvashjfashfbsahfbsahfksdjf"))
-
-                };
-            });
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                    options.OutputFormatters.Clear();
+                    options.OutputFormatters.Add(new JsonOutputFormatter(new JsonSerializerSettings()
+                    {
+                        ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+                    }, ArrayPool<char>.Shared));
+                }
+                ).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
@@ -93,9 +108,6 @@ namespace Vacations
 
             app.UseSpa(spa =>
             {
-                // To learn more about options for serving an Angular SPA from ASP.NET Core,
-                // see https://go.microsoft.com/fwlink/?linkid=864501
-
                 spa.Options.SourcePath = "ClientApp";
 
                 if (env.IsDevelopment())
@@ -110,8 +122,7 @@ namespace Vacations
             var corsBuilder = new CorsPolicyBuilder();
             corsBuilder.AllowAnyHeader();
             corsBuilder.AllowAnyMethod();
-            corsBuilder.AllowAnyOrigin(); // For anyone access.
-                                          //corsBuilder.WithOrigins("http://localhost:56573"); // for a specific url. Don't add a forward slash on the end!
+            corsBuilder.AllowAnyOrigin(); 
             corsBuilder.AllowCredentials();
             return corsBuilder.Build();
         }

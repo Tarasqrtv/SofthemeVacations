@@ -31,6 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Vacations.Data\Vacations.Data.csproj" />
     <ProjectReference Include="..\Vacations.Model\Vacations.Model.csproj" />
   </ItemGroup>
 

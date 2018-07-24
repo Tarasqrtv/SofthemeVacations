@@ -1,11 +1,26 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import {
+    HttpRequest,
+    HttpHandler,
+    HttpEvent,
+    HttpInterceptor,
+    HttpResponse,
+    HttpErrorResponse,
+    HttpClient,
+  } from '@angular/common/http';
+import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import 'rxjs/add/observable/throw'
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/do';
+import { ToastrService } from '../../node_modules/ngx-toastr';
 
 @Injectable()
-export class MyDataService {
-    constructor(private http: HttpClient) { }
+export class MyDataService implements OnInit{
+    constructor(private http: HttpClient, private router: Router) { }
+
+    ngOnInit() {
+    }
 
     get<T>(url: string): Observable<T> {
         return this.http.get<T>(url);
@@ -32,12 +47,11 @@ export class MyDataService {
 @Injectable()
 export class MyFirstInterceptor implements HttpInterceptor {
 
-    constructor() { }
+        constructor(private router: Router, private toaster: ToastrService){ }
 
-    intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-        console.log(JSON.stringify(req));
-
-        if (localStorage.getItem('token')) {
+        intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+        
+        if (localStorage.getItem('token') && !req.headers.has('Authorization')) {
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'))});
         }
 
@@ -46,6 +60,29 @@ export class MyFirstInterceptor implements HttpInterceptor {
         }
 
         req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
-        return next.handle(req);
+
+        console.log("Inter on");
+
+        return next.handle(req).do((event: HttpEvent<any>) => 
+        {
+            if (event instanceof HttpResponse) {
+                console.log("Inter HttpResponse");
+              }
+        }, (err: any) => {
+            console.log("Inter in");
+            if (err instanceof HttpErrorResponse) {
+                if(err.status === 401)
+                {
+                    this.router.navigate(["/auth"]);
+                }
+                if(err.status === 403)
+                {
+                    this.router.navigate(["/main"]);
+                }
+                console.log("Inter toaster");
+                this.toaster.error(err.message, err.status.toString());
+                return Observable.throw(err);
+            }
+          });
     }
 }

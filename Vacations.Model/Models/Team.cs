@@ -10,5 +10,6 @@ namespace Vacations.Model.Models
         public string Name { get; set; }
 
         public Employee TeamLead { get; set; }
+        public ICollection<EmployeeTeam> EmployeeTeam { get; set; }
     }
 }

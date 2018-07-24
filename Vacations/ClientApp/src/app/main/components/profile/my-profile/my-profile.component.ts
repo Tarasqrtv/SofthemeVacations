@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
-
-import { EmployeeService } from '../../../services/employee.service';
+import { Component, OnInit, Input } from '@angular/core';
 import { Employee } from './employee.model';
+import { Router } from '@angular/router';
+import { EmployeeService } from '../../../services/employee.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -11,13 +11,20 @@ import { Employee } from './employee.model';
 
 export class MyProfileComponent implements OnInit {
   title = 'profile';
-  employee: Employee;
   
-  constructor(private service: EmployeeService) { }
+  employee: Employee = <Employee>{};
+  
+  constructor(private service: EmployeeService, private router: Router) { }
 
-  ngOnInit() {
-    this.service.getEmployee().subscribe(response => this.employee = response);
+  toEdit()
+  {
+    this.router.navigate(["main/edit-profile"]);
   }
 
-
+  ngOnInit() {
+    this.service.getEmployee().subscribe(response => {this.employee = response;
+    console.log(this.employee);
+    console.log(response);
+    });
+  }
 }
