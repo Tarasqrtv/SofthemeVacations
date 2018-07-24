@@ -1,6 +1,6 @@
 <div class="comp-container">
   <h3>My profile
-    <button class="pull-right">
+    <button class="pull-right" (click) = "toEdit()">
       <i class="icon-edit-icon-white"></i>
     </button>
   </h3>
@@ -64,13 +64,17 @@
 
       <dt>team name</dt>
       <dl>
-        <p *ngIf="employee.Team; else team">
-            {{employee.Team}} 
+        <p *ngIf="employee.TeamName; else team">
+            {{employee.TeamName}} 
         </p>
       </dl>
 
       <dt>team leader</dt>
-      <dl>Name Surname</dl>
+      <dl>
+        <p *ngIf="employee.TeamLead; else teamLead">
+            {{employee.TeamLead}} 
+        </p>
+      </dl>
     </dl>
   </div>
 </div>

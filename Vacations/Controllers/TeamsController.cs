@@ -13,9 +13,9 @@ namespace Vacations.Controllers
     [ApiController]
     public class TeamsController : ControllerBase
     {
-        private readonly VacationsDBContext _context;
+        private readonly VacationsDbContext _context;
 
-        public TeamsController(VacationsDBContext context)
+        public TeamsController(VacationsDbContext context)
         {
             _context = context;
         }

@@ -6,5 +6,5 @@ export const AppRoutes: Routes = [
     { path: 'auth', component: AuthComponent },
     { path: '', redirectTo: 'main', pathMatch: 'full' },
     { path: 'main', component: MainComponent },
-    { path: '**', component: AuthComponent }
+    { path: '**', component: MainComponent }
 ];

@@ -16,9 +16,9 @@ namespace Vacations.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly VacationsDBContext _context;
+        private readonly VacationsDbContext _context;
 
-        public EmployeesController(VacationsDBContext context)
+        public EmployeesController(VacationsDbContext context)
         {
             _context = context;
         }
@@ -33,14 +33,28 @@ namespace Vacations.Controllers
             }
 
             var currentUser = User.FindFirst(ClaimTypes.Email)?.Value;
-            var result = _context.User.Include(x => x.Role).FirstOrDefault(x => x.PersonalEmail == currentUser);
-            var employee = await _context.Employee.FindAsync(result.EmployeeId);
-
-            if (employee == null)
-            {
-                return NotFound("employee NotFound");
-            }
-
+            var result = _context.User.FirstOrDefault(x => x.PersonalEmail == currentUser);
+            var employee = await _context.Employee.Include(e => e.Team)
+                .Where( e => e.EmployeeId == result.EmployeeId)
+                .Select(e => new
+                {
+                    Name = e.Name,
+                    Surname = e.Surname,
+                    JobTitle = e.JobTitle.Name,
+                    EmployeeStatus = e.EmployeeStatus.Name,
+                    Birthday = e.Birthday,
+                    PersonalEmail = e.WorkEmail,
+                    WorkEmail = e.WorkEmail,
+                    TelephoneNumber = e.TelephoneNumber,
+                    Skype = e.Skype,
+                    StartDate = e.StartDate,
+                    EndDate = e.EndDate,
+                    TeamName = e.EmployeeTeam.Select(t => t.Team.Name).FirstOrDefault(),
+                    TeamLead = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name + t.Team.TeamLead.Surname).FirstOrDefault(),
+                    Balance = e.Balance
+                })
+                .FirstOrDefaultAsync();
+           
             return Ok(employee);
         }
 
@@ -54,7 +68,7 @@ namespace Vacations.Controllers
 
         // GET: api/Employees/5
         [Authorize(Roles = "Admin")]
-        [HttpGet("employee/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee([FromRoute] Guid id)
         {
             if (!ModelState.IsValid)

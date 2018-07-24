@@ -1,15 +1,16 @@
 export interface Employee {
     Name: string;
     Surname: string;
+    JobTitle: string;
+    EmployeeStatus: string;
+    Birthday: Date;
+    PersonalEmail: string;
     WorkEmail: string;
     TelephoneNumber: string;
-    Birthday: Date;
     Skype: string;
     StartDate: Date;
     EndDate: Date;
-    Balance: string;
-    EmployeeStatus: string;
-    JobTitle: string;
-    Team: string[];
+    TeamName: string;
     TeamLead: string;
+    Balance: string;
 }

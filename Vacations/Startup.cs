@@ -32,10 +32,10 @@ namespace Vacations
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        //This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<VacationsDBContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
+            services.AddDbContext<VacationsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
 
             services.AddCors(o => o.AddPolicy("CORSPolicy", builder =>
             {
@@ -56,6 +56,7 @@ namespace Vacations
                             ValidateIssuerSigningKey = true,
                             ValidIssuer = Configuration["Token:Issuer"],
                             ValidAudience = Configuration["Token:Audience"],
+
                             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
                         };
                     });

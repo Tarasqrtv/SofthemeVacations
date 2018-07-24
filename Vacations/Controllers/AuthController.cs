@@ -28,14 +28,14 @@ namespace Vacations.Controllers
     [Route("api/auth")]
     public class AuthController : Controller
     {
-        private readonly VacationsDBContext _db;
+        private readonly VacationsDbContext _db;
 
         private readonly IConfiguration _configuration;
 
         public AuthController(IConfiguration configuration)
         {
             _configuration = configuration;
-            _db = new VacationsDBContext(_configuration.GetConnectionString("VacationsDBConn"));
+            _db = new VacationsDbContext(_configuration.GetConnectionString("VacationsDBConn"));
         }
 
         [AllowAnonymous]

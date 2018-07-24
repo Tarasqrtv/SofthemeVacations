@@ -4,16 +4,16 @@ using Microsoft.EntityFrameworkCore.Metadata;
 
 namespace Vacations.Model.Models
 {
-    public partial class VacationsDBContext : DbContext
+    public partial class VacationsDbContext : DbContext
     {
         private readonly string connectionString;
 
-        public VacationsDBContext(string connectionString) : base()
+        public VacationsDbContext(string connectionString) : base()
         {
             this.connectionString = connectionString;
         }
 
-        public VacationsDBContext(DbContextOptions<VacationsDBContext> options)
+        public VacationsDbContext(DbContextOptions<VacationsDbContext> options)
             : base(options)
         {
         }

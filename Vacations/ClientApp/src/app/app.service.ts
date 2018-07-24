@@ -10,7 +10,6 @@ import {
 import { Injectable, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-
 import 'rxjs/add/observable/throw'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
@@ -67,10 +66,6 @@ export class MyFirstInterceptor implements HttpInterceptor {
         return next.handle(req).do((event: HttpEvent<any>) => 
         {
             if (event instanceof HttpResponse) {
-                // if(event.status === 401)
-                // {
-                //     this.router.navigate(["/auth"])
-                // }
                 console.log("Inter HttpResponse");
               }
         }, (err: any) => {
@@ -80,8 +75,13 @@ export class MyFirstInterceptor implements HttpInterceptor {
                 {
                     this.router.navigate(["/auth"]);
                 }
+                if(err.status === 403)
+                {
+                    this.router.navigate(["/main"]);
+                }
                 console.log("Inter toaster");
                 this.toaster.error(err.message, err.status.toString());
+                return Observable.throw(err);
             }
           });
     }

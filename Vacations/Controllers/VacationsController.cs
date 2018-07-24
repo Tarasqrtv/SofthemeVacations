@@ -15,9 +15,9 @@ namespace Vacations.Controllers
     [ApiController]
     public class VacationsController : ControllerBase
     {
-        private readonly VacationsDBContext _context;
+        private readonly VacationsDbContext _context;
 
-        public VacationsController(VacationsDBContext context)
+        public VacationsController(VacationsDbContext context)
         {
             _context = context;
         }
