@@ -9,15 +9,22 @@ import { Employee } from '../profile/my-profile/employee.model';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
-  title = 'profile';
-  employee: Employee;
-  
-  constructor(private service: EditService) { }
+constructor() { }
 
-  ngOnInit() { }
-  //save(): void {
-  //  this.service.updateEmployee(this.employee)
-  //    .subscribe(() => this.location.back();;
-  //}
-
+  ngOnInit() {
+  }
 }
+
+// export class EditProfileComponent implements OnInit {
+//   title = 'profile';
+//   employee: Employee;
+
+//   constructor(private service: EditService) { }
+
+//   ngOnInit() { }
+//   //save(): void {
+//   //  this.service.updateEmployee(this.employee)
+//   //    .subscribe(() => this.location.back();;
+//   //}
+
+// }
