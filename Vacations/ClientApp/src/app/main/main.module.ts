@@ -18,10 +18,10 @@ import { ProfileComponent } from './components/profile/profile.component';
 import { MainRoutes } from './main.routes';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { MyFirstInterceptor } from '../app.service';
-
+import { AddNewTeamComponent } from './components/add-new-team/add-new-team.component';
 
 @NgModule({
-  imports: [ 
+  imports: [
     CommonModule,
     RouterModule,
     HttpClientModule,
@@ -36,9 +36,9 @@ import { MyFirstInterceptor } from '../app.service';
     TopNavigationComponent,
     VacationRequestComponent,
     EditProfileComponent,
-
     MyVacationsComponent,
-    ProfileComponent
+    ProfileComponent,
+    AddNewTeamComponent
   ],
   providers: [
     EmployeeService,
