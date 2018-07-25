@@ -1,4 +1,4 @@
 export const environment = {
   production: true,  
-  baseUrl: 'http://btangular.azurewebsites.net/api'
+  baseUrl: 'https://btangular.azurewebsites.net/api'
 };

@@ -217,6 +217,19 @@ namespace Vacations.Model.Models
 
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
+
+            modelBuilder.Entity<EmployeeTeam>()
+                .HasKey(et => new { et.EmployeeId, et.TeamId });
+
+            modelBuilder.Entity<EmployeeTeam>()
+                .HasOne(et => et.Employee)
+                .WithMany(e => e.EmployeeTeam)
+                .HasForeignKey(et => et.EmployeeId);
+
+            modelBuilder.Entity<EmployeeTeam>()
+                .HasOne(et => et.Team)
+                .WithMany(t => t.EmployeeTeam)
+                .HasForeignKey(et => et.TeamId);
         }
     }
 }

@@ -55,12 +55,6 @@ export class MyFirstInterceptor implements HttpInterceptor {
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'))});
         }
 
-        if (!req.headers.has('Content-Type')) {
-            req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') }); 
-        }
-
-        req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
-
         console.log("Inter on");
 
         return next.handle(req).do((event: HttpEvent<any>) => 
