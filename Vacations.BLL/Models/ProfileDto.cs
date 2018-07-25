@@ -23,5 +23,9 @@ namespace Vacations.BLL.Models
         public string TeamName { get; set; }
         public string TeamLeadName { get; set; }
         public string TeamLeadSurname { get; set; }
+        public Guid? EmployeeStatusId { get; set; }
+        public Guid? JobTitleId { get; set; }
+        public Guid? TeamId { get; set; }
+        public Guid? TeamLeadId { get; set; }
     }
 }

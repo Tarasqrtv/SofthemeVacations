@@ -1,4 +1,4 @@
-export interface Employee {
+export interface Profile {
     Name: string;
     Surname: string;
     JobTitle: string;
@@ -13,4 +13,8 @@ export interface Employee {
     TeamName: string;
     TeamLead: string;
     Balance: string;
+    EmployeeStatusId: string;
+    JobTitleId: string;
+    TeamId: string;
+    TeamLeadId: string;
 }

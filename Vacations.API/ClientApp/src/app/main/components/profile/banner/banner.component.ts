@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
-import { Employee } from '../my-profile/employee.model';
-import { EmployeeService } from '../../../services/employee.service';
+import { Profile } from '../my-profile/profile.model';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-banner',
@@ -10,12 +10,12 @@ import { EmployeeService } from '../../../services/employee.service';
 })
 export class BannerComponent implements OnInit {
 
-  employee: Employee = <Employee>{};
+  employee: Profile = <Profile>{};
   
-  constructor(private service: EmployeeService) { }
+  constructor(private service: ProfileService) { }
 
   ngOnInit() {
-    this.service.getEmployee().subscribe(response => this.employee = response);
+    this.service.getProfile().subscribe(response => this.employee = response);
   }
 
 }

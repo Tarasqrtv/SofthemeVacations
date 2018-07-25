@@ -39,7 +39,11 @@ namespace Vacations.BLL.Services
                     TeamName = e.EmployeeTeam.Select(t => t.Team.Name).FirstOrDefault(),
                     TeamLeadName = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name).FirstOrDefault(),
                     TeamLeadSurname = e.EmployeeTeam.Select(t => t.Team.TeamLead.Surname).FirstOrDefault(),
-                    Balance = e.Balance
+                    Balance = e.Balance,
+                    EmployeeStatusId = e.EmployeeStatusId,
+                    JobTitleId = e.JobTitleId,
+                    TeamId = e.EmployeeTeam.Select(t => t.Team.TeamId).FirstOrDefault(),
+                    TeamLeadId = e.EmployeeTeam.Select(t => t.Team.TeamLeadId).FirstOrDefault()
                 })
                 .FirstOrDefault();
 
@@ -72,5 +76,15 @@ namespace Vacations.BLL.Services
 
             return profile;
         }
+
+        //public bool Edit(ProfileDto profileDto)
+        //{
+        //    var profile = _mapper.Map<ProfileDto, Profile>(profileDto);
+
+        //    var employee = 
+        //    _context.Employee.Attach(profile);
+        //    _context.SaveChanges();
+        //    return true;
+        //}
     }
 }
