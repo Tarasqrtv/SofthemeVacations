@@ -22,7 +22,7 @@ export class MyProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.service.getEmployee().subscribe(response => {this.employee = response;
+    this.service.getProfile().subscribe(response => {this.employee = response;
     console.log(this.employee);
     console.log(response);
     });

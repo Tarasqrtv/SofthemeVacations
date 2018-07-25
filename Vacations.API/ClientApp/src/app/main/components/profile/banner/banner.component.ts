@@ -15,7 +15,7 @@ export class BannerComponent implements OnInit {
   constructor(private service: ProfileService) { }
 
   ngOnInit() {
-    this.service.getEmployee().subscribe(response => this.employee = response);
+    this.service.getProfile().subscribe(response => this.employee = response);
   }
 
 }

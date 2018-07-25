@@ -13,4 +13,8 @@ export interface Profile {
     TeamName: string;
     TeamLead: string;
     Balance: string;
+    EmployeeStatusId: string;
+    JobTitleId: string;
+    TeamId: string;
+    TeamLeadId: string;
 }

@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment';
 export class ProfileService {
     constructor (private http: HttpClient) { }
 
-    getEmployee(): Observable<Profile> {
+    getProfile(): Observable<Profile> {
         let requestUrl = environment.baseUrl + '/profile';
         return this.http.get<Profile>(`${requestUrl}`);
     }
