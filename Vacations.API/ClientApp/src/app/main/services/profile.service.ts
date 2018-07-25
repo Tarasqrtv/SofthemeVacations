@@ -2,15 +2,15 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
-import { Employee } from '../components/profile/my-profile/employee.model';
+import { Profile } from '../components/profile/my-profile/profile.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable()
-export class EmployeeService {
+export class ProfileService {
     constructor (private http: HttpClient) { }
 
-    getEmployee(): Observable<Employee> {
+    getEmployee(): Observable<Profile> {
         let requestUrl = environment.baseUrl + '/profile';
-        return this.http.get<Employee>(`${requestUrl}`);
+        return this.http.get<Profile>(`${requestUrl}`);
     }
 }

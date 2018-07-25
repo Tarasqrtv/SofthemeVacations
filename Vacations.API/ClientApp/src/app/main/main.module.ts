@@ -6,7 +6,7 @@ import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
 import { MainComponent } from './main.component';
 
-import { EmployeeService } from './services/employee.service';
+import { ProfileService } from './services/profile.service';
 import { VacationService } from './services/vacation.service';
 
 import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
@@ -41,7 +41,7 @@ import { AddNewTeamComponent } from './components/add-new-team/add-new-team.comp
     AddNewTeamComponent
   ],
   providers: [
-    EmployeeService,
+    ProfileService,
     VacationService
   ]
 

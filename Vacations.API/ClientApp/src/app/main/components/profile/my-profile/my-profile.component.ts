@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Employee } from './employee.model';
+import { Profile } from './profile.model';
 import { Router } from '@angular/router';
-import { EmployeeService } from '../../../services/employee.service';
+import { ProfileService } from '../../../services/profile.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -12,9 +12,9 @@ import { EmployeeService } from '../../../services/employee.service';
 export class MyProfileComponent implements OnInit {
   title = 'profile';
   
-  employee: Employee = <Employee>{};
+  employee: Profile = <Profile>{};
   
-  constructor(private service: EmployeeService, private router: Router) { }
+  constructor(private service: ProfileService, private router: Router) { }
 
   toEdit()
   {
