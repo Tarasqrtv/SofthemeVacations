@@ -1,8 +1,8 @@
 USE VacationsDB
 
-INSERT INTO Role VALUES (NEWID(),'Admin');
-INSERT INTO Role VALUES (NEWID(),'TeamLead');
-INSERT INTO Role VALUES (NEWID(),'User');
+INSERT INTO [Role] VALUES (NEWID(),'Admin');
+INSERT INTO [Role] VALUES (NEWID(),'TeamLead');
+INSERT INTO [Role] VALUES (NEWID(),'User');
 
 INSERT INTO JobTitle VALUES (NEWID(),'Project Manager');
 INSERT INTO JobTitle VALUES (NEWID(),'Team Lead');

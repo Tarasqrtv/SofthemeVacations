@@ -4,32 +4,32 @@ USE Vacations
 
 CREATE TABLE EmployeeStatus
 (
-	EmployeeStatusID uniqueidentifier PRIMARY KEY,
+	EmployeeStatusID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	Name nvarchar(50)
 );
 
 CREATE TABLE JobTitle
 (
-	JobTitleID uniqueidentifier PRIMARY KEY,
+	JobTitleID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	Name nvarchar(50)
 );
 
-CREATE TABLE Role
+CREATE TABLE [Role]
 (
-	RoleID uniqueidentifier PRIMARY KEY,
+	RoleID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	Name nvarchar(50)
 );
 
 CREATE TABLE Team
 (
-	TeamID uniqueidentifier PRIMARY KEY,
+	TeamID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	TeamLeadID uniqueidentifier,
 	Name nvarchar(100)
 );
 
 CREATE TABLE Employee
 (
-	EmployeeID uniqueidentifier PRIMARY KEY,
+	EmployeeID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	Name nvarchar(50),
 	Surname nvarchar(50), --50
 	WorkEmail nvarchar(256), --256
@@ -50,11 +50,11 @@ ADD CONSTRAINT Team_TeamLeadID_FK FOREIGN KEY (TeamLeadID) REFERENCES Employee(E
 
 CREATE TABLE [User]
 (
-	UserID uniqueidentifier PRIMARY KEY,
-	EmployeeID uniqueidentifier UNIQUE,
+	UserID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
+	EmployeeID uniqueidentifier NOT NULL UNIQUE,
 	Password nvarchar(300),
 	PersonalEmail nvarchar(256) NOT NULL, 
-	RoleID uniqueidentifier,
+	RoleID uniqueidentifier NOT NULL,
 	CONSTRAINT User_RoleID_FK FOREIGN KEY (RoleID) REFERENCES [Role](RoleID),
 	CONSTRAINT User_EmployeeID_FK FOREIGN KEY (EmployeeID) REFERENCES Employee(EmployeeID)
 );
@@ -70,13 +70,13 @@ CREATE TABLE EmployeeTeam
 
 CREATE TABLE TransactionType
 (
-	TransactionTypeID uniqueidentifier PRIMARY KEY,
+	TransactionTypeID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	Name nvarchar(50) 
 );
 
 CREATE TABLE [Transaction]
 (
-	TransactionID uniqueidentifier PRIMARY KEY,
+	TransactionID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	TransactionTypeID uniqueidentifier,
 	EmployeeID uniqueidentifier, --Отдельная таблица
 	Days int,
@@ -87,13 +87,13 @@ CREATE TABLE [Transaction]
 
 CREATE TABLE VacationStatus
 (
-	VacationStatusID uniqueidentifier PRIMARY KEY,
+	VacationStatusID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	Name nvarchar(50)
 );
 
 CREATE TABLE Vacation
 (
-	VacationID uniqueidentifier PRIMARY KEY,
+	VacationID uniqueidentifier PRIMARY KEY DEFAULT NEWID(),
 	StartVocationDate date,
 	EndVocationDate date,
 	VacationStatusID uniqueidentifier,  --Отдельная таблица

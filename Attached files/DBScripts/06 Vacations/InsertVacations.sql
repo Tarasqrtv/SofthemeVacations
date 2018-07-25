@@ -1,4 +1,4 @@
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Ñomment, EmployeeID)
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
 SELECT 
 	NEWID(),
 	GETDATE(),
@@ -7,7 +7,7 @@ SELECT
 	'Vacation',
 	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Ñomment, EmployeeID)
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
 SELECT 
 	NEWID(),
 	GETDATE() + 30,
@@ -16,7 +16,7 @@ SELECT
 	'Vacation',
 	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Ñomment, EmployeeID)
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
 SELECT 
 	NEWID(),
 	GETDATE() - 60,
@@ -25,7 +25,7 @@ SELECT
 	'Vacation',
 	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Ñomment, EmployeeID)
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
 SELECT 
 	NEWID(),
 	GETDATE() - 160,
@@ -34,7 +34,7 @@ SELECT
 	'Vacation',
 	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Ñomment, EmployeeID)
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
 SELECT 
 	NEWID(),
 	GETDATE() - 260,
@@ -43,7 +43,7 @@ SELECT
 	'Vacation',
 	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Ñomment, EmployeeID)
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
 SELECT 
 	NEWID(),
 	GETDATE() + 100,
