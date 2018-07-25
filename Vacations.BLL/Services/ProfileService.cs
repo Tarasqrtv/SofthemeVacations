@@ -72,5 +72,15 @@ namespace Vacations.BLL.Services
 
             return profile;
         }
+
+        //public bool Edit(ProfileDto profileDto)
+        //{
+        //    var profile = _mapper.Map<ProfileDto, Profile>(profileDto);
+
+        //    var employee = 
+        //    _context.Employee.Attach(profile);
+        //    _context.SaveChanges();
+        //    return true;
+        //}
     }
 }

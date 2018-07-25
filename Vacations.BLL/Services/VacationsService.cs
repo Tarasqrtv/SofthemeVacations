@@ -48,7 +48,7 @@ namespace Vacations.BLL.Services
 
         //public async Task<IEnumerable<VacationDto>> GetByEmployeeIdAsync(Guid idGuid)
         //{
-        //    var vacations = await _context.Vacation.(v => v.EmployeeId == idGuid);
+        //    var vacations = await _context.Vacation.FromSv => v.EmployeeId == idGuid);
         //    return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         //}
     }
