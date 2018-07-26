@@ -20,6 +20,7 @@ import { EditProfileComponent } from './components/edit-profile/edit-profile.com
 import { MyFirstInterceptor } from '../app.service';
 import { AddNewTeamComponent } from './components/add-new-team/add-new-team.component';
 import { EditTeamProfileComponent } from './components/edit-team-profile/edit-team-profile.component';
+import { ListOfVacationRequestsComponent } from './components/list-of-vacation-requests/list-of-vacation-requests.component';
 
 @NgModule({
   imports: [
@@ -40,7 +41,8 @@ import { EditTeamProfileComponent } from './components/edit-team-profile/edit-te
     MyVacationsComponent,
     ProfileComponent,
     AddNewTeamComponent,
-    EditTeamProfileComponent
+    EditTeamProfileComponent,
+    ListOfVacationRequestsComponent
   ],
   providers: [
     ProfileService,
