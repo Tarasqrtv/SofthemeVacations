@@ -3,6 +3,9 @@ import { Routes } from '@angular/router';
 import { MainComponent } from './main.component';
 import { ProfileComponent } from './components/profile/profile.component';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
+import { ListOfVacationRequestsComponent } from './components/list-of-vacation-requests/list-of-vacation-requests.component';
+import { AddNewTeamComponent } from './components/add-new-team/add-new-team.component';
+import { EditTeamProfileComponent } from './components/edit-team-profile/edit-team-profile.component';
 
 export const MainRoutes: Routes = [
     {
@@ -10,6 +13,9 @@ export const MainRoutes: Routes = [
         children: [
             { path: '', component: ProfileComponent },
             { path: 'profile', component: ProfileComponent },     
+            { path: 'vacation-requests', component: ListOfVacationRequestsComponent },     
+            { path: 'add-new-team', component: AddNewTeamComponent },   
+            { path: 'edit-team', component: EditTeamProfileComponent },       
             { path: 'edit-profile', component: EditProfileComponent }        
         ]
     }
