@@ -6,6 +6,7 @@ import { Employee } from './models/employee.model';
 import { Team } from './models/team.model';
 import { JobTitle } from './models/job-title.model';
 import { EmployeeStatus } from './models/employee-status.model';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-edit-profile',
@@ -14,23 +15,30 @@ import { EmployeeStatus } from './models/employee-status.model';
 })
 export class EditProfileComponent implements OnInit {
 
-  profile: Profile = <Profile>{};
   employee: Employee = <Employee>{};
-  teams: Team[] = <Team[]>{};
-  jobTitles: JobTitle[] = <JobTitle[]>{};
-  employeeStatuses: EmployeeStatus[] = <EmployeeStatus[]>{};
-  
-constructor(private location: Location, private service: EditService) { }
+  teams: Team[] = [];
+  jobTitles: JobTitle[] = [];
+  employeeStatuses: EmployeeStatus[] = [];
+
+  constructor(private location: Location, private service: EditService, private toast: ToastrService) { }
 
   cancel() {
     this.location.back();
   }
 
   ngOnInit() {
-    this.service.getProfile().subscribe(response => {this.profile = response;
-      console.log(this.employee);
-      console.log(response);
-      });
+    const successfnEmployee = (response) => { this.employee = response; this.toast.success("", ""); console.log(response); console.log(this.employee); };
+    const successfnTeams = (response) => { this.teams = response; this.toast.success("", ""); console.log(response); console.log(this.teams); };
+    const successfnJobTitles = (response) => { this.jobTitles = response; this.toast.success("", ""); console.log(this.jobTitles); };
+    const successfnEmployeeStatus = (response) => { this.employeeStatuses = response; this.toast.success("", ""); console.log(response); console.log(this.employeeStatuses); };
+
+    const errorfn = () => { };
+    const completefn = () => { };
+
+    this.service.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
+    this.service.getTeam().subscribe(successfnTeams, errorfn, completefn);
+    this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
+    this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
   }
 }
 

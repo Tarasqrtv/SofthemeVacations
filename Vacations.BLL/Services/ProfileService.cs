@@ -36,14 +36,10 @@ namespace Vacations.BLL.Services
                     Skype = e.Skype,
                     StartDate = e.StartDate,
                     EndDate = e.EndDate,
-                    TeamName = e.EmployeeTeam.Select(t => t.Team.Name).FirstOrDefault(),
+                    TeamName = e.Team.Select(x => x.Name).FirstOrDefault(),
                     TeamLeadName = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name).FirstOrDefault(),
                     TeamLeadSurname = e.EmployeeTeam.Select(t => t.Team.TeamLead.Surname).FirstOrDefault(),
-                    Balance = e.Balance,
-                    EmployeeStatusId = e.EmployeeStatusId,
-                    JobTitleId = e.JobTitleId,
-                    TeamId = e.EmployeeTeam.Select(t => t.Team.TeamId).FirstOrDefault(),
-                    TeamLeadId = e.EmployeeTeam.Select(t => t.Team.TeamLeadId).FirstOrDefault()
+                    Balance = e.Balance
                 })
                 .FirstOrDefault();
 

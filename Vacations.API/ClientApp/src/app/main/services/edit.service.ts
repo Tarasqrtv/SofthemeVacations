@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
 
-import { Profile } from '../components/profile/my-profile/profile.model';
 import { environment } from '../../../environments/environment';
 import { Employee } from '../components/edit-profile/models/employee.model';
 import { JobTitle } from '../components/edit-profile/models/job-title.model';
@@ -20,9 +19,9 @@ export class EditService {
         return this.http.put(requestUrl, data).map(() => employee);
     }
 
-    getProfile(): Observable<Profile> {
-        let requestUrl = environment.baseUrl + '/profile';
-        return this.http.get<Profile>(`${requestUrl}`);
+    getEmployee(): Observable<Employee> {
+        let requestUrl = environment.baseUrl + '/employees/current';
+        return this.http.get<Employee>(`${requestUrl}`);
     }
 
     getJobTitle(): Observable<JobTitle[]> {

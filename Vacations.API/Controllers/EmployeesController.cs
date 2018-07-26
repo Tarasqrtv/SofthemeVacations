@@ -31,7 +31,7 @@ namespace Vacations.API.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("current")]
         public async Task<IActionResult> GetCurrentEmployee()
         {
             if (!ModelState.IsValid)
@@ -45,9 +45,8 @@ namespace Vacations.API.Controllers
             var userModel = _mapper.Map<UserDto, UserModel>(userDto);
 
             var employeeDto = await _employeesService.GetByIdAsync(userModel.EmployeeId);
-            var employeeModel = _mapper.Map<EmployeeDto, EmployeeModel>(employeeDto);
 
-            return Ok(employeeModel);
+            return Ok(employeeDto);
         }
 
         //    // GET: api/Employees

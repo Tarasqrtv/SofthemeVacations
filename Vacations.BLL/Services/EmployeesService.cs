@@ -24,8 +24,34 @@ namespace Vacations.BLL.Services
 
         public EmployeeDto GetById(Guid idGuid)
         {
-            var employee = _context.Employee.FirstOrDefault(e => e.EmployeeId == idGuid);
-            return _mapper.Map<Employee, EmployeeDto>(employee);
+            var employee = _context.Employee.Include(e => e.Team);
+
+           return employee.Where(e => e.EmployeeId == idGuid)
+                .Select(e => new EmployeeDto()
+                {
+                    EmployeeId = e.EmployeeId,
+                    Name = e.Name,
+                    Surname = e.Surname,
+                    JobTitle = e.JobTitle.Name,
+                    EmployeeStatus = e.EmployeeStatus.Name,
+                    Birthday = e.Birthday,
+                    PersonalEmail = e.WorkEmail,
+                    WorkEmail = e.WorkEmail,
+                    TelephoneNumber = e.TelephoneNumber,
+                    Skype = e.Skype,
+                    StartDate = e.StartDate,
+                    EndDate = e.EndDate,
+                    TeamName = e.EmployeeTeam.Select(t => t.Team.Name).FirstOrDefault(),
+                    TeamLeadName = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name).FirstOrDefault(),
+                    TeamLeadSurname = e.EmployeeTeam.Select(t => t.Team.TeamLead.Surname).FirstOrDefault(),
+                    Balance = e.Balance,
+                    EmployeeStatusId = e.EmployeeStatusId,
+                    JobTitleId = e.JobTitleId,
+                    TeamId = e.EmployeeTeam.Select(t => t.Team.TeamId).FirstOrDefault(),
+                    TeamLeadId = e.EmployeeTeam.Select(t => t.Team.TeamLeadId).FirstOrDefault()
+                })
+                .FirstOrDefault();
+
         }
 
         public async Task<EmployeeDto> GetByIdAsync(Guid idGuid)
