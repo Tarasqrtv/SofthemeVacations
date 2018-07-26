@@ -1,0 +1,58 @@
+<div class="container">
+  <div class="row">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <td colspan="3"> Edite Team Profile</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <label for="usr">team name</label>
+            <input type="text" class="form-control" id="usr" placeholder="Team Name">
+            <label for="srnm" style="margin-top: 30px;">team leader</label>
+            <input type="text" class="form-control" id="srnm" placeholder="Team Leader">
+          </td>
+          <td colspan="2" class="kostil">
+            <label for="mem">members</label>
+            <textarea class="form-control" rows="5" id="mem">
+              <mat-form-field class="chip-list">
+                <mat-chip-list #chipList>
+                  <mat-chip *ngFor="let user of users" [selectable]="selectable"
+                           [removable]="removable" (removed)="remove(user)">
+                    {{user.name}}
+                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                  </mat-chip>
+                  <input [matChipInputFor]="chipList"
+                         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                         [matChipInputAddOnBlur]="addOnBlur"
+                         (matChipInputTokenEnd)="add($event)">
+                </mat-chip-list>
+              </mat-form-field>
+            </textarea>
+            <label for="fmem" style="margin-top: 15px;">found members</label>
+            <div>
+              <img src="../../../../assets/user profile icon.svg" id="fmem" class="user-photo float-left" />
+              <p>Name Surname</p>
+            </div>
+            <div style="margin-top: 30px;">
+              <img src="../../../../assets/user profile icon.svg" id="fmem" class="user-photo float-left" />
+              <p>Name Surname</p>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+          </td>
+          <td class="kostil">
+            <button type="button" class="btn btn-outline-secondary float-right">CENSEL</button>
+          </td>
+          <td>
+            <button type="submit" class="btn btn-outline-secondary">Save</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
