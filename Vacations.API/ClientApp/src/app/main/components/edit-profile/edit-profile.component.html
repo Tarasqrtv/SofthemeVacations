@@ -16,7 +16,14 @@
             <label for="bday">date of birth</label>
             <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control bg-name-field" placeholder="XX/XX/XXXX">
           </td>
-          <td></td>
+          <td>
+            <label for="rol">Role</label>
+            <select class="form-control" id="rol" placeholder="Role">
+              <option>Employee</option>
+              <option>Admin</option>
+              <option>Team Leader</option>
+            </select>
+          </td>
         </tr>
         <tr>
           <td>
@@ -28,8 +35,8 @@
             <input type="email" class="form-control" id="email" placeholder="example@mail.com">
           </td>
           <td>
-            <label for="email">work mail</label>
-            <input type="email" class="form-control" id="email" placeholder="example@mail.com">
+            <label for="em">work mail</label>
+            <input type="email" class="form-control" id="em" placeholder="example@mail.com">
           </td>
         </tr>
         <tr>
@@ -39,15 +46,11 @@
           </td>
           <td class="kostil">
             <label for="phnmbr">phone number</label>
-            <select class="form-control" id="phnmbr" placeholder="+380 00 000 00 00">
-              <option>+380 98 760 37 82</option>
-            </select>
+            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" placeholder="+380 00 000 00 00">
           </td>
           <td>
             <label for="skp">skype</label>
-            <select class="form-control" id="skp" placeholder="userskype">
-              <option>....</option>
-            </select>
+            <input type="text" class="form-control" id="skp" placeholder="Skype">
           </td>
         </tr>
         <tr>
@@ -85,18 +88,13 @@
           </td>
           <td>
             <label for="tnml">team leader</label>
-            <select class="form-control" id="tnml">
-              <option>Team Leader</option>
-            </select>
+            <input class="form-control" value="Oleksa" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;">
           </td>
         </tr>
         <tr>
           <td>
             <label for="sel1">day in vacation:</label>
-            <select class="form-control" id="sel1">
-              <option>1</option>
-              <option>2</option>
-            </select>
+            <input type="number" class="form-control" id="sel1" placeholder="">
           </td>
           <td class="kostil">
             <button type="button" class="btn btn-outline-secondary float-right" (click) = "cancel()">CANCEL</button>
