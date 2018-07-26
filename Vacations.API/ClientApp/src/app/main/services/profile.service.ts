@@ -10,7 +10,7 @@ export class ProfileService {
     constructor (private http: HttpClient) { }
 
     getProfile(): Observable<Profile> {
-        let requestUrl = environment.baseUrl + '/profile';
+        let requestUrl = environment.baseUrl + '/profile/current';
         return this.http.get<Profile>(`${requestUrl}`);
     }
 }

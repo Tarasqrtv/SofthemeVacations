@@ -1,4 +1,5 @@
 export interface Employee {
+    EmployeeId: string;
     Name: string;
     Surname: string;
     JobTitle: string;
@@ -10,5 +11,11 @@ export interface Employee {
     Skype: string;
     StartDate: Date;
     EndDate: Date;
+    TeamName: string;
+    TeamLead: string;
     Balance: string;
+    EmployeeStatusId: string;
+    JobTitleId: string;
+    TeamId: string;
+    TeamLeadId: string;
 }

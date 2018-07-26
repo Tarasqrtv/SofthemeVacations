@@ -12,7 +12,6 @@ namespace Vacations.API.Models
         public string Comment { get; set; }
         public Guid? EmployeeId { get; set; }
 
-        public EmployeeModel Employee { get; set; }
         public VacationStatusModel VacationStatus { get; set; }
     }
 }
