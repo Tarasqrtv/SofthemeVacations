@@ -67,11 +67,11 @@ export class MyFirstInterceptor implements HttpInterceptor {
             if (err instanceof HttpErrorResponse) {
                 if(err.status === 401)
                 {
-                    this.router.navigate(["/auth"]);
+                    // this.router.navigate(["/auth"]);
                 }
                 if(err.status === 403)
                 {
-                    this.router.navigate(["/main"]);
+                    // this.router.navigate(["/main"]);
                 }
                 console.log("Inter toaster");
                 this.toaster.error(err.message, err.status.toString());

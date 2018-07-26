@@ -21,6 +21,7 @@ import { MyFirstInterceptor } from '../app.service';
 import { AddNewTeamComponent } from './components/add-new-team/add-new-team.component';
 import { EditTeamProfileComponent } from './components/edit-team-profile/edit-team-profile.component';
 import { ListOfVacationRequestsComponent } from './components/list-of-vacation-requests/list-of-vacation-requests.component';
+import { EditService } from './services/edit.service';
 
 @NgModule({
   imports: [
@@ -46,7 +47,8 @@ import { ListOfVacationRequestsComponent } from './components/list-of-vacation-r
   ],
   providers: [
     ProfileService,
-    VacationService
+    VacationService,
+    EditService
   ]
 
 })
