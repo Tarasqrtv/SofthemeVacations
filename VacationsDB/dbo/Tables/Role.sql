@@ -1,6 +1,0 @@
-﻿CREATE TABLE [dbo].[Role] (
-    [RoleID] UNIQUEIDENTIFIER NOT NULL,
-    [Name]   NVARCHAR (50)    NULL,
-    PRIMARY KEY CLUSTERED ([RoleID] ASC)
-);
-

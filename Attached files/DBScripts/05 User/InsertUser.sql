@@ -16,6 +16,14 @@ SELECT
 	'charles@gmail.com',
 	(SELECT RoleID FROM Role WHERE Name = 'Employee')
 
+INSERT INTO [User](UserID, EmployeeID, Password, PersonalEmail, RoleID)
+SELECT 
+	NEWID(),
+	(SELECT EmployeeID FROM Employee WHERE Name = 'Zaharina'),
+	'pass',
+	'teamlead@gmail.com',
+	(SELECT RoleID FROM Role WHERE Name = 'Team Lead')
+
 --INSERT INTO Employee (EmployeeID, EmployeeStatusID, JobTitleID, StartDate, Name)
 --SELECT 
 --	NEWID(),
@@ -142,13 +150,7 @@ SELECT
 --	GetDate(),
 --	'Halstein'
 
---INSERT INTO Employee (EmployeeID, EmployeeStatusID, JobTitleID, StartDate, Name)
---SELECT 
---	NEWID(),
---	(SELECT EmployeeStatusID FROM EmployeeStatus WHERE EmployeeStatus.Name = 'Active'),
---	(SELECT JobTitleID FROM JobTitle WHERE JobTitle.Name = 'Team Lead'),
---	GetDate(),
---	'Zaharina'
+
 
 ---- Project Manager
 --INSERT INTO Employee (EmployeeID, EmployeeStatusID, JobTitleID, StartDate, Name)

@@ -1,0 +1,10 @@
+drop table Vacation
+drop table VacationStatus
+drop table EmployeeTeam
+drop table Team
+drop table [User]
+drop table [Transaction]
+drop table TransactionType
+drop table Employee
+drop table EmployeeStatus
+drop table JobTitle
