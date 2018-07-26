@@ -9,7 +9,8 @@ namespace Vacations.BLL.Services
 {
     public interface IEmployeesService
     {
-        EmployeeDto GetById(Guid idGuid);
-        Task<EmployeeDto> GetByIdAsync(Guid idGuid);
+        EmployeeDto GetById(Guid id);
+        Task<EmployeeDto> GetByIdAsync(Guid id);
+        Task<int> PutAsync(EmployeeDto employeeDto);
     }
 }

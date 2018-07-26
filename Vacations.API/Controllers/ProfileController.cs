@@ -31,7 +31,7 @@ namespace Vacations.API.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("current")]
         public async Task<IActionResult> GetCurrentEmployee()
         {
             if (!ModelState.IsValid)
@@ -45,8 +45,9 @@ namespace Vacations.API.Controllers
 
             var employee = await _profileService.GetByIdAsync(currentUser.EmployeeId);
 
-            return Ok(_mapper.Map<ProfileDto, ProfileModel>(employee));
+            return Ok(employee);
         }
+
 
     //    // GET: api/Employees
     //    [Authorize(Roles = "Admin")]

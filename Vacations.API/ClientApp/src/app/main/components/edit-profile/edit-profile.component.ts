@@ -27,10 +27,30 @@ export class EditProfileComponent implements OnInit {
   }
 
   ngOnInit() {
-    const successfnEmployee = (response) => { this.employee = response; this.toast.success("", ""); console.log(response); console.log(this.employee); };
-    const successfnTeams = (response) => { this.teams = response; this.toast.success("", ""); console.log(response); console.log(this.teams); };
-    const successfnJobTitles = (response) => { this.jobTitles = response; this.toast.success("", ""); console.log(this.jobTitles); };
-    const successfnEmployeeStatus = (response) => { this.employeeStatuses = response; this.toast.success("", ""); console.log(response); console.log(this.employeeStatuses); };
+    const successfnEmployee = (response) => { 
+      this.employee = response; 
+      this.toast.success("", ""); 
+      console.log(response); 
+      console.log(this.employee); 
+    };
+    const successfnTeams = (response) => { 
+      this.teams = response; 
+      this.toast.success("", ""); 
+      console.log(response); 
+      console.log(this.teams); 
+    };
+    const successfnJobTitles = (response) => { 
+      this.jobTitles = response; 
+      this.toast.success("", ""); 
+      console.log(response); 
+      console.log(this.jobTitles); 
+    };
+    const successfnEmployeeStatus = (response) => { 
+      this.employeeStatuses = response; 
+      this.toast.success("", ""); 
+      console.log(response); 
+      console.log(this.employeeStatuses); 
+    };
 
     const errorfn = () => { };
     const completefn = () => { };

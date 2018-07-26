@@ -49,6 +49,28 @@ namespace Vacations.API.Controllers
             return Ok(employeeDto);
         }
 
+        // PUT: api/Employees/5
+        [Authorize(Roles = "Admin")]
+        [HttpPut]
+        public async Task<IActionResult> PutEmployee([FromBody] EmployeeDto employeeDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            try
+            {
+                await _employeesService.PutAsync(employeeDto);
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+
+            return NoContent();
+        }
+
         //    // GET: api/Employees
         //    [Authorize(Roles = "Admin")]
         //    [HttpGet("all")]
@@ -76,42 +98,6 @@ namespace Vacations.API.Controllers
         //        }
 
         //        return Ok(employee);
-        //    }
-
-        //    // PUT: api/Employees/5
-        //    [Authorize(Roles = "Admin")]
-        //    [HttpPut("{id}")]
-        //    public async Task<IActionResult> PutEmployee([FromRoute] Guid id, [FromBody] Employee employee)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-
-        //        if (id != employee.EmployeeId)
-        //        {
-        //            return BadRequest();
-        //        }
-
-        //        _context.Entry(employee).State = EntityState.Modified;
-
-        //        try
-        //        {
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateConcurrencyException)
-        //        {
-        //            if (!EmployeeExists(id))
-        //            {
-        //                return NotFound();
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-
-        //        return NoContent();
         //    }
 
         //    //TODO: Сделать без id
