@@ -19,6 +19,7 @@ import { MainRoutes } from './main.routes';
 import { EditProfileComponent } from './components/edit-profile/edit-profile.component';
 import { MyFirstInterceptor } from '../app.service';
 import { AddNewTeamComponent } from './components/add-new-team/add-new-team.component';
+import { EditTeamProfileComponent } from './components/edit-team-profile/edit-team-profile.component';
 
 @NgModule({
   imports: [
@@ -38,7 +39,8 @@ import { AddNewTeamComponent } from './components/add-new-team/add-new-team.comp
     EditProfileComponent,
     MyVacationsComponent,
     ProfileComponent,
-    AddNewTeamComponent
+    AddNewTeamComponent,
+    EditTeamProfileComponent
   ],
   providers: [
     ProfileService,
