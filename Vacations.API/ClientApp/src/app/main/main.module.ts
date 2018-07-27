@@ -85,6 +85,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatTreeModule,
   ]
 })
+
 export class DemoMaterialModule { }
 
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
@@ -109,8 +110,6 @@ import { ListOfTeamsComponent } from './components/list-of-teams/list-of-teams.c
 import { EditService } from './services/edit.service';
 import { MatChipsModule, MatIconModule } from '../../../node_modules/@angular/material';
 import { VacationRequestComponent } from './components/request-vacation/vacation-request/vacation-request.component';
-
-
 
 @NgModule({
   imports: [
@@ -140,13 +139,11 @@ import { VacationRequestComponent } from './components/request-vacation/vacation
     MyVacationsComponent,
     ProfileComponent,
     AddNewTeamComponent,
-    EditTeamProfileComponent,
     ListOfVacationRequestsComponent,
     ListOfTeamsComponent,
-    VacationRequestComponent
+    VacationRequestComponent,
+    EditTeamProfileComponent
   ],
-  entryComponents: [EditTeamProfileComponent],
-  bootstrap: [EditTeamProfileComponent],
   providers: [
     ProfileService,
     VacationService,
@@ -155,4 +152,3 @@ import { VacationRequestComponent } from './components/request-vacation/vacation
 
 })
 export class MainModule { }
-platformBrowserDynamic().bootstrapModule(MainModule);
