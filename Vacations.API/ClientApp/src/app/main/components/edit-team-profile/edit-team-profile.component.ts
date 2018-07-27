@@ -1,6 +1,6 @@
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
-import {Component} from '@angular/core';
-import {MatChipInputEvent} from '@angular/material';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { Component } from '@angular/core';
+import { MatChipInputEvent } from '@angular/material';
 
 export interface User {
   name: string;
@@ -12,17 +12,16 @@ export interface User {
   styleUrls: ['./edit-team-profile.component.scss']
 })
 
-export class EditTeamProfileComponent{
-
+export class EditTeamProfileComponent {
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
-  users:  User[] = [
-    {name: 'Andrew Doubt'},
-    {name: 'Sergio Kapa'},
-    {name: 'Sara Konor'},
+  users: User[] = [
+    { name: 'Markiz de Saad' },
+    { name: 'Harry Potter' },
+    { name: 'Sara Konor' },
   ];
 
   add(event: MatChipInputEvent): void {
@@ -31,7 +30,7 @@ export class EditTeamProfileComponent{
 
     // Add our user
     if ((value || '').trim()) {
-      this.users.push({name: value.trim()});
+      this.users.push({ name: value.trim() });
     }
 
     // Reset the input value
