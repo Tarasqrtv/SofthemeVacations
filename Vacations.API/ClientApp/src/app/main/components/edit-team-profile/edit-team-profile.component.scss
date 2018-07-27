@@ -1,27 +1,26 @@
-.chip-list {
+.mat-chip-list {
   width: 100%;
 }
 .mat-chip{
   background: transparent;
-  border-left: 1px solid  #667DE9;
-  border-right: 1px solid purple;
   border-radius: 4px;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
+  border-right: 1px solid#764CA4;
   box-sizing: border-box;
   background-position: 0 0, 0 100%;
   background-repeat: no-repeat;
-  -webkit-background-size: 100% 1px;
-  -moz-background-size: 100% 1px;
-  background-size: 100% 1px;
-  background-image: -webkit-linear-gradient(left,  #667DE9, #764CA4), -webkit-linear-gradient(left,  #667DE9, #764CA4);
-  background-image: -moz-llinear-gradient(left, #667DE9, #764CA4), -moz-linear-gradient(left,  #667DE9, #764CA4);
-  background-image: -o-linear-gradient(left,  #667DE9, #764CA4), -o-linear-gradient(left,  #667DE9,#764CA4);
-  background-image: linear-gradient(to right,  #667DE9, #764CA4), llinear-gradient(to right,  #667DE9, #764CA4);
-  color:white;
+  background-size: cover;
+  background-image: url('../../../../assets/gragientbox.svg');
+  color: white;
+}
+.mychips{
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  padding: 10px;
+  width: 500px;
 }
 .container{
   margin-top: 15px;
+
 
   .table{
     background-color: #2E2E2E;
@@ -40,7 +39,7 @@
     td{
       border-top: 0;
       border-right: 1px solid #dee2e6;
-      width:33%;
+
       padding-right: 30px;
       padding-left: 30px;
 

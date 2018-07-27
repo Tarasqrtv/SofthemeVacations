@@ -11,20 +11,17 @@ import { ProfileService } from '../../../services/profile.service';
 
 export class MyProfileComponent implements OnInit {
   title = 'profile';
-  
   employee: Profile = <Profile>{};
-  
   constructor(private service: ProfileService, private router: Router) { }
-
-  toEdit()
-  {
-    this.router.navigate(["main/edit-profile"]);
+  toEdit() {
+    this.router.navigate(['main/edit-profile']);
   }
 
   ngOnInit() {
-    this.service.getProfile().subscribe(response => {this.employee = response;
-    console.log(this.employee);
-    console.log(response);
+    this.service.getProfile().subscribe(response => {
+      this.employee = response;
+      console.log(this.employee);
+      console.log(response);
     });
   }
 }
