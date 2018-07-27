@@ -95,7 +95,7 @@ import { VacationService } from './services/vacation.service';
 
 import { MyProfileComponent } from './components/profile/my-profile/my-profile.component';
 import { TopNavigationComponent } from './components/top-navigation/top-navigation.component';
-import { VacationRequestComponent } from './components/vacation-request/vacation-request.component';
+import { RequestVacationComponent } from './components/request-vacation/request-vacation.component';
 import { MyVacationsComponent } from './components/profile/my-vacations/my-vacations.component';
 import { BannerComponent } from './components/profile/banner/banner.component';
 import { ProfileComponent } from './components/profile/profile.component';
@@ -108,6 +108,9 @@ import { ListOfVacationRequestsComponent } from './components/list-of-vacation-r
 import { ListOfTeamsComponent } from './components/list-of-teams/list-of-teams.component';
 import { EditService } from './services/edit.service';
 import { MatChipsModule, MatIconModule } from '../../../node_modules/@angular/material';
+import { VacationRequestComponent } from './components/request-vacation/vacation-request/vacation-request.component';
+
+
 
 @NgModule({
   imports: [
@@ -132,14 +135,15 @@ import { MatChipsModule, MatIconModule } from '../../../node_modules/@angular/ma
     MainComponent,
     MyProfileComponent,
     TopNavigationComponent,
-    VacationRequestComponent,
+    RequestVacationComponent,
     EditProfileComponent,
     MyVacationsComponent,
     ProfileComponent,
     AddNewTeamComponent,
     EditTeamProfileComponent,
     ListOfVacationRequestsComponent,
-    ListOfTeamsComponent
+    ListOfTeamsComponent,
+    VacationRequestComponent
   ],
   entryComponents: [EditTeamProfileComponent],
   bootstrap: [EditTeamProfileComponent],

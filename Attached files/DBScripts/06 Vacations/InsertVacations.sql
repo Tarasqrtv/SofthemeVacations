@@ -105,3 +105,21 @@ SELECT
 	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
 	'Vacation',
 	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
+
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
+SELECT 
+	NEWID(),
+	GETDATE() + 100,
+	GETDATE() + 110,
+	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'InProcess'),
+	'Vacation',
+	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
+
+INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
+SELECT 
+	NEWID(),
+	GETDATE() + 100,
+	GETDATE() + 110,
+	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'InProcess'),
+	'Vacation',
+	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')

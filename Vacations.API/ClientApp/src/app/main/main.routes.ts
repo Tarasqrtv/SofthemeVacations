@@ -7,6 +7,7 @@ import { ListOfVacationRequestsComponent } from './components/list-of-vacation-r
 import { AddNewTeamComponent } from './components/add-new-team/add-new-team.component';
 import { EditTeamProfileComponent } from './components/edit-team-profile/edit-team-profile.component';
 import { ListOfTeamsComponent } from './components/list-of-teams/list-of-teams.component';
+import { RequestVacationComponent } from './components/request-vacation/request-vacation.component';
 
 export const MainRoutes: Routes = [
     {
@@ -18,7 +19,8 @@ export const MainRoutes: Routes = [
             { path: 'add-new-team', component: AddNewTeamComponent },
             { path: 'edit-team', component: EditTeamProfileComponent },
             { path: 'edit-profile', component: EditProfileComponent },
-            { path: 'list-of-teams', component: ListOfTeamsComponent}
+            { path: 'list-of-teams', component: ListOfTeamsComponent},
+            { path: 'request-vacation', component: RequestVacationComponent }  
         ]
     }
 ];

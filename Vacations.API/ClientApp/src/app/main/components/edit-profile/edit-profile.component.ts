@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { EditService } from '../../services/edit.service';
-import { Profile } from '../profile/my-profile/profile.model';
 import { Employee } from './models/employee.model';
 import { Team } from './models/team.model';
 import { JobTitle } from './models/job-title.model';

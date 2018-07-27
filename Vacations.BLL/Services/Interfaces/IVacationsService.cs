@@ -14,5 +14,7 @@ namespace Vacations.BLL.Services
 
         IEnumerable<VacationDto> Get();
         IEnumerable<VacationDto> GetByEmployeeId(Guid idGuid);
+
+        Task<int> PostAsync(VacationDto employeeDto);
     }
 }
