@@ -76,3 +76,34 @@ form {
     background: linear-gradient(to right, #667DE9, #764CA4);
   }
 }
+.vacation-calendar {
+
+  h3 {
+      text-align: center;
+      div {
+          display: inline-block;
+          width: 300px;
+      }
+  }
+  .date {
+      font-size: 20px;
+  }
+  .prev-month-date,
+  .next-month-date {
+      color: #878787;
+  } // table
+  div.table-container {
+      position: relative;
+      table.table tr td {
+          height: 85px;
+          border: 1px solid #878787;
+          width: 15.2%;
+      }
+      div.progress {
+          position: absolute;
+          left: 28.6%;
+          width: 28.6%;
+          background: linear-gradient(to right, #667DE9, #764CA4)
+      }
+  }
+}

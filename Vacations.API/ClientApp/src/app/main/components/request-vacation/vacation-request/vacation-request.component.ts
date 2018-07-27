@@ -7,7 +7,7 @@ import { Location } from '@angular/common';
   styleUrls: ['./vacation-request.component.scss']
 })
 export class VacationRequestComponent implements OnInit {
-
+  // startDate = new Date(1990, 0, 1);
   constructor(private location: Location) { }
 
   cancel() {

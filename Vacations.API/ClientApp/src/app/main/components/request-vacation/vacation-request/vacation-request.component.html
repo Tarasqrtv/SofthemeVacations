@@ -2,7 +2,7 @@
   <h3>Vacation Request</h3>
 
   <div class="details">
-    <div>
+    <form>
       <div class="left">
         <div class="form-group">
           <label for="vacation_type">vacation type</label>
@@ -15,7 +15,7 @@
           <label for="comment">Comment:</label>
           <textarea class="form-control" rows="5" id="comment"></textarea>
         </div>
-        <button class="btn btn-outline-secondary" style="width: 60%; float: right;" (click) = "cancel()">CANCEL</button>
+        <button class="btn btn-outline-secondary" style="width: 60%; float: right;" (click)="cancel()">CANCEL</button>
       </div>
       <div class="right">
         <div class="form-group">
@@ -24,7 +24,13 @@
         </div>
         <div class="form-group">
           <label for="to">to</label>
-          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="to" placeholder="XX/XX/XXXX">
+          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker startView="year" ></mat-datepicker>
+            </mat-form-field>
+          </div>
         </div>
         <div class="form-group">
           <label for="am">amount</label>
@@ -36,6 +42,6 @@
         <button class="btn btn-primary btn-block">SEND REQUEST</button>
       </div>
       <div class="clearfix"></div>
-    </div>
+    </form>
   </div>
 </div>

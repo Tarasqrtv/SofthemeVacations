@@ -3,14 +3,14 @@
     <table class="table">
       <thead class="thead-dark">
         <tr>
-          <td colspan="3"> Edite Profile</td>
+          <td colspan="3">Add New Employee</td>
         </tr>
       </thead>
       <tbody>
         <tr>
           <td>
             <img src="../../../../assets/user profile icon.svg" class="user-photo float-left" />
-            <button type="button" class="btn btn-outline-primary float-right ">EDIT PHOTO</button>
+            <button type="button" class="btn btn-outline-primary float-right ">ADD PHOTO</button>
           </td>
           <td class="kostil">
             <label for="bday">date of birth</label>
@@ -57,9 +57,9 @@
           <td>
             <label for="sel1">job title:</label>
             <select class="form-control" id="sel1">
-                <option *ngFor="let item of jobTitles">
-                    {{item.Name}}
-                </option>
+              <option *ngFor="let item of jobTitles">
+                {{item.Name}}
+              </option>
             </select>
           </td>
           <td class="kostil">
@@ -99,10 +99,10 @@
             <input type="number" class="form-control" id="sel1" placeholder=" {{employee.Balance | number}} ">
           </td>
           <td class="kostil">
-            <button type="button" class="btn btn-outline-secondary float-right" (click) = "cancel()">CANCEL</button>
+            <button type="button" class="btn btn-outline-secondary float-right" (click)="cancel()">CANCEL</button>
           </td>
           <td>
-            <button type="submit" class="btn btn-outline-secondary">Save Changes</button>
+            <button type="submit" class="btn btn-outline-secondary">DONE</button>
           </td>
         </tr>
       </tbody>
