@@ -85,6 +85,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     MatTreeModule,
   ]
 })
+
 export class DemoMaterialModule { }
 import { MatChipsModule, MatIconModule } from '../../../node_modules/@angular/material';
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
@@ -107,12 +108,10 @@ import { EditTeamProfileComponent } from './components/edit-team-profile/edit-te
 import { ListOfVacationRequestsComponent } from './components/list-of-vacation-requests/list-of-vacation-requests.component';
 import { ListOfTeamsComponent } from './components/list-of-teams/list-of-teams.component';
 import { EditService } from './services/edit.service';
-
 import { VacationRequestComponent } from './components/request-vacation/vacation-request/vacation-request.component';
 import { ListOfEmployeesComponent } from './components/list-of-employees/list-of-employees.component';
 import { AddNewEmployeeComponent} from './components/add-new-employee/add-new-employee.component';
 import { TeamCalendarComponent } from './components/team-calendar/team-calendar.component';
-
 
 @NgModule({
   imports: [
@@ -142,13 +141,13 @@ import { TeamCalendarComponent } from './components/team-calendar/team-calendar.
     MyVacationsComponent,
     ProfileComponent,
     AddNewTeamComponent,
-    EditTeamProfileComponent,
     ListOfVacationRequestsComponent,
     ListOfTeamsComponent,
     VacationRequestComponent,
     ListOfEmployeesComponent,
     AddNewEmployeeComponent,
-    TeamCalendarComponent
+    TeamCalendarComponent,
+     EditTeamProfileComponent
   ],
   providers: [
     ProfileService,
