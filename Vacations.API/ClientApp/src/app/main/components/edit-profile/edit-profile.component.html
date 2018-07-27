@@ -28,39 +28,38 @@
         <tr>
           <td>
             <label for="usr">name</label>
-            <input type="text" class="form-control" id="usr" placeholder="Name">
+            <input type="text" class="form-control" id="usr" value="{{ employee.Name }}">
           </td>
           <td class="kostil">
             <label for="email">personal mail</label>
-            <input type="email" class="form-control" id="email" placeholder="example@mail.com">
+            <input type="email" class="form-control" id="email" value="{{employee.PersonalEmail}}">
           </td>
           <td>
             <label for="em">work mail</label>
-            <input type="email" class="form-control" id="em" placeholder="example@mail.com">
+            <input type="email" class="form-control" id="em" value="{{ employee.WorkEmail}}">
           </td>
         </tr>
         <tr>
           <td>
             <label for="srnm">surname</label>
-            <input type="text" class="form-control" id="srnm" placeholder="Surname">
+            <input type="text" class="form-control" id="srnm" value="{{ employee.Surname}} ">
           </td>
           <td class="kostil">
             <label for="phnmbr">phone number</label>
-            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" placeholder="+380 00 000 00 00">
+            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" value="+{{employee.TelephoneNumber}}">
           </td>
           <td>
             <label for="skp">skype</label>
-            <input type="text" class="form-control" id="skp" placeholder="Skype">
+            <input type="text" class="form-control" id="skp" value="{{employee.Skype}}">
           </td>
         </tr>
         <tr>
           <td>
             <label for="sel1">job title:</label>
-            <select class="form-control" id="sel1" placeholder="Job Title">
-              <option>Senior</option>
-              <option>Junior</option>
-              <option>I am best of the best</option>
-              <option>luzer</option>
+            <select class="form-control" id="sel1">
+                <option *ngFor="let item of jobTitles">
+                    {{item.Name}}
+                </option>
             </select>
           </td>
           <td class="kostil">
@@ -83,18 +82,21 @@
           <td class="kostil">
             <label for="tnm">team name</label>
             <select class="form-control" id="tnm">
-              <option>Team Name</option>
+              <option> None </option>  
+              <option *ngFor="let item of teams" selected> 
+                {{item.Name}}
+              </option>                
             </select>
           </td>
           <td>
             <label for="tnml">team leader</label>
-            <input class="form-control" value="Oleksa" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;">
+            <input class="form-control" value="Oleksa" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" placeholder="{{employee.TeamLead}} ">
           </td>
         </tr>
         <tr>
           <td>
             <label for="sel1">day in vacation:</label>
-            <input type="number" class="form-control" id="sel1" placeholder="">
+            <input type="number" class="form-control" id="sel1" placeholder=" {{employee.Balance | number}} ">
           </td>
           <td class="kostil">
             <button type="button" class="btn btn-outline-secondary float-right" (click) = "cancel()">CANCEL</button>
