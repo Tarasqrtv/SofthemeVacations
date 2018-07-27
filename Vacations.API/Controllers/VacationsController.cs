@@ -71,6 +71,14 @@ namespace Vacations.API.Controllers
                 return BadRequest(ModelState);
             }
 
+            var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+
+            var userDto = _usersService.GetByEmail(currentUserEmail);
+
+            var userModel = _mapper.Map<UserDto, UserModel>(userDto);
+
+            vacationsDto.EmployeeId = userModel.EmployeeId;
+
             try
             {
                 await _vacationsService.PostAsync(vacationsDto);
