@@ -30,7 +30,7 @@ namespace Vacations.API
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
 
-            //builder.AddApplicationInsightsSettings(developerMode: true);
+            builder.AddApplicationInsightsSettings(developerMode: true);
             Configuration = builder.Build();
         }
 
