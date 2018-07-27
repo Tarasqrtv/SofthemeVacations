@@ -5,6 +5,7 @@ import { ToastrService } from '../../../node_modules/ngx-toastr';
 
 import { AuthService } from './auth.service';
 import { User } from './auth.model';
+import { environment } from '../../environments/environment';
 
 const requestUrl = '/api/auth/token';
 
@@ -23,6 +24,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
   constructor(private service: AuthService, private toaster: ToastrService, private router: Router) { }
 
   login() {
+    let requestUrl = environment.baseUrl + '/auth/token';
     this.service.get(requestUrl, this.user).subscribe(
       response => {
       this.serviceResponse = response;

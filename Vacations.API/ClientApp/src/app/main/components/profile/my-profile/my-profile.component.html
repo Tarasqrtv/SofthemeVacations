@@ -17,7 +17,7 @@
         </h3>
       <h4 *ngIf="employee.JobTitle; else jobTitle"> {{employee.JobTitle}} </h4>
       <div class="status">
-        <i class="icon-approved-request active"></i>active</div>
+        <i class="icon-approved-request active"></i> {{employee.EmployeeStatus}} </div>
     </div>
     <div class="clearfix"></div>
   </div>
@@ -30,7 +30,7 @@
       <dt>personal email</dt>
       <dl> 
         <p *ngIf="employee.WorkEmail; else PersEmail">
-            {{ employee.WorkEmail}}
+            {{ employee.PersonalEmail}}
         </p>
       </dl>
 
