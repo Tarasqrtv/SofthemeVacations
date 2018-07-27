@@ -11,8 +11,5 @@ namespace Vacations.BLL.Models
         public Guid? VacationStatusId { get; set; }
         public string Comment { get; set; }
         public Guid? EmployeeId { get; set; }
-
-        public EmployeeDto Employee { get; set; }
-        public VacationStatusDto VacationStatus { get; set; }
     }
 }

@@ -30,6 +30,13 @@ namespace Vacations.API.Controllers
             _employeesService = employeesService;
         }
 
+        [Authorize(Roles = "Admin")]
+        [HttpGet]
+        public IEnumerable<Employee> Get()
+        {
+            return _employeesService.Get();
+        }
+
         [Authorize]
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentEmployee()
@@ -71,91 +78,26 @@ namespace Vacations.API.Controllers
             return NoContent();
         }
 
-        //    // GET: api/Employees
-        //    [Authorize(Roles = "Admin")]
-        //    [HttpGet("all")]
-        //    public IEnumerable<Employee> GetEmployee()
-        //    {
-        //        return _context.Employee;
-        //    }
+        // POST: api/Employees
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public async Task<IActionResult> PostEmployee([FromBody] EmployeeDto employeeDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    // GET: api/Employees/5
-        //    [Authorize(Roles = "Admin")]
-        //    [HttpGet("{id}")]
-        //    public async Task<IActionResult> GetEmployee([FromRoute] Guid id)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
+            try
+            {
+                await _employeesService.PostAsync(employeeDto);
+            }
+            catch (DbUpdateException e)
+            {
+                return BadRequest(e.Message);
+            }
 
-        //        var employee = await _context.Employee.Include(i => i.JobTitle).Include(i => i.EmployeeStatus)
-        //                                .FirstOrDefaultAsync(i => i.EmployeeId == id);
-
-        //        if (employee == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        return Ok(employee);
-        //    }
-
-        //    //TODO: Сделать без id
-        //    // POST: api/Employees
-        //    [Authorize(Roles = "Admin")]
-        //    [HttpPost("{id}")]
-        //    public async Task<IActionResult> PostEmployee([FromBody] Employee employee)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-
-        //        _context.Employee.Add(employee);
-        //        try
-        //        {
-        //            await _context.SaveChangesAsync();
-        //        }
-        //        catch (DbUpdateException)
-        //        {
-        //            if (EmployeeExists(employee.EmployeeId))
-        //            {
-        //                return new StatusCodeResult(StatusCodes.Status409Conflict);
-        //            }
-        //            else
-        //            {
-        //                throw;
-        //            }
-        //        }
-
-        //        return CreatedAtAction("GetEmployee", new { id = employee.EmployeeId }, employee);
-        //    }
-
-        //    // DELETE: api/Employees/5
-        //    [Authorize(Roles = "Admin")]
-        //    [HttpDelete("employee/{id}")]
-        //    public async Task<IActionResult> DeleteEmployee([FromRoute] Guid id)
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return BadRequest(ModelState);
-        //        }
-
-        //        var employee = await _context.Employee.FindAsync(id);
-        //        if (employee == null)
-        //        {
-        //            return NotFound();
-        //        }
-
-        //        _context.Employee.Remove(employee);
-        //        await _context.SaveChangesAsync();
-
-        //        return Ok(employee);
-        //    }
-
-        //    private bool EmployeeExists(Guid id)z
-        //    {
-        //        return _context.Employee.Any(e => e.EmployeeId == id);
-        //    }
+            return Ok();
+        }
     }
 }

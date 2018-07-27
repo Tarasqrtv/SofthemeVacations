@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -20,6 +21,13 @@ namespace Vacations.BLL.Services
         {
             _mapper = mapper;
             _context = context;
+        }
+
+        //TODO: Employee to EmployeeDTO
+        public IEnumerable<Employee> Get()
+        {
+            var employees = _context.Employee;
+            return employees;
         }
 
         public EmployeeDto GetById(Guid id)
@@ -51,7 +59,7 @@ namespace Vacations.BLL.Services
                      TeamLeadId = e.EmployeeTeam.Select(t => t.Team.TeamLeadId).FirstOrDefault()
                  })
                  .FirstOrDefault();
-
+            
         }
 
         public async Task<EmployeeDto> GetByIdAsync(Guid id)
@@ -101,6 +109,28 @@ namespace Vacations.BLL.Services
             employee.Result.Balance = employeeDto.Balance;
 
             _context.Employee.Update(employee.Result);
+            return await _context.SaveChangesAsync();
+        }
+
+        public async Task<int> PostAsync(EmployeeDto employeeDto)
+        {
+            var employee = new Employee
+            {
+                EmployeeId = Guid.NewGuid(),
+                Name = employeeDto.Name,
+                Surname = employeeDto.Surname,
+                WorkEmail = employeeDto.WorkEmail,
+                TelephoneNumber = employeeDto.TelephoneNumber,
+                Birthday = employeeDto.Birthday,
+                Skype = employeeDto.Skype,
+                StartDate = employeeDto.StartDate,
+                EmployeeStatusId = employeeDto.EmployeeStatusId,
+                EndDate = employeeDto.EndDate,
+                JobTitleId = employeeDto.JobTitleId,
+                Balance = employeeDto.Balance
+            };
+            
+            await _context.Employee.AddAsync(employee);
             return await _context.SaveChangesAsync();
         }
     }

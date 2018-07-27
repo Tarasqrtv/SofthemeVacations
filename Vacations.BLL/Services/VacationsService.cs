@@ -51,5 +51,21 @@ namespace Vacations.BLL.Services
         //    var vacations = await _context.Vacation.FromSv => v.EmployeeId == idGuid);
         //    return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         //}
+
+        public async Task<int> PostAsync(VacationDto vacationDto)
+        {
+            var vacation = new Vacation
+            {
+                VacationId = Guid.NewGuid(),
+                StartVocationDate = vacationDto.StartVocationDate,
+                EndVocationDate = vacationDto.EndVocationDate,
+                VacationStatusId = vacationDto.VacationStatusId,
+                Comment = vacationDto.Comment,
+                EmployeeId = vacationDto.EmployeeId,
+            };
+
+            await _context.Vacation.AddAsync(vacation);
+            return await _context.SaveChangesAsync();
+        }
     }
 }

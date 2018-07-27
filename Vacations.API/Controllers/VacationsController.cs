@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -31,15 +32,15 @@ namespace Vacations.API.Controllers
 
         // GET: api/Vacations
         [HttpGet]
-        public IEnumerable<VacationModel> GetVacation()
+        public IEnumerable<VacationDto> GetVacation()
         {
             var vacations = _vacationsService.Get();
 
-            return _mapper.Map<IEnumerable<VacationDto>,IEnumerable <VacationModel>>(vacations);
+            return _mapper.Map<IEnumerable<VacationDto>,IEnumerable <VacationDto>>(vacations);
         }
 
         [HttpGet("employee")]
-        public IEnumerable<VacationModel> GetVacationByCurrentEmployee()
+        public IEnumerable<VacationDto> GetVacationByCurrentEmployee()
         {
             var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
 
@@ -49,124 +50,37 @@ namespace Vacations.API.Controllers
 
             var vacations = _vacationsService.GetByEmployeeId(userModel.EmployeeId);
 
-            return _mapper.Map<IEnumerable<VacationDto>, IEnumerable<VacationModel>>(vacations);
+            return _mapper.Map<IEnumerable<VacationDto>, IEnumerable<VacationDto>>(vacations);
         }
 
         [HttpGet("employee/{id}")]
-        public IEnumerable<VacationModel> GetVacationByEmployeeId([FromRoute] Guid id)
+        public IEnumerable<VacationDto> GetVacationByEmployeeId([FromRoute] Guid id)
         {
             var vacations = _vacationsService.GetByEmployeeId(id);
 
-            return _mapper.Map<IEnumerable<VacationDto>, IEnumerable<VacationModel>>(vacations);
+            return _mapper.Map<IEnumerable<VacationDto>, IEnumerable<VacationDto>>(vacations);
         }
 
-        //// GET: api/Vacations/5
-        //[HttpGet("{id}")]
-        //public async Task<IActionResult> GetVacation([FromRoute] Guid id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
+        // POST: api/Employees
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> PostEmployee([FromBody] VacationDto vacationsDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
-        //    var vacation = await _context.Vacation.FindAsync(id);
+            try
+            {
+                await _vacationsService.PostAsync(vacationsDto);
+            }
+            catch (DbUpdateException e)
+            {
+                return BadRequest(e.Message);
+            }
 
-        //    if (vacation == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    return Ok(vacation);
-        //}
-
-        //// PUT: api/Vacations/5
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> PutVacation([FromRoute] Guid id, [FromBody] Vacation vacation)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    if (id != vacation.VacationId)
-        //    {
-        //        return BadRequest();
-        //    }
-
-        //    _context.Entry(vacation).State = EntityState.Modified;
-
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateConcurrencyException)
-        //    {
-        //        if (!VacationExists(id))
-        //        {
-        //            return NotFound();
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return NoContent();
-        //}
-
-        //// POST: api/Vacations
-        //[HttpPost]
-        //public async Task<IActionResult> PostVacation([FromBody] Vacation vacation)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    _context.Vacation.Add(vacation);
-        //    try
-        //    {
-        //        await _context.SaveChangesAsync();
-        //    }
-        //    catch (DbUpdateException)
-        //    {
-        //        if (VacationExists(vacation.VacationId))
-        //        {
-        //            return new StatusCodeResult(StatusCodes.Status409Conflict);
-        //        }
-        //        else
-        //        {
-        //            throw;
-        //        }
-        //    }
-
-        //    return CreatedAtAction("GetVacation", new { id = vacation.VacationId }, vacation);
-        //}
-
-        //// DELETE: api/Vacations/5
-        //[HttpDelete("{id}")]
-        //public async Task<IActionResult> DeleteVacation([FromRoute] Guid id)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return BadRequest(ModelState);
-        //    }
-
-        //    var vacation = await _context.Vacation.FindAsync(id);
-        //    if (vacation == null)
-        //    {
-        //        return NotFound();
-        //    }
-
-        //    _context.Vacation.Remove(vacation);
-        //    await _context.SaveChangesAsync();
-
-        //    return Ok(vacation);
-        //}
-
-        //private bool VacationExists(Guid id)
-        //{
-        //    return _context.Vacation.Any(e => e.VacationId == id);
-        //}
+            return Ok();
+        }
     }
 }
