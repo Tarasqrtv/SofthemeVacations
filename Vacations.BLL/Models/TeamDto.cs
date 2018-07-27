@@ -8,8 +8,5 @@ namespace Vacations.BLL.Models
         public Guid TeamId { get; set; }
         public Guid? TeamLeadId { get; set; }
         public string Name { get; set; }
-
-        public EmployeeDto TeamLead { get; set; }
-        public ICollection<EmployeeTeamDto> EmployeeTeam { get; set; }
     }
 }

@@ -12,8 +12,11 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
 using System.Buffers;
+using System.Reflection;
 using AutoMapper;
 using Microsoft.Extensions.Logging;
+using NJsonSchema;
+using NSwag.AspNetCore;
 using Vacations.API.Infrastructure;
 using Vacations.BLL.Services;
 using Vacations.DAL.Models;
@@ -92,6 +95,12 @@ namespace Vacations.API
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.UseCors("AllowAllOrigins");
+
+            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            {
+                settings.GeneratorSettings.DefaultPropertyNameHandling =
+                    PropertyNameHandling.CamelCase;
+            });
 
             app.UseAuthentication();
 
