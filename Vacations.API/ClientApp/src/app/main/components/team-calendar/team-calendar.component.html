@@ -1,0 +1,30 @@
+<div class="comp-container vacation-calendar">
+
+  <h3>
+    <button (click)="btnPrevClick()">&lt;</button>
+    <div>{{ currentDate | date:'MMMM yyyy' }}</div>
+    <button (click)="btnNextClick()">&gt;</button>
+  </h3>
+
+  <div class="details">
+    <div class="table-container">
+      <table class="table" #calendar>
+        <thead>
+          <td>Monday</td>
+          <td>Tuesday</td>
+          <td>Wednesday</td>
+          <td>Thursday</td>
+          <td>Friday</td>
+          <td>Saturday</td>
+          <td>Sunday</td>
+        </thead>
+        <tbody>
+        </tbody>
+      </table>
+      <div *ngFor="let user of vacationsList; let i = index" class="progress" [ngStyle]="{'top': 100 + i * 20 + 'px'}">
+        {{ user.name }}
+      </div>
+    </div>
+
+  </div>
+</div>

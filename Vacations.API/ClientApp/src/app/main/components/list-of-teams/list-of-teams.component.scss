@@ -1,24 +1,25 @@
-.container{
-
-  padding-top: 30px;
-  color:  #222222;
-  width: 100%;
-
-  .table{
-
-      background-color:rgba(192, 192, 192, 0.1);
-      font-size: 14px;
-      color: white;
-      border-collapse: collapse;
-      border-radius: 10px;
-      border-style: hidden; /* hide standard table (collapsed) border */
-      box-shadow: 0 0 0 1px #666; /* this draws the table border  */
-      text-align: center;
-
-      .table-dark{
-        text-align: left;
-          border-top: 0;
-          border-radius: 10px 10px 0 0;
-      }
-  }
+.container {
+    padding-top: 30px;
+    color: #222222;
+    width: 100%;
+    .table {
+        background-color: rgba(192, 192, 192, 0.1);
+        font-size: 14px;
+        color: white;
+        border-collapse: collapse;
+        border-radius: 10px;
+        border-style: hidden;
+        /* hide standard table (collapsed) border */
+        box-shadow: 0 0 0 1px #666;
+        /* this draws the table border  */
+        text-align: center;
+        td {
+            width: 20%;
+        }
+        .table-dark {
+            text-align: left;
+            border-top: 0;
+            border-radius: 10px 10px 0 0;
+        }
+    }
 }
