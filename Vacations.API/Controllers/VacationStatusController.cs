@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vacations.BLL.Models;
@@ -16,14 +17,16 @@ namespace Vacations.API.Controllers
     [ApiController]
     public class VacationStatusController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IUsersService _usersService;
+        private readonly UserManager<User> _userManager;
         private readonly IVacationStatusService _vacationStatusService;
 
-        public VacationStatusController(IMapper mapper, IUsersService usersService, IVacationStatusService vacationStatusService)
+        public VacationStatusController(
+            IMapper mapper, 
+            UserManager<User> userManager,
+            IVacationStatusService vacationStatusService
+            )
         {
-            _mapper = mapper;
-            _usersService = usersService;
+            _userManager = userManager;
             _vacationStatusService = vacationStatusService;
         }
 
