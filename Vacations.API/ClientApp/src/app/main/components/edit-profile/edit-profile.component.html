@@ -14,7 +14,7 @@
             </td>
             <td class="kostil">
               <label for="bday">date of birth</label>
-              <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control bg-name-field" placeholder="XX/XX/XXXX">
+              <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.Birthday">
             </td>
             <td>
               <label for="rol">Role</label>
@@ -64,11 +64,11 @@
             </td>
             <td class="kostil">
               <label for="bday">hire date</label>
-              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field"  value="{{date | date:'yyyy-MM-dd'}}">
+              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.StartDate" >
             </td>
             <td>
               <label for="bday">date disminssal</label>
-              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field"   value="{{date | date:'yyyy-MM-dd'}}">
+              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field"   [(ngModel)]="employee.EndDate">
             </td>
           </tr>
           <tr>
