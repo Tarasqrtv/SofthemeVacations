@@ -13,6 +13,13 @@ export class VacationService {
         let requestUrl = environment.baseUrl + '/vacations/employee';
         return this.http.get<Vacation[]>(`${requestUrl}`);
     }
+
+    SendVacation(vacation: Vacation): Observable<Vacation> {
+        console.log("Service works");
+        let requestUrl = environment.baseUrl + '/vacations';
+        const data = JSON.stringify(vacation);
+        return this.http.put(requestUrl, data).map(() => vacation);
+    }
 }
 
    

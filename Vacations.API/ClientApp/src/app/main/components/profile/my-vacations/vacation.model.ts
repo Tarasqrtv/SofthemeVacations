@@ -7,4 +7,5 @@ export class Vacation {
     EmployeeId: string;
     Employee: string;
     VacationStatus: string;
+    VacationType: string;
 }
