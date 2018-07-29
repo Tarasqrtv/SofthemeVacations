@@ -1,0 +1,43 @@
+form.login-form {
+    padding: 0 30px 95px;
+
+    div.input-container {
+        margin-top: 40px;
+        margin-bottom: 63px;
+
+        .input-group {
+            position: relative;
+
+            input + div {
+                position: absolute;
+                z-index: 5;
+                overflow: hidden;
+            }
+        }
+    
+        input {
+            padding-left: 40px;
+            border-radius: 4px;
+            background-color:rgba(192, 192, 192, 0.1);
+            color: white;
+            border: 0;
+        }
+
+        i {
+            color: grey;
+            padding: 0 13px;
+            line-height: 34px;
+        }
+    }
+
+    button.btn-primary {
+        text-transform: uppercase;
+        background: linear-gradient(to right, skyblue -50%, purple 150%);
+        border: none;
+    }
+
+    button.btn-link {                
+        font-family: Muli-Bold;
+        outline: none;
+    }
+}
