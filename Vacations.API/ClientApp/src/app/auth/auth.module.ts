@@ -6,6 +6,7 @@ import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
 import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   imports: [
@@ -19,7 +20,8 @@ import { LoginComponent } from './login/login.component';
   ],
   providers: [AuthService],
   exports: [
-    LoginComponent
+    LoginComponent,
+    ResetPasswordComponent
   ]
 })
 export class AuthModule { }
