@@ -19,9 +19,8 @@ export class MyVacationsComponent implements OnInit {
       .subscribe(response => this.vacations = response);
   }
 
-  GetVacationBal(lastDate, startDate) {
-    let delta = lastDate - startDate;
-    return Math.round(delta / 1000 / 60 / 60/ 24);
-   }
-
+  ParseToDate(date){
+    let oneDate = new Date (date);
+    return oneDate;
   }
+}

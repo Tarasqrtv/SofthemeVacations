@@ -13,4 +13,9 @@ export class ProfileService {
         let requestUrl = environment.baseUrl + '/profile/current';
         return this.http.get<Profile>(`${requestUrl}`);
     }
+
+    getProfiles(): Observable<Profile[]> {
+        let requestUrl = environment.baseUrl + '/profile/current';
+        return this.http.get<Profile[]>(`${requestUrl}`);
+    }
 }

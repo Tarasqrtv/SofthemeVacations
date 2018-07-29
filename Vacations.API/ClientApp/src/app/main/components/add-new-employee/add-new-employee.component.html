@@ -28,29 +28,29 @@
         <tr>
           <td>
             <label for="usr">name</label>
-            <input type="text" class="form-control" id="usr" value="{{ employee.Name }}">
+            <input type="text" class="form-control" id="usr" [(ngModel)] = "employee.Name">
           </td>
           <td class="kostil">
             <label for="email">personal mail</label>
-            <input type="email" class="form-control" id="email" value="{{employee.PersonalEmail}}">
+            <input type="email" class="form-control" id="email"[(ngModel)]="employee.PersonalEmail">
           </td>
           <td>
             <label for="em">work mail</label>
-            <input type="email" class="form-control" id="em" value="{{ employee.WorkEmail}}">
+            <input type="email" class="form-control" id="em" [(ngModel)]="employee.WorkEmail">
           </td>
         </tr>
         <tr>
           <td>
             <label for="srnm">surname</label>
-            <input type="text" class="form-control" id="srnm" value="{{ employee.Surname}} ">
+            <input type="text" class="form-control" id="srnm" [(ngModel)]="employee.Surname">
           </td>
           <td class="kostil">
             <label for="phnmbr">phone number</label>
-            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" value="+{{employee.TelephoneNumber}}">
+            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" [(ngModel)]="employee.TelephoneNumber">
           </td>
           <td>
             <label for="skp">skype</label>
-            <input type="text" class="form-control" id="skp" value="{{employee.Skype}}">
+            <input type="text" class="form-control" id="skp" [(ngModel)]="employee.Skype">
           </td>
         </tr>
         <tr>
@@ -64,12 +64,12 @@
           </td>
           <td class="kostil">
             <label for="bday">hire date</label>
-            <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" placeholder="XX/XX/XXXX">
+            <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field"  value="{{date | date:'yyyy-MM-dd'}}" [(ngModel)]="employee.StartDate">
           </td>
-          <td>
-            <label for="bday">date disminssal</label>
-            <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" placeholder="Not Choosen">
-          </td>
+            <td>
+              <label for="bday">date disminssal</label>
+              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field"  value="{{date | date:'yyyy-MM-dd'}}"  [(ngModel)]="employee.EndDate">
+            </td>
         </tr>
         <tr>
           <td>
@@ -96,7 +96,7 @@
         <tr>
           <td>
             <label for="sel1">day in vacation:</label>
-            <input type="number" class="form-control" id="sel1" placeholder=" {{employee.Balance | number}} ">
+            <input type="number" class="form-control" id="sel1" [(ngModel)]="employee.Balance ">
           </td>
           <td class="kostil">
             <button type="button" class="btn btn-outline-secondary float-right" (click)="cancel()">CANCEL</button>
