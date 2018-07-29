@@ -5,6 +5,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
@@ -16,11 +17,17 @@ namespace Vacations.BLL.Services
     {
         private readonly IMapper _mapper;
         private readonly VacationsDbContext _context;
+        private readonly UserManager<User> _userManager;
 
-        public EmployeesService(VacationsDbContext context, IMapper mapper)
+        public EmployeesService(
+            VacationsDbContext context,
+            IMapper mapper,
+            UserManager<User> userManager
+            )
         {
             _mapper = mapper;
             _context = context;
+            _userManager = userManager;
         }
 
         //TODO: Employee to EmployeeDTO
@@ -32,65 +39,58 @@ namespace Vacations.BLL.Services
 
         public EmployeeDto GetById(Guid id)
         {
-            var employee = _context.Employee.Include(e => e.Team);
+            var employee = _context.Employee.FirstOrDefault(e => e.EmployeeId == id);
 
-            return employee.Where(e => e.EmployeeId == id)
-                 .Select(e => new EmployeeDto()
-                 {
-                     EmployeeId = e.EmployeeId,
-                     Name = e.Name,
-                     Surname = e.Surname,
-                     JobTitle = e.JobTitle.Name,
-                     EmployeeStatus = e.EmployeeStatus.Name,
-                     Birthday = e.Birthday,
-                     PersonalEmail = e.WorkEmail,
-                     WorkEmail = e.WorkEmail,
-                     TelephoneNumber = e.TelephoneNumber,
-                     Skype = e.Skype,
-                     StartDate = e.StartDate,
-                     EndDate = e.EndDate,
-                     TeamName = e.EmployeeTeam.Select(t => t.Team.Name).FirstOrDefault(),
-                     TeamLeadName = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name).FirstOrDefault(),
-                     TeamLeadSurname = e.EmployeeTeam.Select(t => t.Team.TeamLead.Surname).FirstOrDefault(),
-                     Balance = e.Balance,
-                     EmployeeStatusId = e.EmployeeStatusId,
-                     JobTitleId = e.JobTitleId,
-                     TeamId = e.EmployeeTeam.Select(t => t.Team.TeamId).FirstOrDefault(),
-                     TeamLeadId = e.EmployeeTeam.Select(t => t.Team.TeamLeadId).FirstOrDefault()
-                 })
-                 .FirstOrDefault();
-            
+            return new EmployeeDto()
+            {
+                EmployeeId = employee.EmployeeId,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                JobTitle = employee.JobTitle.Name,
+                EmployeeStatus = employee.EmployeeStatus.Name,
+                Birthday = employee.Birthday,
+                PersonalEmail = employee.PersonalEmail,
+                WorkEmail = employee.WorkEmail,
+                TelephoneNumber = employee.TelephoneNumber,
+                Skype = employee.Skype,
+                StartDate = employee.StartDate,
+                EndDate = employee.EndDate,
+                TeamName = employee.Team.Name,
+                TeamLeadName = employee.Team.TeamLead.Name,
+                TeamLeadSurname = employee.Team.TeamLead.Surname,
+                Balance = employee.Balance,
+                EmployeeStatusId = employee.EmployeeStatusId,
+                JobTitleId = employee.JobTitleId,
+                TeamId = employee.TeamId,
+                TeamLeadId = employee.Team.TeamLead.EmployeeId
+            };
         }
 
         public async Task<EmployeeDto> GetByIdAsync(Guid id)
         {
-            var employee = _context.Employee.Include(e => e.Team);
+            var employee = await _context.Employee.Include(e => e.Team.TeamLead).FirstOrDefaultAsync(e => e.EmployeeId == id);
 
-            return await employee.Where(e => e.EmployeeId == id)
-                .Select(e => new EmployeeDto()
-                {
-                    EmployeeId = e.EmployeeId,
-                    Name = e.Name,
-                    Surname = e.Surname,
-                    JobTitle = e.JobTitle.Name,
-                    EmployeeStatus = e.EmployeeStatus.Name,
-                    Birthday = e.Birthday,
-                    PersonalEmail = e.WorkEmail,
-                    WorkEmail = e.WorkEmail,
-                    TelephoneNumber = e.TelephoneNumber,
-                    Skype = e.Skype,
-                    StartDate = e.StartDate,
-                    EndDate = e.EndDate,
-                    TeamName = e.EmployeeTeam.Select(t => t.Team.Name).FirstOrDefault(),
-                    TeamLeadName = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name).FirstOrDefault(),
-                    TeamLeadSurname = e.EmployeeTeam.Select(t => t.Team.TeamLead.Surname).FirstOrDefault(),
-                    Balance = e.Balance,
-                    EmployeeStatusId = e.EmployeeStatusId,
-                    JobTitleId = e.JobTitleId,
-                    TeamId = e.EmployeeTeam.Select(t => t.Team.TeamId).FirstOrDefault(),
-                    TeamLeadId = e.EmployeeTeam.Select(t => t.Team.TeamLeadId).FirstOrDefault()
-                })
-                .FirstOrDefaultAsync();
+            return new EmployeeDto()
+            {
+                EmployeeId = employee.EmployeeId,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                Birthday = employee.Birthday,
+                PersonalEmail = employee.PersonalEmail,
+                WorkEmail = employee.WorkEmail,
+                TelephoneNumber = employee.TelephoneNumber,
+                Skype = employee.Skype,
+                StartDate = employee.StartDate,
+                EndDate = employee.EndDate,
+                TeamName = employee.Team.Name,
+                TeamLeadName = employee.Team.TeamLead.Name,
+                TeamLeadSurname = employee.Team.TeamLead.Surname,
+                Balance = employee.Balance,
+                EmployeeStatusId = employee.EmployeeStatusId,
+                JobTitleId = employee.JobTitleId,
+                TeamId = employee.TeamId,
+                TeamLeadId = employee.Team.TeamLead.EmployeeId
+            };
         }
 
         public async Task<int> PutAsync(EmployeeDto employeeDto)
@@ -129,9 +129,21 @@ namespace Vacations.BLL.Services
                 JobTitleId = employeeDto.JobTitleId,
                 Balance = employeeDto.Balance
             };
-            
+
             await _context.Employee.AddAsync(employee);
-            return await _context.SaveChangesAsync();
+
+            var user = new User
+            {
+                UserName = employeeDto.WorkEmail,
+                Email = employeeDto.WorkEmail,
+                EmployeeId = employee.EmployeeId
+            };
+
+            var result1 = await _context.SaveChangesAsync();
+            var result2 = await _userManager.CreateAsync(user, "asd123Q!");
+            var result3 = await _userManager.AddToRoleAsync(user, employeeDto.Role.FirstOrDefault());
+
+            return result1;
         }
     }
 }
