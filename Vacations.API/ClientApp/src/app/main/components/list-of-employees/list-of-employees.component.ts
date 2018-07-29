@@ -10,17 +10,11 @@ import { Router } from '@angular/router';
 })
 export class ListOfEmployeesComponent implements OnInit {
   employees: Profile[] = [];
+
   constructor(private service: ProfileService, private router: Router) { }
-  toEdit() {
-    this.router.navigate(['main/edit-profile']);
-  }
 
   ngOnInit() {
-    this.service.getProfiles().subscribe(response => {
-      this.employees = response;
-      console.log(this.employees);
-      console.log(response);
-    });
+    this.service.getEmployees() 
+      .subscribe(response => this.employees = response);
   }
-
 }

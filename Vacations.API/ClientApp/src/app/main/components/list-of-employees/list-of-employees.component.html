@@ -17,9 +17,9 @@
     <tbody>
       <tr *ngFor="let empl of employees">
         <td>{{empl.Name}} {{empl.Surname}} </td>
-        <td class="text-muted">+380 98 760 37 82</td>
-        <td class="text-muted">tarasvf@ukr.net</td>
-        <td>XX days</td>
+        <td class="text-muted"> {{empl.TelephoneNumber}} </td>
+        <td class="text-muted"> {{empl.WorkEmail}} </td>
+        <td> {{empl.Balance}} </td>
         <td>
           <i class="icon-edit-icon-white icon"></i>
           <span class="glyphicon glyphicon-eye-open"></span>
