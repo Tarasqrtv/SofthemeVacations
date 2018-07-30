@@ -18,6 +18,7 @@ using Vacations.DAL.Models;
 using Microsoft.AspNetCore.Identity;
 using System.IdentityModel.Tokens.Jwt;
 using System;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace Vacations.API
 {
@@ -97,12 +98,12 @@ namespace Vacations.API
 
             services.AddAutoMapper();
 
-            services.Configure<AuthMessageSenderOptions>(Configuration);
+            //services.Configure<AuthMessageSenderOptions>(Configuration);
 
-            //services.AddSpaStaticFiles(configuration =>
-            //{
-            //    configuration.RootPath = "ClientApp/dist";
-            //});
+            services.AddSpaStaticFiles(configuration =>
+            {
+                configuration.RootPath = "ClientApp/dist";
+            });
 
         }
 
@@ -128,9 +129,9 @@ namespace Vacations.API
                 app.UseExceptionHandler("/Error");
             }
 
-            //app.UseStaticFiles();
+            app.UseStaticFiles();
 
-            //app.UseSpaStaticFiles();
+            app.UseSpaStaticFiles();
 
             app.UseMvc(routes =>
             {
@@ -139,15 +140,15 @@ namespace Vacations.API
                     template: "{controller}/{action=Index}/{id?}");
             });
 
-            //app.UseSpa(spa =>
-            //{
-            //    spa.Options.SourcePath = "ClientApp";
+            app.UseSpa(spa =>
+            {
+                spa.Options.SourcePath = "ClientApp";
 
-            //    if (env.IsDevelopment())
-            //    {
-            //        spa.UseAngularCliServer(npmScript: "start");
-            //    }
-            //});
+                if (env.IsDevelopment())
+                {
+                    spa.UseAngularCliServer(npmScript: "start");
+                }
+            });
         }
 
         public CorsPolicy GenerateCorsPolicy()
