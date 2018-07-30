@@ -1,14 +1,6 @@
 form.login-form {
     padding: 0 30px 95px;
     div.input-container {
-        margin-top: 40px;
-        margin-bottom: 63px;
-        p{
-          font-family: Muli-Bold;
-          font-size: 14px;
-          color: aqua;
-          text-align: center;
-        }
         .input-group {
             position: relative;
             input+div {
@@ -32,7 +24,7 @@ form.login-form {
     }
     button.btn-primary {
         text-transform: uppercase;
-        background: linear-gradient(to right, skyblue -50%, purple 150%);
+        background:linear-gradient(to right,  #667DE9, #764CA4);
         border: none;
     }
     button.btn-link {
