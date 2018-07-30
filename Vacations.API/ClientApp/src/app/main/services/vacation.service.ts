@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 
@@ -18,7 +18,12 @@ export class VacationService {
         console.log("Service works");
         let requestUrl = environment.baseUrl + '/vacations';
         const data = JSON.stringify(vacation);
-        return this.http.put(requestUrl, data).map(() => vacation);
+
+        let headers = new HttpHeaders();
+        
+        headers.append('Content-Type', 'application/json');
+
+        return this.http.put(requestUrl, data, { headers: headers }).map(() => vacation);
     }
 }
 

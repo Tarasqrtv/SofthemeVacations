@@ -6,7 +6,8 @@ import { Team } from './models/team.model';
 import { JobTitle } from './models/job-title.model';
 import { EmployeeStatus } from './models/employee-status.model';
 import { ToastrService } from 'ngx-toastr';
-import { ImageService } from '../../../image.service';
+import { ImageService } from '../../services/image.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-edit-profile',
@@ -31,7 +32,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   uploadFileToActivity() {
-  this.imgUploadService.postFile("http://localhost:2705/api" + "/images/upload", this.fileToUpload).subscribe(data => {
+  this.imgUploadService.postFile(environment.baseUrl + "/images/upload", this.fileToUpload).subscribe(data => {
     this.toast.success("File uploaded!","Success")
     }, error => {
       console.log(error);
@@ -45,25 +46,21 @@ export class EditProfileComponent implements OnInit {
   ngOnInit() {
     const successfnEmployee = (response) => {
       this.employee = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.employee);
     };
     const successfnTeams = (response) => {
       this.teams = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.teams);
     };
     const successfnJobTitles = (response) => {
       this.jobTitles = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.jobTitles);
     };
     const successfnEmployeeStatus = (response) => {
       this.employeeStatuses = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.employeeStatuses);
     };

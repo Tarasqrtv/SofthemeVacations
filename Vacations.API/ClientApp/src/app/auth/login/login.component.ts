@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/operator/catch';
 import { User } from '../auth.model';
 import { AuthService } from '../auth.service';
-import { ToastrService } from '../../../../node_modules/ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 import { environment } from '../../../environments/environment.prod';
 
 const requestUrl = '/api/auth/token';
