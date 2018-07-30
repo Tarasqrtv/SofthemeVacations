@@ -9,7 +9,7 @@
       <tbody>
         <tr>
           <td>
-            <img src="../../../../assets/user profile icon.svg" class="user-photo float-left" />
+            <div class="user-photo float-left" style="background: url('../../../../assets/testfoto.jpg') no-repeat 0px 0;background-size: auto 90px;"></div>
             <button type="button" class="btn btn-outline-primary float-right ">ADD PHOTO</button>
           </td>
           <td class="kostil">
@@ -28,11 +28,11 @@
         <tr>
           <td>
             <label for="usr">name</label>
-            <input type="text" class="form-control" id="usr" [(ngModel)] = "employee.Name">
+            <input type="text" class="form-control" id="usr" [(ngModel)]="employee.Name">
           </td>
           <td class="kostil">
             <label for="email">personal mail</label>
-            <input type="email" class="form-control" id="email"[(ngModel)]="employee.PersonalEmail">
+            <input type="email" class="form-control" id="email" [(ngModel)]="employee.PersonalEmail">
           </td>
           <td>
             <label for="em">work mail</label>
@@ -66,10 +66,10 @@
             <label for="bday">hire date</label>
             <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.StartDate">
           </td>
-            <td>
-              <label for="bday">date disminssal</label>
-              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.EndDate">
-            </td>
+          <td>
+            <label for="bday">date disminssal</label>
+            <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.EndDate">
+          </td>
         </tr>
         <tr>
           <td>
@@ -102,7 +102,7 @@
             <button type="button" class="btn btn-outline-secondary float-right" (click)="cancel()">CANCEL</button>
           </td>
           <td>
-            <button type="submit" class="btn btn-outline-secondary">DONE</button>
+            <button type="submit" class="btn btn-outline-secondary" (click) = "Save()">DONE</button>
           </td>
         </tr>
       </tbody>

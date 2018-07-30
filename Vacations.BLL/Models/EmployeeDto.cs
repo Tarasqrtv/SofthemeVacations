@@ -14,9 +14,7 @@ namespace Vacations.BLL.Models
         public DateTime? Birthday { get; set; }
         public string Skype { get; set; }
         public DateTime? StartDate { get; set; }
-        public string EmployeeStatus { get; set; }
         public DateTime? EndDate { get; set; }
-        public string JobTitle { get; set; }
         public int? Balance { get; set; }
         public string TeamName { get; set; }
         public string TeamLeadName { get; set; }
@@ -25,5 +23,6 @@ namespace Vacations.BLL.Models
         public Guid? JobTitleId { get; set; }
         public Guid? TeamId { get; set; }
         public Guid? TeamLeadId { get; set; }
+        public string Role { get; set; }
     }
 }

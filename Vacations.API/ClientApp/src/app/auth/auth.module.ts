@@ -6,20 +6,28 @@ import { RouterModule } from '@angular/router';
 import { AuthComponent } from './auth.component';
 import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
+import { SendResetComponent } from './send-reset/send-reset.component';
+import { AuthRoutes } from './auth.routes';
+import { ResetPasswordComponent } from './reset-password/reset-password.component';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    RouterModule.forChild(AuthRoutes)
   ],
   declarations: [
     LoginComponent,
-    AuthComponent
+    AuthComponent,
+    SendResetComponent,
+    ResetPasswordComponent
   ],
   providers: [AuthService],
   exports: [
-    LoginComponent
+    LoginComponent,
+    SendResetComponent,
+    ResetPasswordComponent
   ]
 })
 export class AuthModule { }

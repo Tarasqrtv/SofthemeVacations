@@ -1,7 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Profile } from './profile.model';
 import { Router } from '@angular/router';
+
+import { Profile } from './profile.model';
 import { ProfileService } from '../../../services/profile.service';
+import { ImageService } from '../../../../image.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -12,16 +14,23 @@ import { ProfileService } from '../../../services/profile.service';
 export class MyProfileComponent implements OnInit {
   title = 'profile';
   employee: Profile = <Profile>{};
-  constructor(private service: ProfileService, private router: Router) { }
+  constructor(private service: ProfileService, private router: Router, private imgService: ImageService) { }
   toEdit() {
     this.router.navigate(['main/edit-profile']);
   }
 
+  imgUrl: string;
+
   ngOnInit() {
     this.service.getProfile().subscribe(response => {
       this.employee = response;
+      
       console.log(this.employee);
       console.log(response);
     });
+
+    this.imgService.getImgUrl().subscribe(
+      response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
+      () => this.imgUrl = "default");
   }
 }

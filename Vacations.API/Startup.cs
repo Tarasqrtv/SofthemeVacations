@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.SpaServices.AngularCli;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System.Text;
@@ -12,14 +11,14 @@ using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using Newtonsoft.Json;
 using System.Buffers;
-using System.Reflection;
 using AutoMapper;
-using Microsoft.Extensions.Logging;
-using NJsonSchema;
-using NSwag.AspNetCore;
 using Vacations.API.Infrastructure;
 using Vacations.BLL.Services;
 using Vacations.DAL.Models;
+using Microsoft.AspNetCore.Identity;
+using System.IdentityModel.Tokens.Jwt;
+using System;
+using Microsoft.AspNetCore.SpaServices.AngularCli;
 
 namespace Vacations.API
 {
@@ -43,6 +42,7 @@ namespace Vacations.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<VacationsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
+            services.AddDbContext<AccountsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
 
             //Configure DAL services
             Installer.ConfigureServices(services);
@@ -54,22 +54,36 @@ namespace Vacations.API
                        .AllowAnyHeader();
             }));
 
-            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-                    //.AddCookie()
-                    .AddJwtBearer(jwtBearerOptions =>
-                    {
-                        jwtBearerOptions.TokenValidationParameters = new TokenValidationParameters()
-                        {
-                            ValidateActor = false,
-                            ValidateAudience = false,
-                            ValidateLifetime = true,
-                            ValidateIssuerSigningKey = true,
-                            ValidIssuer = Configuration["Token:Issuer"],
-                            ValidAudience = Configuration["Token:Audience"],
+            services.AddIdentity<User, IdentityRole>()
+                .AddEntityFrameworkStores<AccountsDbContext>()
+                .AddDefaultTokenProviders();
 
-                            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"]))
-                        };
-                    });
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+
+            })
+             .AddJwtBearer(cfg =>
+             {
+                 cfg.RequireHttpsMetadata = false;
+                 cfg.SaveToken = true;
+                 cfg.TokenValidationParameters = new TokenValidationParameters
+                 {
+                     ValidateActor = false,
+                     ValidateAudience = false,
+                     ValidateLifetime = true,
+                     ValidateIssuerSigningKey = true,
+                     ValidIssuer = Configuration["Token:Issuer"],
+                     ValidAudience = Configuration["Token:Audience"],
+                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(Configuration["Token:Key"])),
+                     ClockSkew = TimeSpan.Zero
+                 };
+             });
+
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddMvc(
                 options =>
@@ -84,6 +98,8 @@ namespace Vacations.API
 
             services.AddAutoMapper();
 
+            //services.Configure<AuthMessageSenderOptions>(Configuration);
+
             services.AddSpaStaticFiles(configuration =>
             {
                 configuration.RootPath = "ClientApp/dist";
@@ -96,11 +112,11 @@ namespace Vacations.API
         {
             app.UseCors("AllowAllOrigins");
 
-            app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
-            {
-                settings.GeneratorSettings.DefaultPropertyNameHandling =
-                    PropertyNameHandling.CamelCase;
-            });
+            //app.UseSwaggerUi(typeof(Startup).GetTypeInfo().Assembly, settings =>
+            //{
+            //    settings.GeneratorSettings.DefaultPropertyNameHandling =
+            //        PropertyNameHandling.CamelCase;
+            //});
 
             app.UseAuthentication();
 

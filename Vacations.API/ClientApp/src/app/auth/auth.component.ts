@@ -15,40 +15,13 @@ const requestUrl = '/api/auth/token';
   styleUrls: ['./auth.component.scss']
 })
 
-export class AuthComponent implements OnInit, AfterViewInit {
-  @ViewChild('inputEmail') inputEmail: ElementRef;
-
-  user: { email: string, password: string };
-  serviceResponse: User;
+export class AuthComponent {
 
   constructor(private service: AuthService, private toaster: ToastrService, private router: Router) { }
 
-  login() {
-    let requestUrl = environment.baseUrl + '/auth/token';
-    this.service.get(requestUrl, this.user).subscribe(
-      response => {
-      this.serviceResponse = response;
-      console.log(this.serviceResponse.Token);
-      console.log(this.serviceResponse.Role);
-      console.log(localStorage.getItem('token'));
-      console.log(localStorage.getItem('role'));
-      localStorage.setItem("token", this.serviceResponse.Token);
-      localStorage.setItem("role", JSON.stringify(this.serviceResponse.Role));
-      this.router.navigate(["/main"])
-    }
-  )
-  }
-
-  ngOnInit() {
-    this.user = { email: '', password: '' };
-  }
-
-  ngAfterViewInit() {
-    this.inputEmail.nativeElement.focus();
-  }
   showInfo()
   {
-    this.toaster.info("charles@gmail.com pass","Login");
+    this.toaster.info("charles@gmail.com 1asdPass!","Login");
     localStorage.setItem("token", "");
     localStorage.setItem("role", "");
   }

@@ -9,8 +9,12 @@
         <tbody>
           <tr>
             <td>
-              <img src="../../../../assets/user profile icon.svg" class="user-photo float-left" />
-              <button type="button" class="btn btn-outline-primary float-right ">ADD PHOTO</button>
+              <div class="user-photo float-left" style="background:url({{imgUrl}}) no-repeat 0px 0;background-size: auto 90px;">
+              <img src="{{imgUrl}}" height="30" width="30"/>
+              </div>
+              <label for="file">ADD PHOTO</label>
+              <input type="file" id="file"
+              (change)="handleFileInput($event.target.files)">
             </td>
             <td class="kostil">
               <label for="bday">date of birth</label>
@@ -110,4 +114,4 @@
       </table>
     </div>
   </div>
-  
+</div>

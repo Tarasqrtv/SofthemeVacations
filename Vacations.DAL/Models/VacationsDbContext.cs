@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -21,13 +22,12 @@ namespace Vacations.DAL.Models
         public virtual DbSet<Employee> Employee { get; set; }
         public virtual DbSet<EmployeeStatus> EmployeeStatus { get; set; }
         public virtual DbSet<JobTitle> JobTitle { get; set; }
-        public virtual DbSet<Role> Role { get; set; }
         public virtual DbSet<Team> Team { get; set; }
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<TransactionType> TransactionType { get; set; }
-        public virtual DbSet<User> User { get; set; }
         public virtual DbSet<Vacation> Vacation { get; set; }
         public virtual DbSet<VacationStatus> VacationStatus { get; set; }
+        public virtual DbSet<User> User { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -39,11 +39,79 @@ namespace Vacations.DAL.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<User>(b =>
+           {
+               b.Property<string>("Id")
+                   .ValueGeneratedOnAdd();
+
+               b.Property<int>("AccessFailedCount");
+
+               b.Property<string>("ConcurrencyStamp")
+                   .IsConcurrencyToken();
+
+               b.Property<string>("Email")
+                   .HasMaxLength(256);
+
+               b.Property<bool>("EmailConfirmed");
+
+               b.Property<Guid>("EmployeeID");
+
+               b.Property<bool>("LockoutEnabled");
+
+               b.Property<DateTimeOffset?>("LockoutEnd");
+
+               b.Property<string>("NormalizedEmail")
+                   .HasMaxLength(256);
+
+               b.Property<string>("NormalizedUserName")
+                   .HasMaxLength(256);
+
+               b.Property<string>("PasswordHash");
+
+               b.Property<string>("PhoneNumber");
+
+               b.Property<bool>("PhoneNumberConfirmed");
+
+               b.Property<string>("SecurityStamp");
+
+               b.Property<bool>("TwoFactorEnabled");
+
+               b.Property<string>("UserName")
+                   .HasMaxLength(256);
+
+               b.HasKey("Id");
+
+               //               b.HasIndex("IX_EmployeeID");
+
+               b.HasIndex("NormalizedEmail")
+                   .HasName("EmailIndex");
+
+               b.HasIndex("NormalizedUserName")
+                   .IsUnique()
+                   .HasName("UserNameIndex")
+                   .HasFilter("[NormalizedUserName] IS NOT NULL");
+
+               b.HasOne(u => u.Employee)
+                   .WithOne(e => e.User)
+                   .HasForeignKey<User>("EmployeeID")
+                   .HasConstraintName("AspNetUsers_EmployeeID_FK");
+
+               b.ToTable("AspNetUsers");
+           });
+
             modelBuilder.Entity<Employee>(entity =>
             {
+                entity.HasIndex(e => e.EmployeeStatusId);
+
+                entity.HasIndex(e => e.JobTitleId);
+
+                entity.HasIndex(e => e.TeamId);
+
                 entity.Property(e => e.EmployeeId)
                     .HasColumnName("EmployeeID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Birthday).HasColumnType("date");
 
@@ -53,17 +121,27 @@ namespace Vacations.DAL.Models
 
                 entity.Property(e => e.JobTitleId).HasColumnName("JobTitleID");
 
-                entity.Property(e => e.Name).HasMaxLength(50);
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.PersonalEmail).HasMaxLength(256);
 
                 entity.Property(e => e.Skype).HasMaxLength(50);
 
                 entity.Property(e => e.StartDate).HasColumnType("date");
 
-                entity.Property(e => e.Surname).HasMaxLength(50);
+                entity.Property(e => e.Surname)
+                    .IsRequired()
+                    .HasMaxLength(50);
+
+                entity.Property(e => e.TeamId).HasColumnName("TeamID");
 
                 entity.Property(e => e.TelephoneNumber).HasMaxLength(20);
 
-                entity.Property(e => e.WorkEmail).HasMaxLength(256);
+                entity.Property(e => e.WorkEmail)
+                    .IsRequired()
+                    .HasMaxLength(256);
 
                 entity.HasOne(d => d.EmployeeStatus)
                     .WithMany(p => p.Employee)
@@ -74,13 +152,18 @@ namespace Vacations.DAL.Models
                     .WithMany(p => p.Employee)
                     .HasForeignKey(d => d.JobTitleId)
                     .HasConstraintName("Employee_JobTitleID_FK");
+
+                entity.HasOne(d => d.Team)
+                    .WithMany(p => p.Employee)
+                    .HasForeignKey(d => d.TeamId)
+                    .HasConstraintName("Employee_TeamID_FK");
             });
 
             modelBuilder.Entity<EmployeeStatus>(entity =>
             {
                 entity.Property(e => e.EmployeeStatusId)
                     .HasColumnName("EmployeeStatusID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
@@ -89,47 +172,44 @@ namespace Vacations.DAL.Models
             {
                 entity.Property(e => e.JobTitleId)
                     .HasColumnName("JobTitleID")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.Name).HasMaxLength(50);
-            });
-
-            modelBuilder.Entity<Role>(entity =>
-            {
-                entity.Property(e => e.RoleId)
-                    .HasColumnName("RoleID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
 
             modelBuilder.Entity<Team>(entity =>
             {
+                entity.HasIndex(e => e.TeamLeadId);
+
                 entity.Property(e => e.TeamId)
                     .HasColumnName("TeamID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasMaxLength(100);
 
                 entity.Property(e => e.TeamLeadId).HasColumnName("TeamLeadID");
 
                 entity.HasOne(d => d.TeamLead)
-                    .WithMany(p => p.Team)
+                    .WithMany(p => p.TeamNavigation)
                     .HasForeignKey(d => d.TeamLeadId)
                     .HasConstraintName("Team_TeamLeadID_FK");
             });
 
             modelBuilder.Entity<Transaction>(entity =>
             {
+                entity.HasIndex(e => e.EmployeeId);
+
+                entity.HasIndex(e => e.TransactionTypeId);
+
                 entity.Property(e => e.TransactionId)
                     .HasColumnName("TransactionID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Comment).HasMaxLength(200);
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
 
                 entity.Property(e => e.TransactionTypeId).HasColumnName("TransactionTypeID");
-
-                entity.Property(e => e.Сomment).HasMaxLength(200);
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Transaction)
@@ -146,47 +226,22 @@ namespace Vacations.DAL.Models
             {
                 entity.Property(e => e.TransactionTypeId)
                     .HasColumnName("TransactionTypeID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
 
-            modelBuilder.Entity<User>(entity =>
-            {
-                entity.HasIndex(e => e.EmployeeId)
-                    .HasName("UQ__User__7AD04FF06F4F1F30")
-                    .IsUnique();
-
-                entity.Property(e => e.UserId)
-                    .HasColumnName("UserID")
-                    .ValueGeneratedNever();
-
-                entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
-
-                entity.Property(e => e.Password).HasMaxLength(300);
-
-                entity.Property(e => e.PersonalEmail)
-                    .IsRequired()
-                    .HasMaxLength(256);
-
-                entity.Property(e => e.RoleId).HasColumnName("RoleID");
-
-                entity.HasOne(d => d.Employee)
-                    .WithOne(p => p.User)
-                    .HasForeignKey<User>(d => d.EmployeeId)
-                    .HasConstraintName("User_EmployeeID_FK");
-
-                entity.HasOne(d => d.Role)
-                    .WithMany(p => p.User)
-                    .HasForeignKey(d => d.RoleId)
-                    .HasConstraintName("User_RoleID_FK");
-            });
-
             modelBuilder.Entity<Vacation>(entity =>
             {
+                entity.HasIndex(e => e.EmployeeId);
+
+                entity.HasIndex(e => e.VacationStatusId);
+
                 entity.Property(e => e.VacationId)
                     .HasColumnName("VacationID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
+
+                entity.Property(e => e.Comment).HasMaxLength(200);
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
 
@@ -195,8 +250,6 @@ namespace Vacations.DAL.Models
                 entity.Property(e => e.StartVocationDate).HasColumnType("date");
 
                 entity.Property(e => e.VacationStatusId).HasColumnName("VacationStatusID");
-
-                entity.Property(e => e.Comment).HasMaxLength(200);
 
                 entity.HasOne(d => d.Employee)
                     .WithMany(p => p.Vacation)
@@ -213,23 +266,10 @@ namespace Vacations.DAL.Models
             {
                 entity.Property(e => e.VacationStatusId)
                     .HasColumnName("VacationStatusID")
-                    .ValueGeneratedNever();
+                    .HasDefaultValueSql("(newid())");
 
                 entity.Property(e => e.Name).HasMaxLength(50);
             });
-
-            modelBuilder.Entity<EmployeeTeam>()
-                .HasKey(et => new { et.EmployeeId, et.TeamId });
-
-            modelBuilder.Entity<EmployeeTeam>()
-                .HasOne(et => et.Employee)
-                .WithMany(e => e.EmployeeTeam)
-                .HasForeignKey(et => et.EmployeeId);
-
-            modelBuilder.Entity<EmployeeTeam>()
-                .HasOne(et => et.Team)
-                .WithMany(t => t.EmployeeTeam)
-                .HasForeignKey(et => et.TeamId);
         }
     }
 }

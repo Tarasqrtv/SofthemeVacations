@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Vacations.API.Models;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
 using Vacations.DAL.Models;
@@ -20,19 +20,22 @@ namespace Vacations.API.Controllers
     public class EmployeesController : ControllerBase
     {
         private readonly IMapper _mapper;
-        private readonly IUsersService _usersService;
+        private readonly UserManager<User> _userManager;
         private readonly IEmployeesService _employeesService;
 
-        public EmployeesController(IMapper mapper, IUsersService usersService, IEmployeesService employeesService)
+        public EmployeesController(
+            IMapper mapper,
+            UserManager<User> userManager,
+            IEmployeesService employeesService)
         {
             _mapper = mapper;
-            _usersService = usersService;
+            _userManager = userManager;
             _employeesService = employeesService;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<EmployeeDtoList> Get()
         {
             return _employeesService.Get();
         }
@@ -46,12 +49,14 @@ namespace Vacations.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            var userDto = await _userManager.GetUserAsync(User);
 
-            var userDto = await _usersService.GetByEmailAsync(currentUserEmail);
-            var userModel = _mapper.Map<UserDto, UserModel>(userDto);
-
-            var employeeDto = await _employeesService.GetByIdAsync(userModel.EmployeeId);
+            if (userDto == null)
+            {
+                return BadRequest("User == null");
+            }
+            
+            var employeeDto = await _employeesService.GetByIdAsync(userDto.EmployeeId);
 
             return Ok(employeeDto);
         }

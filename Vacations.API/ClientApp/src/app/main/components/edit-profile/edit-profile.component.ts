@@ -10,6 +10,8 @@ import { EmployeeStatus } from './models/employee-status.model';
 
 import { employeeRole } from './models/employee-roles.model';
 
+import { ImageService } from '../../../image.service';
+
 @Component({
   selector: 'app-edit-profile',
   templateUrl: './edit-profile.component.html',
@@ -24,12 +26,27 @@ export class EditProfileComponent implements OnInit {
   employeeRoles: employeeRole[] =[];
   date = new Date;
 
-  constructor(private location: Location, private service: EditService, private toast: ToastrService) { }
+  constructor(private imgUploadService: ImageService, private location: Location, private service: EditService, private toast: ToastrService) { }
 
+  fileToUpload: File = null;
+  imgUrl: string;
+
+  handleFileInput(files: FileList) {
+    this.fileToUpload = files.item(0);
+  }
+
+  uploadFileToActivity() {
+  this.imgUploadService.postFile("http://localhost:2705/api" + "/images/upload", this.fileToUpload).subscribe(data => {
+    this.toast.success("File uploaded!","Success")
+    }, error => {
+      console.log(error);
+    });
+ }
+ 
   cancel() {
     this.location.back();
   }
-
+ 
   ngOnInit() {
     const successfnEmployee = (response) => {
       this.employee = response;
@@ -70,6 +87,10 @@ export class EditProfileComponent implements OnInit {
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
     //this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
+
+    this.imgUploadService.getImgUrl().subscribe(
+      response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
+      () => this.imgUrl = "default");
   }
 
   Save() {
