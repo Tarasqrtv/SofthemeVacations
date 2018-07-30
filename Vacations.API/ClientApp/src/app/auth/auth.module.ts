@@ -7,16 +7,20 @@ import { AuthComponent } from './auth.component';
 import { AuthService } from './auth.service';
 import { LoginComponent } from './login/login.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AuthRoutes } from './auth.routes';
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
-    RouterModule
+    RouterModule,
+    
+    RouterModule.forChild(AuthRoutes)
   ],
   declarations: [
     LoginComponent,
-    AuthComponent
+    AuthComponent,
+    ResetPasswordComponent
   ],
   providers: [AuthService],
   exports: [

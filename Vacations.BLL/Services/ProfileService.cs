@@ -36,9 +36,9 @@ namespace Vacations.BLL.Services
                     Skype = e.Skype,
                     StartDate = e.StartDate,
                     EndDate = e.EndDate,
-                    TeamName = e.Team.Select(x => x.Name).FirstOrDefault(),
-                    TeamLeadName = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name).FirstOrDefault(),
-                    TeamLeadSurname = e.EmployeeTeam.Select(t => t.Team.TeamLead.Surname).FirstOrDefault(),
+                    TeamName = e.Team.Name,
+                    TeamLeadName = e.Team.TeamLead.Name,
+                    TeamLeadSurname = e.Team.TeamLead.Surname,
                     Balance = e.Balance
                 })
                 .FirstOrDefault();
@@ -63,9 +63,9 @@ namespace Vacations.BLL.Services
                     Skype = e.Skype,
                     StartDate = e.StartDate,
                     EndDate = e.EndDate,
-                    TeamName = e.EmployeeTeam.Select(t => t.Team.Name).FirstOrDefault(),
-                    TeamLeadName = e.EmployeeTeam.Select(t => t.Team.TeamLead.Name).FirstOrDefault(),
-                    TeamLeadSurname = e.EmployeeTeam.Select(t => t.Team.TeamLead.Surname).FirstOrDefault(),
+                    TeamName = e.Team.Name,
+                    TeamLeadName = e.Team.TeamLead.Name,
+                    TeamLeadSurname = e.Team.TeamLead.Surname,
                     Balance = e.Balance
                 })
                 .FirstOrDefaultAsync();

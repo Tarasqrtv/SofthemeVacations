@@ -18,6 +18,7 @@ export class EditProfileComponent implements OnInit {
   teams: Team[] = [];
   jobTitles: JobTitle[] = [];
   employeeStatuses: EmployeeStatus[] = [];
+  date = new Date;
 
   constructor(private location: Location, private service: EditService, private toast: ToastrService) { }
 
@@ -59,18 +60,12 @@ export class EditProfileComponent implements OnInit {
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
   }
+
+  Save() {
+    console.log(this.employee);
+    this.service.updateEmployee(this.employee).subscribe(response => this.employee = response);;
+    this.location.back();
+    this.toast.success("You successfully edit profile", "");
+    console.log(this.employeeStatuses);
+  }
 }
-
-// export class EditProfileComponent implements OnInit {
-//   title = 'profile';
-//   employee: Employee;
-
-//   constructor(private service: EditService) { }
-
-//   ngOnInit() { }
-//   //save(): void {
-//   //  this.service.updateEmployee(this.employee)
-//   //    .subscribe(() => this.location.back();;
-//   //}
-
-// }

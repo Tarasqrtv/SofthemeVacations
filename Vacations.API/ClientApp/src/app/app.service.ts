@@ -51,6 +51,10 @@ export class MyFirstInterceptor implements HttpInterceptor {
 
         intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         
+        req = req.clone({ headers: req.headers.set('Content-Type', 'application/json')});
+
+        req = req.clone({ headers: req.headers.set('Accept', 'application/json')});
+ 
         if (localStorage.getItem('token') && !req.headers.has('Authorization')) {
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token'))});
         }

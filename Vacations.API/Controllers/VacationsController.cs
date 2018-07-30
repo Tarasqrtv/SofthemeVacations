@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Vacations.API.Models;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
 using Vacations.DAL.Models;
@@ -19,14 +19,15 @@ namespace Vacations.API.Controllers
     [ApiController]
     public class VacationsController : ControllerBase
     {
-        private readonly IMapper _mapper;
-        private readonly IUsersService _usersService;
+        private readonly UserManager<User> _userManager;
         private readonly IVacationsService _vacationsService;
 
-        public VacationsController(IMapper mapper, IUsersService usersService, IVacationsService vacationsService)
+        public VacationsController(
+            UserManager<User> userManager,
+            IVacationsService vacationsService
+            )
         {
-            _mapper = mapper;
-            _usersService = usersService;
+            _userManager = userManager;
             _vacationsService = vacationsService;
         }
 
@@ -36,7 +37,7 @@ namespace Vacations.API.Controllers
         {
             var vacations = _vacationsService.Get();
 
-            return _mapper.Map<IEnumerable<VacationDto>,IEnumerable <VacationDto>>(vacations);
+            return vacations;
         }
 
         [HttpGet("employee")]
@@ -44,13 +45,13 @@ namespace Vacations.API.Controllers
         {
             var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var userDto =_usersService.GetByEmail(currentUserEmail);
+            var currentUser = _userManager.GetUserAsync(User);
 
-            var userModel = _mapper.Map<UserDto, UserModel>(userDto);
+            var userDto = currentUser.Result;
 
-            var vacations = _vacationsService.GetByEmployeeId(userModel.EmployeeId);
+            var vacations = _vacationsService.GetByEmployeeId(userDto.EmployeeId);
 
-            return _mapper.Map<IEnumerable<VacationDto>, IEnumerable<VacationDto>>(vacations);
+            return vacations;
         }
 
         [HttpGet("employee/{id}")]
@@ -58,7 +59,7 @@ namespace Vacations.API.Controllers
         {
             var vacations = _vacationsService.GetByEmployeeId(id);
 
-            return _mapper.Map<IEnumerable<VacationDto>, IEnumerable<VacationDto>>(vacations);
+            return vacations;
         }
 
         // POST: api/Employees
@@ -73,11 +74,11 @@ namespace Vacations.API.Controllers
 
             var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
 
-            var userDto = _usersService.GetByEmail(currentUserEmail);
+            var currentUser = _userManager.GetUserAsync(User);
 
-            var userModel = _mapper.Map<UserDto, UserModel>(userDto);
+            var userDto = currentUser.Result;
 
-            vacationsDto.EmployeeId = userModel.EmployeeId;
+            vacationsDto.EmployeeId = userDto.EmployeeId;
 
             try
             {

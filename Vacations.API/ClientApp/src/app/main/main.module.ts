@@ -128,7 +128,7 @@ import { TeamCalendarComponent } from './components/team-calendar/team-calendar.
     MatNativeDateModule,
     ReactiveFormsModule,
 
-    RouterModule.forChild(MainRoutes),
+    RouterModule.forChild(MainRoutes)
   ],
   declarations: [
     BannerComponent,

@@ -25,5 +25,6 @@ namespace Vacations.BLL.Models
         public Guid? JobTitleId { get; set; }
         public Guid? TeamId { get; set; }
         public Guid? TeamLeadId { get; set; }
+        public IList<string> Role { get; set; }
     }
 }
