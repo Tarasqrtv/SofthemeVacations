@@ -48,7 +48,7 @@ export class AuthComponent implements OnInit, AfterViewInit {
   }
   showInfo()
   {
-    this.toaster.info("charles@gmail.com pass","Login");
+    this.toaster.info("charles@gmail.com 1asdPass!","Login");
     localStorage.setItem("token", "");
     localStorage.setItem("role", "");
   }
