@@ -27,7 +27,7 @@ export class AuthService {
 
 
     public isAuthenticated(): boolean {
-        console.log("guardChecking");
+        console.log("guard works!");
         const token = localStorage.getItem('token');
         return !this.jwtHelper.isTokenExpired(token);
     }

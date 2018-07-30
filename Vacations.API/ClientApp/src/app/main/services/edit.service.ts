@@ -46,7 +46,7 @@ export class EditService {
     }
 
     getEmployeeRole(): Observable<employeeRole[]> {
-        let requestUrl = environment.baseUrl + '/employeerole';
+        let requestUrl = environment.baseUrl + '/roles';
         return this.http.get<employeeRole[]>(`${requestUrl}`);
     }
 

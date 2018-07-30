@@ -13,7 +13,7 @@ import { Router } from '@angular/router';
 import 'rxjs/add/observable/throw'
 import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/do';
-import { ToastrService } from '../../node_modules/ngx-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class MyDataService implements OnInit {

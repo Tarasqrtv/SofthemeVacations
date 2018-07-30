@@ -87,7 +87,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 })
 
 export class DemoMaterialModule { }
-import { MatChipsModule, MatIconModule } from '../../../node_modules/@angular/material';
+import { MatChipsModule, MatIconModule } from '@angular/material';
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
 import { MainComponent } from './main.component';
 

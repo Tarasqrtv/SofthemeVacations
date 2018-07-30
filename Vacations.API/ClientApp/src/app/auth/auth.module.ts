@@ -10,11 +10,12 @@ import { LoginComponent } from './login/login.component';
 import { SendResetComponent } from './send-reset/send-reset.component';
 import { AuthRoutes } from './auth.routes';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { AuthGuardService } from './auth.guard';
 
 const JWT_Module_Options: JwtModuleOptions = {
   config: {
       tokenGetter: () => {return localStorage.getItem('access_token');} ,
-      whitelistedDomains: ['localhost:4000']
+      whitelistedDomains: ['localhost:4200']
   }
 };
 
@@ -33,7 +34,7 @@ const JWT_Module_Options: JwtModuleOptions = {
     SendResetComponent,
     ResetPasswordComponent
   ],
-  providers: [AuthService],
+  providers: [AuthService, AuthGuardService],
   exports: [
     LoginComponent,
     SendResetComponent,

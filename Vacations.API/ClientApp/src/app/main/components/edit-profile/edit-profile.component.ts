@@ -36,7 +36,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   uploadFileToActivity() {
-  this.imgUploadService.postFile("http://localhost:2705/api" + "/images/upload", this.fileToUpload).subscribe(data => {
+  this.imgUploadService.postFile("http://localhost:4200/api" + "/images/upload", this.fileToUpload).subscribe(data => {
     this.toast.success("File uploaded!","Success")
     }, error => {
       console.log(error);
@@ -86,7 +86,7 @@ export class EditProfileComponent implements OnInit {
     this.service.getTeam().subscribe(successfnTeams, errorfn, completefn);
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
-    //this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
+    this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
 
     this.imgUploadService.getImgUrl().subscribe(
       response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
