@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { JwtHelperService } from '@auth0/angular-jwt';
+
 import { User } from './auth.model';
 
 @Injectable()
 export class AuthService {
 
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, public jwtHelper: JwtHelperService) { }
 
     user = {
         email: '',
@@ -21,5 +23,12 @@ export class AuthService {
         return this.http.get<User>(url, {
             headers: headers
         });
+    }
+
+
+    public isAuthenticated(): boolean {
+        console.log("guardChecking");
+        const token = localStorage.getItem('token');
+        return !this.jwtHelper.isTokenExpired(token);
     }
 }
