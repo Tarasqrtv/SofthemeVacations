@@ -8,6 +8,7 @@ import { Employee } from '../components/edit-profile/models/employee.model';
 import { JobTitle } from '../components/edit-profile/models/job-title.model';
 import { EmployeeStatus } from '../components/edit-profile/models/employee-status.model';
 import { Team } from '../components/edit-profile/models/team.model';
+import { employeeRole } from '../components/edit-profile/models/employee-roles.model';
 
 @Injectable()
 export class EditService {
@@ -15,6 +16,8 @@ export class EditService {
 
     updateEmployee(employee: Employee): Observable<Employee> {
         console.log("Service works");
+        console.log(employee.TeamName);
+        console.log(employee.TeamId);
         let requestUrl = environment.baseUrl + '/employees';
         const data = JSON.stringify(employee);
         return this.http.put(requestUrl, data).map(() => employee);
@@ -40,6 +43,11 @@ export class EditService {
     getEmployeeStatus(): Observable<EmployeeStatus[]> {
         let requestUrl = environment.baseUrl + '/employeestatus';
         return this.http.get<EmployeeStatus[]>(`${requestUrl}`);
+    }
+
+    getEmployeeRole(): Observable<employeeRole[]> {
+        let requestUrl = environment.baseUrl + '/employeerole';
+        return this.http.get<employeeRole[]>(`${requestUrl}`);
     }
 
     getTeam(): Observable<Team[]> {

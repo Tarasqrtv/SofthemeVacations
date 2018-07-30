@@ -56,7 +56,7 @@
         <tr>
           <td>
             <label for="sel1">job title:</label>
-            <select class="form-control" id="sel1">
+            <select [(ngModel)]="employee.JobTitle" class="form-control" id="sel1">
               <option *ngFor="let item of jobTitles">
                 {{item.Name}}
               </option>
