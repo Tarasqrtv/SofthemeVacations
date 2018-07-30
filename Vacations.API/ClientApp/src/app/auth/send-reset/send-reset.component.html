@@ -1,0 +1,22 @@
+<div class="row">
+  <div class="col-12">
+    <form class="login-form">
+      <div class="input-container">
+        <p style="font-family: Muli-Bold; font-size: 14px; text-align: center; color: white; padding-top: 15px;"> Enter your email address and we'll send you a link to reset your password</p>
+        <div class="input-group mb-3">
+          <input type="email" class="form-control" required name="email" placeholder="email">
+          <div>
+            <i class="icon-user-icon"></i>
+          </div>
+        </div>
+      </div>
+      <div>
+        <p style="font-family: Muli-Bold; font-size: 14px; text-align: center; color: aqua">
+          <i class="icon-message-icon"></i>
+          Readly! Check your email, please.</p>
+      </div>
+      <button type="submit" #buttonSubmit class="btn btn-primary btn-block">Send</button>
+      <button type="button" class="btn btn-link btn-block" [routerLink]='["/auth"]'>Never mind. I remember</button>
+    </form>
+  </div>
+</div>
