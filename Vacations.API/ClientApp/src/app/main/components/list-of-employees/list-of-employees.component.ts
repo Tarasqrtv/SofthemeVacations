@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Profile } from '../profile/my-profile/profile.model';
+import { ProfileService } from '../../services/profile.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-of-employees',
@@ -6,10 +9,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./list-of-employees.component.scss']
 })
 export class ListOfEmployeesComponent implements OnInit {
+  employees: Profile[] = [];
 
-  constructor() { }
+  constructor(private service: ProfileService, private router: Router) { }
 
   ngOnInit() {
+    this.service.getEmployees() 
+      .subscribe(response => this.employees = response);
   }
-
 }

@@ -1,5 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { Location } from '@angular/common';
+import { Location, getLocaleFirstDayOfWeek } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+
+import { EditService } from '../../../services/edit.service';
+import { VacationService } from '../../../services/vacation.service';
+
+import { Employee } from '../../edit-profile/models/employee.model';
+import { Vacation } from '../../profile/my-vacations/vacation.model';
+
 
 @Component({
   selector: 'app-vacation-request',
@@ -7,14 +15,49 @@ import { Location } from '@angular/common';
   styleUrls: ['./vacation-request.component.scss']
 })
 export class VacationRequestComponent implements OnInit {
-  // startDate = new Date(1990, 0, 1);
-  constructor(private location: Location) { }
+  
+  employee: Employee = <Employee>{};
+  vacation: Vacation = <Vacation>{};
+
+  constructor(private location: Location, private service: VacationService, private othService: EditService, private toast: ToastrService) { }
 
   cancel() {
     this.location.back();
   }
 
   ngOnInit() {
+    const successfnEmployee = (response) => {
+      this.employee = response;
+      this.toast.success("", "");
+      console.log(response);
+      console.log(this.employee);
+    };
+    
+    const errorfn = () => { };
+    const completefn = () => { };
+
+    this.othService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);  
+  }
+  
+  ParseToDate(date){
+    let oneDate = new Date (date);
+    return oneDate;
+  } 
+  //(ParseToDate(vacation.EndVocationDate)-ParseToDate(vacation.StartVocationDate)) /1000/60/60/24
+  DaysInVac(start, end) {
+    let date = (start-end)/1000/60/60/24;
+    let dateLst = this.ParseToDate(date);
+    return dateLst;
+
+  }
+  
+  Send() {
+    console.log(this.employee);
+    this.employee.EmployeeId=this.vacation.EmployeeId;
+    this.service.SendVacation(this.vacation).subscribe(response => this.vacation = response);
+    this.location.back();
+    this.toast.success("You successfully send vacation request", "");
   }
 
+  
 }
