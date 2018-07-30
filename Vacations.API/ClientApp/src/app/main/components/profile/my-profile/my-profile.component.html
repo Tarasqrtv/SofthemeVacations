@@ -6,8 +6,8 @@
   </h3>
   <div class="main-details">
     <div class="pull-left">
-      <button class="rounded-circle user-photo float-left" style="background: url('../../../../assets/testfoto.jpg') no-repeat 0px 0;background-size: auto 121px;">
-
+      <button class="rounded-circle user-photo float-left" style="background: url({{imgUrl}}) no-repeat 0px 0;background-size: auto 121px;">
+        <img src="{{imgUrl}}" height="30" width="30"/>
       </button>
       <div class="pull-right main-details-text" *ngIf="employee; else loading">
         <h3>

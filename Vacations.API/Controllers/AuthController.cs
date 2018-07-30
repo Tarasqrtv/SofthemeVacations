@@ -11,25 +11,13 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
 using Vacations.BLL.Services;
 using Vacations.DAL.Models;
 
 namespace Vacations.API.Controllers
 {
-    public class RoleAndToken
-    {
-        public string Token { get; }
-        public object Roles { get; }
-
-        public RoleAndToken(string token, object roles)
-        {
-            Token = token;
-            Roles = roles;
-        }
-    }
-
-
     [Produces("application/json")]
     [Route("api/auth")]
     public class AuthController : Controller
@@ -38,6 +26,7 @@ namespace Vacations.API.Controllers
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
         private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IUsersService _usersService;
         //private IEmailSender _emailSender;
 
         public AuthController(
@@ -45,10 +34,12 @@ namespace Vacations.API.Controllers
             SignInManager<User> signInManager,
             IConfiguration configuration,
             AccountsDbContext context,
-            RoleManager<IdentityRole> roleManager
+            RoleManager<IdentityRole> roleManager,
             //IEmailSender emailSender
-            )
+            IUsersService usersService
+        )
         {
+            _usersService = usersService;
             //_emailSender = emailSender;
             _roleManager = roleManager;
             _userManager = userManager;
@@ -60,27 +51,16 @@ namespace Vacations.API.Controllers
         [HttpGet("token")]
         public async Task<IActionResult> GetTokenAsync()
         {
-            var header = Request.Headers["Authorization"];
-
-            if (header.ToString().StartsWith("Basic"))
+            try
             {
-                var credValue = header.ToString().Substring("Basic ".Length).Trim();
-                var usernameAndPassenc = Encoding.UTF8.GetString(Convert.FromBase64String(credValue));
-                var userEmailAndPass = usernameAndPassenc.Split(":");
+                var header = Request.Headers["Authorization"];
 
-                var result = await _signInManager.PasswordSignInAsync(userEmailAndPass[0], userEmailAndPass[1], false, false);
-
-                if (result.Succeeded)
-                {
-                    var appUser = _userManager.Users.SingleOrDefault(r => r.Email == userEmailAndPass[0]);
-
-                    var roleAndToken = new RoleAndToken(await GenerateJwtTokenAsync(userEmailAndPass[0], appUser), await _userManager.GetRolesAsync(appUser));
-
-                    return Ok(roleAndToken);
-                }
+                return Ok(await _usersService.GetTokenAsync(header.ToString()));
             }
-
-            throw new ApplicationException("INVALID_LOGIN_ATTEMPT");
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
         }
 
         [AllowAnonymous]
@@ -89,7 +69,7 @@ namespace Vacations.API.Controllers
         {
             var header = Request.Headers["Authorization"];
 
-            await  AddRole("Admin");
+            await AddRole("Admin");
             await AddRole("TeamLead");
             await AddRole("User");
 
@@ -111,45 +91,30 @@ namespace Vacations.API.Controllers
                 //if (result.Succeeded)
                 //{
                 await _signInManager.SignInAsync(user, false);
-                return Ok(GenerateJwtTokenAsync(model.Email, user));
+                return Ok(_usersService.GetTokenAsync(header.ToString()));
                 //}
             }
             throw new ApplicationException("UNKNOWN_ERROR");
         }
 
-        //public class ForgotPasswordViewModel
-        //{
-        //    public string Email { get; set; }
-        //}
+        public class ForgotPasswordViewModel
+        {
+            public string Email { get; set; }
+        }
 
-        //[HttpPost]
-        //[AllowAnonymous]
-        //[Route("ForgotPassword")]
-        //public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel model)
-        //{
-        //    if (ModelState.IsValid)
-        //    {
-        //        var user = await _userManager.FindByEmailAsync(model.Email);
-        //        // If user has to activate his email to confirm his account, the use code listing below
-        //        //if (user == null || !(await UserManager.IsEmailConfirmedAsync(user.Id)))
-        //        //{
-        //        //    return Ok();
-        //        //}
-        //        if (user == null)
-        //        {
-        //            return Ok();
-        //        }
+        [HttpPost]
+        [AllowAnonymous]
+        [Route("ForgotPassword")]
+        public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordViewModel email)
+        {
+            if (ModelState.IsValid)
+            {
+                await _usersService.ForgotPassword(email.Email);
+                return Ok();
+            }
 
-        //        var code = await _userManager.GeneratePasswordResetTokenAsync(user);
-        //        var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code }, protocol: HttpContext.Request.Scheme);
-        //        await _emailSender.SendEmailAsync(model.Email, "Reset Password",
-        //           $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
-        //        return Ok();
-        //    }
-
-        //    // If we got this far, something failed, redisplay form
-        //    return BadRequest(ModelState);
-        //}
+            return BadRequest(ModelState);
+        }
 
         //[HttpPut]
         //[AllowAnonymous]
@@ -177,47 +142,6 @@ namespace Vacations.API.Controllers
                 await _roleManager.CreateAsync(new IdentityRole(role));
             }
             return Json(_roleManager.Roles);
-        }
-
-        private async Task<string> GenerateJwtTokenAsync(string email, User user)
-        {
-            var claims = new List<Claim>
-            {
-                new Claim(JwtRegisteredClaimNames.Sub, email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-                new Claim(ClaimTypes.NameIdentifier, user.Id)
-            };
-
-            var userClaims = await _userManager.GetClaimsAsync(user);
-            var userRoles = await _userManager.GetRolesAsync(user);
-            claims.AddRange(userClaims);
-            foreach (var userRole in userRoles)
-            {
-                claims.Add(new Claim(ClaimTypes.Role, userRole));
-                var role = await _roleManager.FindByNameAsync(userRole);
-                if (role != null)
-                {
-                    var roleClaims = await _roleManager.GetClaimsAsync(role);
-                    foreach (Claim roleClaim in roleClaims)
-                    {
-                        claims.Add(roleClaim);
-                    }
-                }
-            }
-
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Token:Key"]));
-            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
-            var expires = DateTime.Now.AddDays(Convert.ToDouble(30));
-
-            var token = new JwtSecurityToken(
-                _configuration["Token:Issuer"],
-                _configuration["Token:Audience"],
-                claims,
-                expires: expires,
-                signingCredentials: creds
-            );
-
-            return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
         public class LoginDto

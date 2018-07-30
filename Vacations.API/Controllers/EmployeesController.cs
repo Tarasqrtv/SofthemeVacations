@@ -35,7 +35,7 @@ namespace Vacations.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IEnumerable<Employee> Get()
+        public IEnumerable<EmployeeDto> Get()
         {
             return _employeesService.Get();
         }
@@ -49,9 +49,7 @@ namespace Vacations.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            var currentUser = _userManager.GetUserAsync(User);
-
-            var userDto = currentUser.Result;
+            var userDto = await _userManager.GetUserAsync(User);
 
             if (userDto == null)
             {
