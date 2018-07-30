@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Extensions.Internal;
 using Vacations.BLL.Models;
-using Vacations.BLL.Services;
 using Vacations.DAL.Models;
 
 namespace Vacations.BLL.Services
@@ -30,10 +28,9 @@ namespace Vacations.BLL.Services
             _userManager = userManager;
         }
 
-        //TODO: Employee to EmployeeDTO
-        public IEnumerable<Employee> Get()
+        public IEnumerable<EmployeeDto> Get()
         {
-            var employees = _context.Employee;
+            var employees = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(_context.Employee);
             return employees;
         }
 
@@ -41,75 +38,97 @@ namespace Vacations.BLL.Services
         {
             var employee = _context.Employee.FirstOrDefault(e => e.EmployeeId == id);
 
-            return new EmployeeDto()
-            {
-                EmployeeId = employee.EmployeeId,
-                Name = employee.Name,
-                Surname = employee.Surname,
-                JobTitle = employee.JobTitle.Name,
-                EmployeeStatus = employee.EmployeeStatus.Name,
-                Birthday = employee.Birthday,
-                PersonalEmail = employee.PersonalEmail,
-                WorkEmail = employee.WorkEmail,
-                TelephoneNumber = employee.TelephoneNumber,
-                Skype = employee.Skype,
-                StartDate = employee.StartDate,
-                EndDate = employee.EndDate,
-                TeamName = employee.Team.Name,
-                TeamLeadName = employee.Team.TeamLead.Name,
-                TeamLeadSurname = employee.Team.TeamLead.Surname,
-                Balance = employee.Balance,
-                EmployeeStatusId = employee.EmployeeStatusId,
-                JobTitleId = employee.JobTitleId,
-                TeamId = employee.TeamId,
-                TeamLeadId = employee.Team.TeamLead.EmployeeId
-            };
+            if (employee != null)
+                return new EmployeeDto()
+                {
+                    EmployeeId = employee.EmployeeId,
+                    Name = employee.Name,
+                    Surname = employee.Surname,
+                    Birthday = employee.Birthday,
+                    PersonalEmail = employee.PersonalEmail,
+                    WorkEmail = employee.WorkEmail,
+                    TelephoneNumber = employee.TelephoneNumber,
+                    Skype = employee.Skype,
+                    StartDate = employee.StartDate,
+                    EndDate = employee.EndDate,
+                    TeamName = employee.Team.Name,
+                    TeamLeadName = employee.Team.TeamLead.Name,
+                    TeamLeadSurname = employee.Team.TeamLead.Surname,
+                    Balance = employee.Balance,
+                    EmployeeStatusId = employee.EmployeeStatusId,
+                    JobTitleId = employee.JobTitleId,
+                    TeamId = employee.TeamId,
+                    TeamLeadId = employee.Team.TeamLead.EmployeeId
+                };
+            throw new NullReferenceException("Employee not found!");
         }
 
         public async Task<EmployeeDto> GetByIdAsync(Guid id)
         {
             var employee = await _context.Employee.Include(e => e.Team.TeamLead).FirstOrDefaultAsync(e => e.EmployeeId == id);
 
-            return new EmployeeDto()
-            {
-                EmployeeId = employee.EmployeeId,
-                Name = employee.Name,
-                Surname = employee.Surname,
-                Birthday = employee.Birthday,
-                PersonalEmail = employee.PersonalEmail,
-                WorkEmail = employee.WorkEmail,
-                TelephoneNumber = employee.TelephoneNumber,
-                Skype = employee.Skype,
-                StartDate = employee.StartDate,
-                EndDate = employee.EndDate,
-                TeamName = employee.Team.Name,
-                TeamLeadName = employee.Team.TeamLead.Name,
-                TeamLeadSurname = employee.Team.TeamLead.Surname,
-                Balance = employee.Balance,
-                EmployeeStatusId = employee.EmployeeStatusId,
-                JobTitleId = employee.JobTitleId,
-                TeamId = employee.TeamId,
-                TeamLeadId = employee.Team.TeamLead.EmployeeId
-            };
+            if (employee != null)
+                return new EmployeeDto()
+                {
+                    EmployeeId = employee.EmployeeId,
+                    Name = employee.Name,
+                    Surname = employee.Surname,
+                    Birthday = employee.Birthday,
+                    PersonalEmail = employee.PersonalEmail,
+                    WorkEmail = employee.WorkEmail,
+                    TelephoneNumber = employee.TelephoneNumber,
+                    Skype = employee.Skype,
+                    StartDate = employee.StartDate,
+                    EndDate = employee.EndDate,
+                    TeamName = employee.Team.Name,
+                    TeamLeadName = employee.Team.TeamLead.Name,
+                    TeamLeadSurname = employee.Team.TeamLead.Surname,
+                    Balance = employee.Balance,
+                    EmployeeStatusId = employee.EmployeeStatusId,
+                    JobTitleId = employee.JobTitleId,
+                    TeamId = employee.TeamId,
+                    TeamLeadId = employee.Team.TeamLead.EmployeeId
+                };
+            throw new NullReferenceException("Employee not found!");
         }
 
         public async Task<int> PutAsync(EmployeeDto employeeDto)
         {
-            var employee = _context.Employee.FindAsync(employeeDto.EmployeeId);
-            employee.Result.Name = employeeDto.Name;
-            employee.Result.Surname = employeeDto.Surname;
-            employee.Result.WorkEmail = employeeDto.WorkEmail;
-            employee.Result.TelephoneNumber = employeeDto.TelephoneNumber;
-            employee.Result.Birthday = employeeDto.Birthday;
-            employee.Result.Skype = employeeDto.Skype;
-            employee.Result.StartDate = employeeDto.StartDate;
-            employee.Result.EmployeeStatusId = employeeDto.EmployeeStatusId;
-            employee.Result.EndDate = employeeDto.EndDate;
-            employee.Result.JobTitleId = employeeDto.JobTitleId;
-            employee.Result.Balance = employeeDto.Balance;
+            var employee = await _context.Employee.FindAsync(employeeDto.EmployeeId);
 
-            _context.Employee.Update(employee.Result);
-            return await _context.SaveChangesAsync();
+            var user = await _userManager.FindByEmailAsync(employee.WorkEmail);
+            
+            employee.Name = employeeDto.Name;
+            employee.Surname = employeeDto.Surname;
+            employee.PersonalEmail = employeeDto.PersonalEmail;
+            employee.WorkEmail = employeeDto.WorkEmail;
+            employee.TelephoneNumber = employeeDto.TelephoneNumber;
+            employee.Birthday = employeeDto.Birthday;
+            employee.Skype = employeeDto.Skype;
+            employee.StartDate = employeeDto.StartDate;
+            employee.EmployeeStatusId = employeeDto.EmployeeStatusId;
+            employee.EndDate = employeeDto.EndDate;
+            employee.JobTitleId = employeeDto.JobTitleId;
+            employee.Balance = employeeDto.Balance;
+
+            _context.Employee.Update(employee);
+
+            user.UserName = employeeDto.WorkEmail;
+
+            user.Email = employeeDto.WorkEmail;
+
+            var result1 = await _context.SaveChangesAsync();
+
+            var result2 = await _userManager.UpdateAsync(user);
+
+            //foreach (var role in await _userManager.GetRolesAsync(user))
+            //{
+            //    var result3 = await _userManager.RemoveFromRoleAsync(user, role);
+            //}
+
+            //var result4 = await _userManager.AddToRoleAsync(user, employeeDto.Role);
+
+            return result1;
         }
 
         public async Task<int> PostAsync(EmployeeDto employeeDto)
@@ -141,7 +160,9 @@ namespace Vacations.BLL.Services
 
             var result1 = await _context.SaveChangesAsync();
             var result2 = await _userManager.CreateAsync(user, "asd123Q!");
-            var result3 = await _userManager.AddToRoleAsync(user, employeeDto.Role.FirstOrDefault());
+
+            //TODO: Add role
+            var result3 = await _userManager.AddToRoleAsync(user, "Admin");
 
             return result1;
         }

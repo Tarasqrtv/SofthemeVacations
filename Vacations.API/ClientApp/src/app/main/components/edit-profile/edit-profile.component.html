@@ -9,8 +9,12 @@
       <tbody>
         <tr>
           <td>
-            <div class="user-photo float-left" style="background: url('../../../../assets/testfoto.jpg') no-repeat 0px 0;background-size: auto 90px;"></div>
-            <button type="button" class="btn btn-outline-primary float-right ">ADD PHOTO</button>
+            <div class="user-photo float-left" style="background:url({{imgUrl}}) no-repeat 0px 0;background-size: auto 90px;">
+            <img src="{{imgUrl}}" height="30" width="30"/>
+            </div>
+            <label for="file">ADD PHOTO</label>
+            <input type="file" id="file"
+            (change)="handleFileInput($event.target.files)">
           </td>
           <td class="kostil">
             <label for="bday">date of birth</label>
@@ -46,7 +50,7 @@
           </td>
           <td class="kostil">
             <label for="phnmbr">phone number</label>
-            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" [(ngModel)]="+employee.TelephoneNumber">
+            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" [(ngModel)]="employee.TelephoneNumber">
           </td>
           <td>
             <label for="skp">skype</label>
@@ -102,7 +106,7 @@
             <button type="button" class="btn btn-outline-secondary float-right" (click)="cancel()">CANCEL</button>
           </td>
           <td>
-            <button type="submit" class="btn btn-outline-secondary" (click)="Save()">Save Changes</button>
+            <button type="submit" class="btn btn-outline-secondary" (click)="Save()" (click) = "uploadFileToActivity()">Save Changes</button>
           </td>
         </tr>
       </tbody>
