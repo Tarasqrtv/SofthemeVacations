@@ -1,78 +1,79 @@
 <div class="comp-container">
   <h3>My profile
-    <button class="pull-right" (click) = "toEdit()">
+    <button class="pull-right" (click)="toEdit()">
       <i class="icon-edit-icon-white"></i>
     </button>
   </h3>
   <div class="main-details">
     <div class="pull-left">
-      <button class="rounded-circle">
-        <i class="icon-user-icon"></i>
+      <button class="rounded-circle user-photo float-left" style="background: url('../../../../assets/testfoto.jpg') no-repeat 0px 0;background-size: auto 121px;">
+
       </button>
-    </div>
-    <div class="pull-left main-details-text" *ngIf="employee; else loading">
+      <div class="pull-right main-details-text" *ngIf="employee; else loading">
         <h3>
           <p> {{ employee.Name }} </p>
           <p> {{ employee.Surname}} </p>
         </h3>
-      <h4 *ngIf="employee.JobTitle; else jobTitle"> {{employee.JobTitle}} </h4>
-      <div class="status">
-        <i class="icon-approved-request active"></i> {{employee.EmployeeStatus}} </div>
+        <h4 *ngIf="employee.JobTitle; else jobTitle"> {{employee.JobTitle}} </h4>
+        <div class="status">
+          <i class="icon-approved-request active"></i> {{employee.EmployeeStatus}} </div>
+      </div>
+      <div class="clearfix"></div>
     </div>
-    <div class="clearfix"></div>
   </div>
   <div class="details">
     <dl>
       <dt>date of birth</dt>
-      <dl> <p *ngIf="employee.Birthday; else birthday"> {{ employee.Birthday | date:'mediumDate' }} </p> 
+      <dl>
+        <p *ngIf="employee.Birthday; else birthday"> {{ employee.Birthday | date:'mediumDate' }} </p>
       </dl>
 
       <dt>personal email</dt>
-      <dl> 
+      <dl>
         <p *ngIf="employee.WorkEmail; else PersEmail">
-            {{ employee.PersonalEmail}}
+          {{ employee.PersonalEmail}}
         </p>
       </dl>
 
       <dt>work email</dt>
       <dl>
-          <p *ngIf="employee.WorkEmail; else workEmail">
-              {{ employee.WorkEmail}}
-          </p>
+        <p *ngIf="employee.WorkEmail; else workEmail">
+          {{ employee.WorkEmail}}
+        </p>
       </dl>
 
       <dt>phone number</dt>
-      <dl> 
+      <dl>
         <p *ngIf="employee.TelephoneNumber; else phone">
-            +{{employee.TelephoneNumber}}
+          +{{employee.TelephoneNumber}}
         </p>
       </dl>
 
       <dt>skype</dt>
       <dl>
         <p>
-            {{employee.Skype}}
+          {{employee.Skype}}
         </p>
       </dl>
 
       <dt>hire date</dt>
       <dl>
         <p *ngIf="employee.StartDate; else workDate">
-            {{employee.StartDate | date:'mediumDate' }} - {{employee.EndDate | date:'mediumDate'}} 
+          {{employee.StartDate | date:'mediumDate' }} - {{employee.EndDate | date:'mediumDate'}}
         </p>
       </dl>
 
       <dt>team name</dt>
       <dl>
         <p *ngIf="employee.TeamName; else team">
-            {{employee.TeamName}} 
+          {{employee.TeamName}}
         </p>
       </dl>
 
       <dt>team leader</dt>
       <dl>
         <p *ngIf="employee.TeamLead; else teamLead">
-            {{employee.TeamLead}} 
+          {{employee.TeamLead}}
         </p>
       </dl>
     </dl>
