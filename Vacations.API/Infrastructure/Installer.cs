@@ -12,7 +12,7 @@ namespace Vacations.API.Infrastructure
     {
         public static void ConfigureServices(IServiceCollection services)
         {
-            services.AddTransient<IEmailSender, EmailSender>();
+            //services.AddTransient<IEmailSender, EmailSender>();
 
             services.AddTransient<IEmployeesService, EmployeesService>();
             services.AddTransient<IVacationsService, VacationsService>(); 
