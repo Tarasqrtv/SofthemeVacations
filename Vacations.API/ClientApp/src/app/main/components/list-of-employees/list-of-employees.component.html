@@ -11,7 +11,7 @@
         <td>phone number</td>
         <td>work email</td>
         <td>vacation balance</td>
-        <td></td>
+
       </tr>
     </thead>
     <tbody>
@@ -19,10 +19,11 @@
         <td>{{empl.Name}} {{empl.Surname}} </td>
         <td class="text-muted"> {{empl.TelephoneNumber}} </td>
         <td class="text-muted"> {{empl.WorkEmail}} </td>
-        <td> {{empl.Balance}} </td>
-        <td>
-          <i class="icon-edit-icon-white icon"></i>
-          <span class="glyphicon glyphicon-eye-open"></span>
+        <td> {{empl.Balance}}
+          <div class="myi">
+            <img src="../../../../assets/eye.svg">
+            <i class="icon-edit-icon-white icon"></i>
+          </div>
         </td>
       </tr>
     </tbody>
