@@ -35,7 +35,7 @@ namespace Vacations.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IEnumerable<EmployeeDto> Get()
+        public IEnumerable<EmployeeDtoList> Get()
         {
             return _employeesService.Get();
         }

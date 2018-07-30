@@ -28,9 +28,9 @@ namespace Vacations.BLL.Services
             _userManager = userManager;
         }
 
-        public IEnumerable<EmployeeDto> Get()
+        public IEnumerable<EmployeeDtoList> Get()
         {
-            var employees = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDto>>(_context.Employee);
+            var employees = _mapper.Map<IEnumerable<Employee>, IEnumerable<EmployeeDtoList>>(_context.Employee);
             return employees;
         }
 
