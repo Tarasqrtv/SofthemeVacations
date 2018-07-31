@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Subscription } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
+
+import { Info } from './info.model';
+import { ToastrService } from 'ngx-toastr';
+import { PasswordService } from '../password.service';
 
 @Component({
   selector: 'app-reset-password',
@@ -8,16 +11,31 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
+  
+  code: string;
   id: string;
+  userInfo: Info = <Info>{};
 
-  private code: number;
-  private subscription: Subscription;
-  constructor(private activateRoute: ActivatedRoute) {
+  constructor(private activateRoute: ActivatedRoute, 
+      private toast: ToastrService, 
+      private router: Router,
+      private service: PasswordService ) {
+    this.code = this.activateRoute.snapshot.paramMap.get('code');
     this.id = this.activateRoute.snapshot.paramMap.get('id');
+
   }
 
   ngOnInit() {
   }
-
+  
+  Send() {
+    this.userInfo.Code = this.code;
+    this.userInfo.EmployeeId = this.id;
+    console.log(this.userInfo);
+    this.service.updateUserInfo(this.userInfo).subscribe(response => this.userInfo = response);;
+    this.router.navigate(['/auth']);
+    this.toast.success("You successfully edit profile", "");
+    console.log(this.id);
+  }
   
 }

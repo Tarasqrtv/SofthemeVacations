@@ -11,7 +11,6 @@ import { EmployeeStatus } from './models/employee-status.model';
 import { EmployeeRole } from './models/employee-roles.model';
 import { ImageService } from '../../services/image.service';
 import { environment } from '../../../../environments/environment';
-import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -21,7 +20,6 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class EditProfileComponent implements OnInit {
   id: string;
-  private subscription: Subscription;
 
   employee: Employee = <Employee>{};
   teams: Team[] = [];
