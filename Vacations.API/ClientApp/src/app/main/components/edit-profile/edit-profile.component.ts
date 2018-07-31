@@ -11,6 +11,8 @@ import { EmployeeStatus } from './models/employee-status.model';
 import { EmployeeRole } from './models/employee-roles.model';
 import { ImageService } from '../../services/image.service';
 import { environment } from '../../../../environments/environment';
+import { Subscription } from 'rxjs';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -18,15 +20,24 @@ import { environment } from '../../../../environments/environment';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
+  id: string;
+  private subscription: Subscription;
 
   employee: Employee = <Employee>{};
   teams: Team[] = [];
   jobTitles: JobTitle[] = [];
   employeeStatuses: EmployeeStatus[] = [];
-  employeeRoles: EmployeeRole[] =[];
+  employeeRoles: EmployeeRole[] = [];
   date = new Date;
 
-  constructor(private imgUploadService: ImageService, private location: Location, private service: EditService, private toast: ToastrService) { }
+  constructor(private imgUploadService: ImageService,
+    private location: Location,
+    private service: EditService,
+    private toast: ToastrService,
+    private activateRoute: ActivatedRoute) {
+      this.id = this.activateRoute.snapshot.paramMap.get('id');
+  }
+
 
   fileToUpload: File = null;
   imgUrl: string;
@@ -37,16 +48,16 @@ export class EditProfileComponent implements OnInit {
 
   uploadFileToActivity() {
     this.imgUploadService.postFile(environment.baseUrl + "/images/upload", this.fileToUpload).subscribe(data => {
-    this.toast.success("File uploaded!","Success")
+      this.toast.success("File uploaded!", "Success")
     }, error => {
       console.log(error);
     });
- }
- 
+  }
+
   cancel() {
     this.location.back();
   }
- 
+
   ngOnInit() {
     const successfnEmployee = (response) => {
       this.employee = response;
@@ -78,14 +89,14 @@ export class EditProfileComponent implements OnInit {
     const errorfn = () => { };
     const completefn = () => { };
 
-    this.service.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
+    this.service.getEmployeeId(this.id).subscribe(successfnEmployee, errorfn, completefn);
     this.service.getTeam().subscribe(successfnTeams, errorfn, completefn);
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
     this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
 
     this.imgUploadService.getImgUrl().subscribe(
-      response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
+      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
       () => this.imgUrl = "default");
   }
 

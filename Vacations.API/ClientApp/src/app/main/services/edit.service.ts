@@ -1,7 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ActivatedRoute} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
+import { Subscription } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Employee } from '../components/edit-profile/models/employee.model';
@@ -10,9 +12,12 @@ import { EmployeeStatus } from '../components/edit-profile/models/employee-statu
 import { Team } from '../components/edit-profile/models/team.model';
 import { EmployeeRole } from '../components/edit-profile/models/employee-roles.model';
 
+
+
 @Injectable()
 export class EditService {
-    constructor (private http: HttpClient) { }
+    
+    constructor (private http: HttpClient){}
 
     ContentTypeHeader = new HttpHeaders ({
           'Content-Type':  'application/json'});
@@ -37,6 +42,13 @@ export class EditService {
 
     getEmployee(): Observable<Employee> {
         let currentUrl = '/employees/current';
+        let requestUrl = environment.baseUrl + currentUrl;
+        return this.http.get<Employee>(`${requestUrl}`);
+    }
+
+    getEmployeeId(id: string): Observable<Employee> {
+        let idUrl = id;
+        let currentUrl = '/employees/'+idUrl;
         let requestUrl = environment.baseUrl + currentUrl;
         return this.http.get<Employee>(`${requestUrl}`);
     }
