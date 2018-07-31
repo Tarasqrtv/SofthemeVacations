@@ -19,10 +19,9 @@ export class ResetPasswordComponent implements OnInit {
   constructor(private activateRoute: ActivatedRoute, 
       private toast: ToastrService, 
       private router: Router,
-      private service: PasswordService ) {
-    this.code = this.activateRoute.snapshot.paramMap.get('code');
+      private service: PasswordService ) {        
     this.id = this.activateRoute.snapshot.paramMap.get('id');
-
+    this.code = this.activateRoute.snapshot.paramMap.get('code');
   }
 
   ngOnInit() {

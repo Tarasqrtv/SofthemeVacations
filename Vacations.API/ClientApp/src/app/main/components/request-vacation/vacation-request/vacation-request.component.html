@@ -20,22 +20,25 @@
       <div class="right">
         <div class="form-group">
           <label for="from">from</label>
-          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from"  [(ngModel)]="startDt" >
+          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from"  [(ngModel)]="vacation.StartVocationDate" >
         </div>
         <div class="form-group">
           <label for="to">to</label>
-          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;" [(ngModel)]="endDt">
-            <mat-form-field>
-              <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;">
+           <!-- <mat-form-field>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="vacation.EndVocationDate">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker startView="year" ></mat-datepicker>
-            </mat-form-field>
+            </mat-form-field> -->
+            <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from"  [(ngModel)]="vacation.EndVocationDate" >
           </div>
         </div>
         <div class="form-group">
           <label for="am">amount</label>
-          <div class="row col-12">   
-            <input type="text" class="form-control" id="am" style="width: 30%; text-align: center;"  (click)="DaysInVac(startDt, endDt)">
+          <div class="row col-12"> 
+              {{vac.StartVocationDate | date:'dd/MM/yy' }} 
+            {{(ParseToDate(vacation.EndVocationDate)-ParseToDate(vacation.StartVocationDate)) /1000/60/60/24}} 
+            <input type="text" class="form-control" id="am" style="width: 30%; text-align: center;"  (click)="DaysInVac(vacation.StartVocationDate, vacation.EndVocationDate)">
             <p>days in vacation </p>
           </div>
         </div>

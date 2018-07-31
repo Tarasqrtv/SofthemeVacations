@@ -32,7 +32,7 @@ export class PasswordService {
         let requestUrl = environment.baseUrl + '/auth/forgot-password';
         const data = JSON.stringify(usIuserMail);
     
-        return this.http.put<Mail>(requestUrl, data, { headers: this.ContentTypeHeader }).map(() => usIuserMail);
+        return this.http.post<Mail>(requestUrl, data, { headers: this.ContentTypeHeader }).map(() => usIuserMail);
     }
 }
 
