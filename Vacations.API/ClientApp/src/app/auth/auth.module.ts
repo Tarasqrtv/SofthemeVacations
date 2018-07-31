@@ -11,6 +11,7 @@ import { SendResetComponent } from './send-reset/send-reset.component';
 import { AuthRoutes } from './auth.routes';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthGuardService } from './auth.guard';
+import { PasswordService } from './password.service';
 
 export function jwtTokenGetter() {
   return localStorage.getItem('token');
@@ -38,7 +39,10 @@ export function jwtTokenGetter() {
     SendResetComponent,
     ResetPasswordComponent
   ],
-  providers: [AuthService, AuthGuardService],
+  providers: [
+    AuthService, 
+    AuthGuardService,
+    PasswordService],
   exports: [
     LoginComponent,
     SendResetComponent,
