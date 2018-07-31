@@ -110,7 +110,7 @@ namespace Vacations.BLL.Services
             var user = await _userManager.FindByEmailAsync(email);
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl =
-                $"{_configuration["Domain:RequestScheme"]}://{_configuration["Domain:DomainName"]}/auth/reset-password?code={code}";
+                $"{_configuration["Domain:RequestScheme"]}://{_configuration["Domain:DomainName"]}/auth/reset-password?id={user.Id}&code={code}";
             await _emailSender.SendEmailAsync(email, "Reset Password",
                 $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
         }

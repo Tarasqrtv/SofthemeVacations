@@ -7,6 +7,7 @@ namespace Vacations.BLL.Models
     {
         public Guid TeamId { get; set; }
         public Guid? TeamLeadId { get; set; }
+        public string TeamLeadName { get; set; }
         public string Name { get; set; }
     }
 }

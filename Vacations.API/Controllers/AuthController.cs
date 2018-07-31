@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Primitives;
 using Microsoft.IdentityModel.Tokens;
@@ -116,24 +117,17 @@ namespace Vacations.API.Controllers
             return BadRequest(ModelState);
         }
 
-        //[HttpPut]
-        //[AllowAnonymous]
-        //[Route("api/password/{email}")]
-        //public async Task<IActionResult> SendPasswordEmailResetRequestAsync(string email, [FromBody] PasswordReset passwordReset)
-        //{
-        //    //some irrelevant validatoins here
-        //    await _myIdentityWrapperService.ResetPasswordAsync(email, passwordReset.Password, passwordReset.Code);
-        //    return Ok();
-        //}
-
-        ////in MyIdentityWrapperService
-        //public async Task ResetPasswordAsync(string email, string password, string code)
-        //{
-        //    var userEntity = await _userManager.FindByNameAsync(email);
-        //    var codeDecodedBytes = WebEncoders.Base64UrlDecode(code);
-        //    var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
-        //    await _userManager.ResetPasswordAsync(userEntity, codeDecoded, password);
-        //}
+        [HttpPut]
+        [AllowAnonymous]
+        [Route("ResetPassword")]
+        public async Task<IActionResult> SendPasswordEmailResetRequestAsync([FromBody] PasswordReset passwordReset)
+        {
+            var userEntity = await _userManager.FindByIdAsync(passwordReset.Id);
+            var codeDecodedBytes = WebEncoders.Base64UrlDecode(passwordReset.Code);
+            var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
+            await _userManager.ResetPasswordAsync(userEntity, codeDecoded, passwordReset.Password);
+            return Ok();
+        }
 
         public async Task<IActionResult> AddRole(string role)
         {
@@ -163,5 +157,12 @@ namespace Vacations.API.Controllers
             [StringLength(100, ErrorMessage = "PASSWORD_MIN_LENGTH", MinimumLength = 6)]
             public string Password { get; set; }
         }
+    }
+
+    public class PasswordReset
+    {
+        public string Id { get; set; }
+        public string Password { get; set; }
+        public string Code { get; set; }
     }
 }
