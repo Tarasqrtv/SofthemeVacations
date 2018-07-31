@@ -16,7 +16,7 @@ export class MyProfileComponent implements OnInit {
   employee: Profile = <Profile>{};
   constructor(private service: ProfileService, private router: Router, private imgService: ImageService) { }
   toEdit() {
-    this.router.navigate(['main/edit-profile']);
+    this.router.navigate(['/edit-profile']);
   }
 
   imgUrl: string;

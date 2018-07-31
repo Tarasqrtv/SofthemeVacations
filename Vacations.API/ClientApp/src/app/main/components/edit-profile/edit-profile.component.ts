@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+
 import { EditService } from '../../services/edit.service';
 import { Employee } from './models/employee.model';
 import { Team } from './models/team.model';
 import { JobTitle } from './models/job-title.model';
 import { EmployeeStatus } from './models/employee-status.model';
-import { ToastrService } from 'ngx-toastr';
+
+import { employeeRole } from './models/employee-roles.model';
 import { ImageService } from '../../services/image.service';
 import { environment } from '../../../../environments/environment';
 
@@ -20,6 +23,7 @@ export class EditProfileComponent implements OnInit {
   teams: Team[] = [];
   jobTitles: JobTitle[] = [];
   employeeStatuses: EmployeeStatus[] = [];
+  employeeRoles: employeeRole[] =[];
   date = new Date;
 
   constructor(private imgUploadService: ImageService, private location: Location, private service: EditService, private toast: ToastrService) { }
@@ -32,7 +36,7 @@ export class EditProfileComponent implements OnInit {
   }
 
   uploadFileToActivity() {
-  this.imgUploadService.postFile(environment.baseUrl + "/images/upload", this.fileToUpload).subscribe(data => {
+    this.imgUploadService.postFile(environment.baseUrl + "/images/upload", this.fileToUpload).subscribe(data => {
     this.toast.success("File uploaded!","Success")
     }, error => {
       console.log(error);
@@ -64,6 +68,12 @@ export class EditProfileComponent implements OnInit {
       console.log(response);
       console.log(this.employeeStatuses);
     };
+    const successfnEmployeeRole = (response) => {
+      this.employeeRoles = response;
+      this.toast.success("", "");
+      console.log(response);
+      console.log(this.employeeStatuses);
+    };
 
     const errorfn = () => { };
     const completefn = () => { };
@@ -72,6 +82,7 @@ export class EditProfileComponent implements OnInit {
     this.service.getTeam().subscribe(successfnTeams, errorfn, completefn);
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
+    this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
 
     this.imgUploadService.getImgUrl().subscribe(
       response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
