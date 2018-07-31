@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-reset-password',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./reset-password.component.scss']
 })
 export class ResetPasswordComponent implements OnInit {
+  id: string;
 
-  constructor() { }
+  private code: number;
+  private subscription: Subscription;
+  constructor(private activateRoute: ActivatedRoute) {
+    this.id = this.activateRoute.snapshot.paramMap.get('id');
+  }
 
   ngOnInit() {
   }
 
+  
 }
