@@ -64,7 +64,7 @@ namespace Vacations.API.Controllers
         [Route("Reset-Password")]
         public async Task<IActionResult> SendPasswordEmailResetRequestAsync([FromBody] PasswordReset passwordReset)
         {
-            var userEntity = await _userManager.FindByIdAsync(passwordReset.Id);
+            var userEntity = await _userManager.FindByIdAsync(passwordReset.EmployeeId);
             var codeDecodedBytes = WebEncoders.Base64UrlDecode(passwordReset.Code);
             var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
             await _userManager.ResetPasswordAsync(userEntity, codeDecoded, passwordReset.Password);

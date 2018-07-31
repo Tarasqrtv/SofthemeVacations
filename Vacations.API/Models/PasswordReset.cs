@@ -2,7 +2,7 @@
 {
     public class PasswordReset
     {
-        public string Id { get; set; }
+        public string EmployeeId { get; set; }
         public string Password { get; set; }
         public string Code { get; set; }
     }
