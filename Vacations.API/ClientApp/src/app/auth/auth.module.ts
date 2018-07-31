@@ -12,20 +12,24 @@ import { AuthRoutes } from './auth.routes';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
 import { AuthGuardService } from './auth.guard';
 
-const JWT_Module_Options: JwtModuleOptions = {
-  config: {
-      tokenGetter: () => {return localStorage.getItem('access_token');} ,
-      whitelistedDomains: ['localhost:4200']
-  }
-};
+export function jwtTokenGetter() {
+  return localStorage.getItem('token');
+}
 
 @NgModule({
   imports: [
     CommonModule,
     FormsModule,
     RouterModule,
-    
-    JwtModule.forRoot(JWT_Module_Options),
+
+    JwtModule.forRoot(
+      {
+        config: {
+          tokenGetter: jwtTokenGetter,
+          whitelistedDomains: ['localhost:4200', 'localhost:2705', 'btangular.azurewebsites.net']
+        }
+      }
+    ),
     RouterModule.forChild(AuthRoutes)
   ],
   declarations: [
