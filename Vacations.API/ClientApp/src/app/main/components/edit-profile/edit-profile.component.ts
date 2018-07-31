@@ -8,7 +8,7 @@ import { Team } from './models/team.model';
 import { JobTitle } from './models/job-title.model';
 import { EmployeeStatus } from './models/employee-status.model';
 
-import { employeeRole } from './models/employee-roles.model';
+import { EmployeeRole } from './models/employee-roles.model';
 import { ImageService } from '../../services/image.service';
 import { environment } from '../../../../environments/environment';
 
@@ -23,7 +23,7 @@ export class EditProfileComponent implements OnInit {
   teams: Team[] = [];
   jobTitles: JobTitle[] = [];
   employeeStatuses: EmployeeStatus[] = [];
-  employeeRoles: employeeRole[] =[];
+  employeeRoles: EmployeeRole[] =[];
   date = new Date;
 
   constructor(private imgUploadService: ImageService, private location: Location, private service: EditService, private toast: ToastrService) { }
@@ -72,7 +72,7 @@ export class EditProfileComponent implements OnInit {
       this.employeeRoles = response;
       this.toast.success("", "");
       console.log(response);
-      console.log(this.employeeStatuses);
+      console.log(this.employeeRoles);
     };
 
     const errorfn = () => { };

@@ -18,5 +18,6 @@ export interface Employee {
     JobTitleId: string;
     TeamId: string;
     TeamLeadId: string;
-    EmployeeRoleId: string;
+    Role: string;
+    RoleId: string;
 }

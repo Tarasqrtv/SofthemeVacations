@@ -26,7 +26,7 @@ export function jwtTokenGetter() {
       {
         config: {
           tokenGetter: jwtTokenGetter,
-          whitelistedDomains: ['localhost:4200', 'localhost:2705', 'btangular.azurewebsites.net']
+          whitelistedDomains: ['localhost:2705', 'btangular.azurewebsites.net']
         }
       }
     ),
