@@ -41,7 +41,6 @@ import {
   MatTreeModule,
 } from '@angular/material';
 import { BrowserModule } from '@angular/platform-browser';
-import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
@@ -109,8 +108,10 @@ import { ListOfTeamsComponent } from './components/list-of-teams/list-of-teams.c
 import { EditService } from './services/edit.service';
 import { VacationRequestComponent } from './components/request-vacation/vacation-request/vacation-request.component';
 import { ListOfEmployeesComponent } from './components/list-of-employees/list-of-employees.component';
-import { AddNewEmployeeComponent} from './components/add-new-employee/add-new-employee.component';
+import { AddNewEmployeeComponent } from './components/add-new-employee/add-new-employee.component';
 import { TeamCalendarComponent } from './components/team-calendar/team-calendar.component';
+import { CalendarPopupMessageComponent } from './components/calendar-popup-message/calendar-popup-message.component';
+import { OpenVRPopupComponent } from './components/open-vr-popup/open-vr-popup.component';
 
 @NgModule({
   imports: [
@@ -126,6 +127,9 @@ import { TeamCalendarComponent } from './components/team-calendar/team-calendar.
     DemoMaterialModule,
     MatNativeDateModule,
     ReactiveFormsModule,
+    MatDialogModule,
+    MatCardModule,
+    MatButtonModule,
 
     RouterModule.forChild(MainRoutes)
   ],
@@ -146,7 +150,13 @@ import { TeamCalendarComponent } from './components/team-calendar/team-calendar.
     ListOfEmployeesComponent,
     AddNewEmployeeComponent,
     TeamCalendarComponent,
-     EditTeamProfileComponent
+    EditTeamProfileComponent,
+    CalendarPopupMessageComponent,
+    OpenVRPopupComponent
+  ],
+  entryComponents: [
+    CalendarPopupMessageComponent,
+    OpenVRPopupComponent
   ],
   providers: [
     ProfileService,

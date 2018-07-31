@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
+
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -15,6 +16,7 @@ import { MyFirstInterceptor, MyDataService } from './app.service';
 
 import { MainModule } from './main/main.module';
 import { ImageService } from './image.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -26,6 +28,7 @@ import { ImageService } from './image.service';
     CommonModule,
     BrowserAnimationsModule,
 
+
     ToastrModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
 
@@ -35,11 +38,10 @@ import { ImageService } from './image.service';
   providers: [
     ImageService,
     {
-    provide: HTTP_INTERCEPTORS,
-    useClass: MyFirstInterceptor,
-    multi: true,
-  }],
+      provide: HTTP_INTERCEPTORS,
+      useClass: MyFirstInterceptor,
+      multi: true,
+    }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-//platformBrowserDynamic().bootstrapModule(AppModule);

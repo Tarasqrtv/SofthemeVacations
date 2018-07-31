@@ -1,112 +1,156 @@
 /* You can add global styles to this file, and also import other style files */
+
 @import "./assets/fonts/icomoon/icomoon.css";
 @import '~@angular/material/prebuilt-themes/deeppurple-amber.css';
 @font-face {
-  font-family: Muli-Bold;
-  src: url(./assets/fonts/Muli-Bold.ttf);
+    font-family: Muli-Bold;
+    src: url(./assets/fonts/Muli-Bold.ttf);
 }
 
 @font-face {
-  font-family: Muli-Regular;
-  src: url(./assets/fonts/Muli-Regular.ttf);
+    font-family: Muli-Regular;
+    src: url(./assets/fonts/Muli-Regular.ttf);
 }
 
 @font-face {
-  font-family: Muli-Light;
-  src: url(./assets/fonts/Muli-Light.ttf);
+    font-family: Muli-Light;
+    src: url(./assets/fonts/Muli-Light.ttf);
 }
 
 * {
-  font-family: Muli-Regular;
+    font-family: Muli-Regular;
 }
-.mat-calendar{
-background: red;
+
+.mat-calendar {
+    background: red;
+}
+.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: lime;
+}
+
+.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color:  lime;
+}
+.mat-dialog-actions{
+  margin-left: 100px;
+}
+
+.btn.btn-outline-secondary.btncancel{
+  margin-right: 40px;
+}
+
+.btn.btn-outline-secondary.btnanswer{
+  background:  linear-gradient(#667DE9,#764CA4);
+  color: white;
+  width: 215px;
+}
+
+.refuse.mat-radio-button.mat-accent .mat-radio-inner-circle {
+  background-color: red;
+}
+
+.refuse.mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+  border-color:  red;
+}
+
+.mat-radio-outer-circle {
+  border-color:#878787;
+}
+.mat-radio-button.mat-accent{
+  padding-top: 15px;
+}
+
+.cdk-overlay-pane {
+    width: 500px !important;
+}
+
+.mat-dialog-container {
+    background: #2E2E2E;
+    padding: 0 !important;
 }
 
 body {
-  background-color: #222222;
-  font-size: 10px;
+    background-color: #222222;
+    font-size: 10px;
 }
 
 .comp-container {
-  color: white;
-
-  > h3 {
-      background-color: #222222;
-      border: 1px solid #878787;
-      border-radius: 10px 10px 0 0;
-      margin-bottom: 0;
-      font-size: 18px;
-      padding: 10px 25px;
-
-      button {
-          background: transparent;
-          border: none;
-          color: white;
-      }
-  }
-
-  > .details {
-      background-color: #2E2E2E;
-      padding: 25px;
-      font-size: 13px;
-      border: 1px solid #878787;
-      border-radius: 0 0 10px 10px;
-      border-top: 0;
-  }
+    color: white;
+    >h3 {
+        background-color: #222222;
+        border: 1px solid #878787;
+        border-radius: 10px 10px 0 0;
+        margin-bottom: 0;
+        font-size: 18px;
+        padding: 10px 25px;
+        button {
+            background: transparent;
+            border: none;
+            color: white;
+        }
+    }
+    >.details {
+        background-color: #2E2E2E;
+        padding: 25px;
+        font-size: 13px;
+        border: 1px solid #878787;
+        border-radius: 0 0 10px 10px;
+        border-top: 0;
+    }
 }
 
 .form-group {
-  label {
-    color: #878787;
-  }
-
-  input {
-    background-color: #2E2E2E;
-  }
+    label {
+        color: #878787;
+    }
+    input {
+        background-color: #2E2E2E;
+    }
 }
 
 form {
-  div.left {
-    float: left; width: 50%; padding-right: 12px;
-  }
-
-  div.right {
-    float: left; width: 50%; padding-left: 13px;
-  }
-
-  button.btn-primary {
-    background: linear-gradient(to right, #667DE9, #764CA4);
-  }
+    div.left {
+        float: left;
+        width: 50%;
+        padding-right: 12px;
+    }
+    div.right {
+        float: left;
+        width: 50%;
+        padding-left: 13px;
+    }
+    button.btn-primary {
+        background: linear-gradient(to right, #667DE9, #764CA4);
+    }
 }
-.vacation-calendar {
 
-  h3 {
-      text-align: center;
-      div {
-          display: inline-block;
-          width: 300px;
-      }
-  }
-  .date {
-      font-size: 20px;
-  }
-  .prev-month-date,
-  .next-month-date {
-      color: #878787;
-  } // table
-  div.table-container {
-      position: relative;
-      table.table tr td {
-          height: 85px;
-          border: 1px solid #878787;
-          width: 15.2%;
-      }
-      div.progress {
-          position: absolute;
-          left: 28.6%;
-          width: 28.6%;
-          background: linear-gradient(to right, #667DE9, #764CA4)
-      }
-  }
+.vacation-calendar {
+    h3 {
+        text-align: center;
+        div {
+            display: inline-block;
+            width: 300px;
+        }
+    }
+    .date {
+        font-size: 20px;
+    }
+    .prev-month-date,
+    .next-month-date {
+        color: #878787;
+    } // table
+    div.table-container {
+        position: relative;
+        table.table tr td {
+            height: 85px;
+            border: 1px solid #878787;
+            width: 15.2%;
+        }
+        div.progress {
+            position: absolute;
+            left: 28.6%;
+            width: 28.6%;
+            background: linear-gradient(to right, #667DE9, #764CA4)
+        }
+    }
 }
