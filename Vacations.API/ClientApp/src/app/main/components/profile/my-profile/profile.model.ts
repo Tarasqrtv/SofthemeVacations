@@ -13,4 +13,5 @@ export interface Profile {
     TeamName: string;
     TeamLead: string;
     Balance: string;
+    Role: string;
 }

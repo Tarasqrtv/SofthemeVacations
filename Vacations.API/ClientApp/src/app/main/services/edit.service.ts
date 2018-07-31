@@ -8,7 +8,7 @@ import { Employee } from '../components/edit-profile/models/employee.model';
 import { JobTitle } from '../components/edit-profile/models/job-title.model';
 import { EmployeeStatus } from '../components/edit-profile/models/employee-status.model';
 import { Team } from '../components/edit-profile/models/team.model';
-import { employeeRole } from '../components/edit-profile/models/employee-roles.model';
+import { EmployeeRole } from '../components/edit-profile/models/employee-roles.model';
 
 @Injectable()
 export class EditService {
@@ -36,7 +36,8 @@ export class EditService {
     }
 
     getEmployee(): Observable<Employee> {
-        let requestUrl = environment.baseUrl + '/employees/current';
+        let currentUrl = '/employees/current';
+        let requestUrl = environment.baseUrl + currentUrl;
         return this.http.get<Employee>(`${requestUrl}`);
     }
 
@@ -50,9 +51,9 @@ export class EditService {
         return this.http.get<EmployeeStatus[]>(`${requestUrl}`);
     }
 
-    getEmployeeRole(): Observable<employeeRole[]> {
+    getEmployeeRole(): Observable<EmployeeRole[]> {
         let requestUrl = environment.baseUrl + '/roles';
-        return this.http.get<employeeRole[]>(`${requestUrl}`);
+        return this.http.get<EmployeeRole[]>(`${requestUrl}`);
     }
 
     getTeam(): Observable<Team[]> {

@@ -22,7 +22,7 @@
             </td>
             <td>
               <label for="rol">Role</label>
-              <select [(ngModel)]="employee.EmployeeRoleId" class="form-control" id="rol" placeholder="Role">
+              <select [(ngModel)]="employee.RoleId" class="form-control" id="rol">
                 <option *ngFor="let item of employeeRoles " [value]="item.Id">
                   {{item.Name}}
                 </option>
@@ -86,7 +86,6 @@
             </td>
             <td class="kostil">
               <label for="tnm">team name</label>
-              {{employee.TeamId}}
               <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
                   <option *ngFor="let item of teams" [value]="item.TeamId">
                       {{item.Name}}
