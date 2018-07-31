@@ -111,6 +111,7 @@ import { VacationRequestComponent } from './components/request-vacation/vacation
 import { ListOfEmployeesComponent } from './components/list-of-employees/list-of-employees.component';
 import { AddNewEmployeeComponent} from './components/add-new-employee/add-new-employee.component';
 import { TeamCalendarComponent } from './components/team-calendar/team-calendar.component';
+import { ImageService } from './services/image.service';
 
 @NgModule({
   imports: [
@@ -151,7 +152,8 @@ import { TeamCalendarComponent } from './components/team-calendar/team-calendar.
   providers: [
     ProfileService,
     VacationService,
-    EditService
+    EditService,
+    ImageService
   ]
 
 })

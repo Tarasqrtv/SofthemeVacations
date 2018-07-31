@@ -14,7 +14,7 @@ import { AppRoutes } from './app.routes';
 import { MyFirstInterceptor, MyDataService } from './app.service';
 
 import { MainModule } from './main/main.module';
-import { ImageService } from './image.service';
+
 @NgModule({
   declarations: [
     AppComponent
@@ -32,9 +32,7 @@ import { ImageService } from './image.service';
     MainModule,
     AuthModule
   ],
-  providers: [
-    ImageService,
-    {
+  providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: MyFirstInterceptor,
     multi: true,

@@ -51,19 +51,15 @@ export class MyFirstInterceptor implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
-        req = req.clone({ headers: req.headers.set('Content-Type', 'application/json') });
-
         req = req.clone({ headers: req.headers.set('Accept', 'application/json') });
 
         if (localStorage.getItem('token') && !req.headers.has('Authorization')) {
             req = req.clone({ headers: req.headers.set('Authorization', 'Bearer ' + localStorage.getItem('token')) });
         }
 
-        console.log("Inter on");
-
         return next.handle(req).do((event: HttpEvent<any>) => {
             if (event instanceof HttpResponse) {
-                console.log("Inter HttpResponse");
+              
             }
         }, (err: any) => {
             console.log("Inter in");
@@ -74,7 +70,7 @@ export class MyFirstInterceptor implements HttpInterceptor {
                 if (err.status === 403) {
                     // this.router.navigate(["/main"]);
                 }
-                console.log("Inter toaster");
+
                 this.toaster.error(err.message, err.status.toString());
                 return Observable.throw(err);
             }

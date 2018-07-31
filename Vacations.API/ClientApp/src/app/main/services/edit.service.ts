@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
@@ -14,20 +14,25 @@ import { employeeRole } from '../components/edit-profile/models/employee-roles.m
 export class EditService {
     constructor (private http: HttpClient) { }
 
+    ContentTypeHeader = new HttpHeaders ({
+          'Content-Type':  'application/json'});
+
     updateEmployee(employee: Employee): Observable<Employee> {
         console.log("Service works");
         console.log(employee.TeamName);
         console.log(employee.TeamId);
         let requestUrl = environment.baseUrl + '/employees';
         const data = JSON.stringify(employee);
-        return this.http.put(requestUrl, data).map(() => employee);
+
+        return this.http.put<Employee>(requestUrl, data, { headers: this.ContentTypeHeader }).map(() => employee);
     }
     
     addEmployee(employee: Employee): Observable<Employee> {
         console.log("Service works");
         let requestUrl = environment.baseUrl + '/employees';
         const data = JSON.stringify(employee);
-        return this.http.post(requestUrl, data).map(() => employee);
+
+        return this.http.post<Employee>(requestUrl, data, { headers: this.ContentTypeHeader }).map(() => employee);
     }
 
     getEmployee(): Observable<Employee> {
