@@ -105,6 +105,11 @@ namespace Vacations.BLL.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<User> GetUserAsync(ClaimsPrincipal user)
+        {
+            return await _userManager.GetUserAsync(user);
+        }
+
         public async Task ForgotPassword(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
