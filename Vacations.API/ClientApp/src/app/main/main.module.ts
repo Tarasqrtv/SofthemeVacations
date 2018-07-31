@@ -112,6 +112,8 @@ import { AddNewEmployeeComponent } from './components/add-new-employee/add-new-e
 import { TeamCalendarComponent } from './components/team-calendar/team-calendar.component';
 import { CalendarPopupMessageComponent } from './components/calendar-popup-message/calendar-popup-message.component';
 import { OpenVRPopupComponent } from './components/open-vr-popup/open-vr-popup.component';
+import { ViewEmployeesProfileComponent } from './components/view-employees-profile/view-employees-profile.component';
+import { ViewTeamsProfileComponent } from './components/view-teams-profile/view-teams-profile.component';
 
 @NgModule({
   imports: [
@@ -152,7 +154,9 @@ import { OpenVRPopupComponent } from './components/open-vr-popup/open-vr-popup.c
     TeamCalendarComponent,
     EditTeamProfileComponent,
     CalendarPopupMessageComponent,
-    OpenVRPopupComponent
+    OpenVRPopupComponent,
+    ViewEmployeesProfileComponent,
+    ViewTeamsProfileComponent
   ],
   entryComponents: [
     CalendarPopupMessageComponent,
