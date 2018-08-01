@@ -1,9 +1,11 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vacations.BLL.Models;
 using Vacations.DAL.Models;
@@ -16,18 +18,21 @@ namespace Vacations.BLL.Services
         private readonly VacationsDbContext _context;
         private readonly IUsersService _usersService;
         private readonly IVacationStatusService _vacationStatusService;
+        private readonly UserManager<User> _userManager;
 
         public VacationsService(
             VacationsDbContext context,
             IMapper mapper,
             IUsersService usersService,
-                IVacationStatusService vacationStatusService
+            IVacationStatusService vacationStatusService,
+            UserManager<User> userManager
             )
         {
             _mapper = mapper;
             _context = context;
             _usersService = usersService;
             _vacationStatusService = vacationStatusService;
+            _userManager = userManager;
         }
 
 
@@ -55,6 +60,38 @@ namespace Vacations.BLL.Services
                 .Include(v => v.VacationStatus)
                 .Include(v => v.Employee.Team)
                 .Include(v => v.Employee);
+
+            return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
+        }
+
+        private IEnumerable<VacationDto> GetTeamleadVacationRequests(User currentUser)
+        {
+            var employees = _context.Employee
+                .Include(t => t.Team)
+                .Where(e => e.Team.TeamLeadId == currentUser.EmployeeId);
+
+            var vacations = _context.Vacation
+                .Include(v => v.VacationStatus)
+                .Include(v => v.Employee.Team)
+                .Include(v => v.Employee)
+                .Join(employees, v => v.EmployeeId, e => e.EmployeeId,
+                    (v, e) => v);
+
+            return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
+        }
+
+        private IEnumerable<VacationDto> GetAdminVacationRequests(User currentUser)
+        {
+            var employees = _context.Employee
+                .Include(t => t.Team)
+                .Where(e => e.Team.TeamLeadId == currentUser.EmployeeId || e.TeamId == null || e.EmployeeId == e.Team.TeamLeadId);
+
+            var vacations = _context.Vacation
+                .Include(v => v.VacationStatus)
+                .Include(v => v.Employee.Team)
+                .Include(v => v.Employee)
+                .Join(employees, v => v.EmployeeId, e => e.EmployeeId,
+                    (v, e) => v);
 
             return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         }
@@ -104,6 +141,25 @@ namespace Vacations.BLL.Services
                 ?.VacationStatusId;
 
             return await PostAsync(vacationDto);
+        }
+
+        public async Task<IEnumerable<VacationDto>> GetVacationRequestsAsync(ClaimsPrincipal user)
+        {
+            var currentUser = await _usersService.GetUserAsync(user);
+
+            foreach (var role in await _userManager.GetRolesAsync(currentUser))
+            {
+                if (role == "Admin")
+                {
+                    return GetAdminVacationRequests(currentUser);
+                }
+                if (role == "TeamLead")
+                {
+                    return GetTeamleadVacationRequests(currentUser);
+                }
+            }
+
+            return null;
         }
     }
 }
