@@ -6,14 +6,21 @@
       <div class="left">
         <div class="form-group">
           <label for="vacation_type">vacation type</label>
-          <select class="form-control" id="vacation_type">
+          <select  [(ngModel)]="vacation.VacationType" class="form-control" id="sel1">
+              <option *ngFor="let item of vacationTypes" [value]="item">
+                  {{item}}
+              </option>
+          </select>         
+         <!--
+          <select [(ngModel)]="vacation.VacationType"class="form-control" id="vacation_type">
             <option>Not Choosen</option>
             <option>Vacation</option>
-          </select>
+          </select>-->
         </div>
+        {{vacation.VacationType}}
         <div class="form-group">
           <label for="comment">Comment:</label>
-          <textarea class="form-control" rows="5" id="comment" [(ngModel)]="vacation.Comment" [ngModelOptions]="{standalone: true}"></textarea>
+          <textarea class="form-control" rows="5" id="comment" [(ngModel)]="vacation.Comment" ></textarea>
         </div>
         <button class="btn btn-outline-secondary" style="width: 60%; float: right;" (click)="cancel()">CANCEL</button>
       </div>
