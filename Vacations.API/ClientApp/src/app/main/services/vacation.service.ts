@@ -10,6 +10,9 @@ import { VacModel } from '../components/request-vacation/vacation-request/vacati
 export class VacationService {
     constructor (private http: HttpClient) { }
 
+    ContentTypeHeader = new HttpHeaders ({
+        'Content-Type':  'application/json'});
+
     getVacations(): Observable<Vacation[]> {
         let requestUrl = environment.baseUrl + '/vacations/employee';
         return this.http.get<Vacation[]>(`${requestUrl}`);
@@ -20,11 +23,7 @@ export class VacationService {
         let requestUrl = environment.baseUrl + '/vacations/employee';
         const data = JSON.stringify(vacation);
 
-        let headers = new HttpHeaders();
-        
-        headers.append('Content-Type', 'application/json');
-
-        return this.http.post(requestUrl, data, { headers: headers }).map(() => vacation);
+        return this.http.post<VacModel>(requestUrl, data, { headers: this.ContentTypeHeader }).map(() => vacation);
     }
 }
 

@@ -33,19 +33,16 @@ export class AddNewEmployeeComponent implements OnInit {
   ngOnInit() {
       const successfnTeams = (response) => {
       this.teams = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.teams);
     };
     const successfnJobTitles = (response) => {
       this.jobTitles = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.jobTitles);
     };
     const successfnEmployeeStatus = (response) => {
       this.employeeStatuses = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.employeeStatuses);
     };
