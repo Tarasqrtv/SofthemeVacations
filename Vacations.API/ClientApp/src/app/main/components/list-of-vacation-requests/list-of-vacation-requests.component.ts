@@ -27,8 +27,6 @@ export class ListOfVacationRequestsComponent implements OnInit {
   }
 
   parseDate(dateString: any): Date {
-    console.log("parsing DATE");
-    console.log(dateString);
     if (dateString) {
       return new Date(dateString);
     } else {
@@ -37,24 +35,21 @@ export class ListOfVacationRequestsComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
-    console.log("Datediff!");
     let date = (lst - frst) / 1000 / 60 / 60 / 24;
     return date;
   }
-  
-  ParseToDate(date){
-    let oneDate = new Date (date);
-    return oneDate;
-  }
 
-  openDialog() {
+  openDialog(vacId: string) {
+    console.log(vacId);
     const dialogRef = this.dialog.open(OpenVRPopupComponent, {
       width: '500px',
-      data: 'This text is passed into the dialog!'
+      data: vacId
     });
+
     dialogRef.afterClosed().subscribe(result => {
       console.log(`Dialog closed: ${result}`);
       this.dialogResult = result;
     });
+
   }
 }

@@ -8,5 +8,4 @@ export class Vacation {
     Employee: string;
     VacationStatusName: string;
     VacationType: string;
-    TeamName: string;
 }

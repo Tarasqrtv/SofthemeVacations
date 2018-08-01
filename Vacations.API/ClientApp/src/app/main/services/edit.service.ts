@@ -48,6 +48,8 @@ export class EditService {
 
     getEmployeeId(id: string): Observable<Employee> {
         let idUrl = id;
+        console.log(id);
+        console.log(idUrl);
         let currentUrl;
         if(idUrl == null)
         {

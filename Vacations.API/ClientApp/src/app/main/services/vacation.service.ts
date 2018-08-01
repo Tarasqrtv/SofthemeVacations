@@ -19,6 +19,11 @@ export class VacationService {
         return this.http.get<Vacation[]>(`${requestUrl}`);
     }
 
+    getVacation(vacurl: string): Observable<Vacation> {
+        let requestUrl = environment.baseUrl + '/vacations/'+vacurl;
+       return this.http.get<Vacation>(`${requestUrl}`);
+   }
+
     getVacationRequests(): Observable<VacRequest[]> {
         let requestUrl = environment.baseUrl + '/vacations';
         return this.http.get<VacRequest[]>(`${requestUrl}`);
