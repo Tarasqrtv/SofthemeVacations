@@ -25,7 +25,7 @@ export class MyProfileComponent implements OnInit {
   ngOnInit() {
     this.service.getProfile().subscribe(response => {
       this.employee = response;
-      
+
       console.log(this.employee);
       console.log(response);
     });
