@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
 
 import { EditService } from '../../services/edit.service';
 import { Employee } from './models/employee.model';
@@ -11,7 +12,6 @@ import { EmployeeStatus } from './models/employee-status.model';
 import { EmployeeRole } from './models/employee-roles.model';
 import { ImageService } from '../../services/image.service';
 import { environment } from '../../../../environments/environment';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-profile',
@@ -33,7 +33,7 @@ export class EditProfileComponent implements OnInit {
     private service: EditService,
     private toast: ToastrService,
     private activateRoute: ActivatedRoute) {
-      this.id = this.activateRoute.snapshot.paramMap.get('id');
+    this.id = this.activateRoute.snapshot.paramMap.get('id');
   }
 
 
@@ -100,6 +100,10 @@ export class EditProfileComponent implements OnInit {
 
   Save() {
     console.log(this.employee);
+    console.log(this.fileToUpload);
+    if(this.fileToUpload != null){
+      this.uploadFileToActivity();
+    }
     this.service.updateEmployee(this.employee).subscribe(response => this.employee = response);;
     this.location.back();
     this.toast.success("You successfully edit profile", "");

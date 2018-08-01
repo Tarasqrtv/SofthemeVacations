@@ -1,4 +1,4 @@
-<div class="comp-container">
+<div class="comp-container" style="width: 540px;">
   <h3>Vacation Request</h3>
 
   <div class="details">
@@ -13,30 +13,34 @@
         </div>
         <div class="form-group">
           <label for="comment">Comment:</label>
-          <textarea class="form-control" rows="5" id="comment" [(ngModel)]="vacation.Comment"></textarea>
+          <textarea class="form-control" rows="5" id="comment" [(ngModel)]="vacation.Comment" [ngModelOptions]="{standalone: true}"></textarea>
         </div>
         <button class="btn btn-outline-secondary" style="width: 60%; float: right;" (click)="cancel()">CANCEL</button>
       </div>
       <div class="right">
         <div class="form-group">
           <label for="from">from</label>
-          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from"  [(ngModel)]="startDt" >
+          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from" [value]="vacation.StartVocationDate | date:'yyyy-MM-dd'" (input)="vacation.StartVocationDate=parseDate($event.target.value)" name="firstField" >
         </div>
         <div class="form-group">
           <label for="to">to</label>
-          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;" [(ngModel)]="endDt">
-            <mat-form-field>
-              <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+         <!--  <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;">
+           <mat-form-field>
+              <input matInput [matDatepicker]="picker" [(ngModel)]="vacation.EndVocationDate">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker startView="year" ></mat-datepicker>
-            </mat-form-field>
-          </div>
+            </mat-form-field>  -->  
+          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from"  [value]="vacation.EndVocationDate | date:'yyyy-MM-dd'" (input)="vacation.EndVocationDate=parseDate($event.target.value)" name="secondField">
         </div>
         <div class="form-group">
           <label for="am">amount</label>
-          <div class="row col-12">   
-            <input type="text" class="form-control" id="am" style="width: 30%; text-align: center;"  (click)="DaysInVac(startDt, endDt)">
+          <div class="row col-12"> 
+            <div type="text" class="form-control" id="am" style="width: 30%; text-align: center; height: 40px;">
+              <div *ngIf="vacation.StartVocationDate && vacation.EndVocationDate; else loading " > 
+                {{DaysInVac(vacation.StartVocationDate, vacation.EndVocationDate)}}
+              </div>
             <p>days in vacation </p>
+            </div>
           </div>
         </div>
         <button class="btn btn-primary btn-block" (click)="Send()">SEND REQUEST</button>
@@ -45,3 +49,5 @@
     </form>
   </div>
 </div>
+
+<ng-template #loading> XX </ng-template>

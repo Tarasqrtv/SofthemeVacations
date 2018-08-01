@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Vacations.BLL.Models
 {
-    public partial class EmployeeStatusDto
+    public class EmployeeStatusDto
     {
         public EmployeeStatusDto()
         {
