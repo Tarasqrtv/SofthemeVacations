@@ -19,6 +19,7 @@ export class VacationRequestComponent implements OnInit {
 
   employee: Employee = <Employee>{};
   vacation: VacModel = <VacModel>{};
+  vacationTypes: string[] = [ 'Not choosen', 'Vacation', 'Holiday'];
  
 
   constructor(private location: Location, private service: VacationService, private othService: EditService, private toast: ToastrService) { }
@@ -59,7 +60,7 @@ export class VacationRequestComponent implements OnInit {
 
   Send() {
     console.log(this.employee);
-    this.vacation.EmployeeId =this.employee.EmployeeId;  
+    this.vacation.EmployeeId =this.employee.EmployeeId;
     this.service.SendVacation(this.vacation).subscribe(response => this.vacation = response);
     this.location.back();
     this.toast.success("You successfully send vacation request", "");

@@ -24,7 +24,7 @@ export class VacationService {
         
         headers.append('Content-Type', 'application/json');
 
-        return this.http.put(requestUrl, data, { headers: headers }).map(() => vacation);
+        return this.http.post(requestUrl, data, { headers: headers }).map(() => vacation);
     }
 }
 
