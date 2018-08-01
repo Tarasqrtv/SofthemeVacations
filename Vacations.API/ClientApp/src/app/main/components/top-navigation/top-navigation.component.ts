@@ -14,7 +14,16 @@ export class TopNavigationComponent implements OnInit {
 
   ngOnInit() {
     this.imgService.getImgUrl().subscribe(
-      response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
+      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
       () => this.imgUrl = "default");
+  }
+  viewdiv(id) {
+    const el = document.getElementById(id);
+    if (el.style.display === 'block') {
+      el.style.display = 'none';
+
+    } else {
+      el.style.display = 'block';
+    }
   }
 }
