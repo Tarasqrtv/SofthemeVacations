@@ -1,4 +1,4 @@
-export class Vacation {
+export interface VacRequest{
     VacationId: string;
     StartVocationDate: Date;
     EndVocationDate: Date;
@@ -9,4 +9,7 @@ export class Vacation {
     VacationStatusName: string;
     VacationType: string;
     TeamName: string;
+    EmployeeName: string;
+    EmployeeSurname: string;
+    EmployeeBalance: string;
 }

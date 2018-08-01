@@ -16,17 +16,13 @@ namespace Vacations.API.Controllers
     [Route("api/auth")]
     public class AuthController : Controller
     {
-        private readonly UserManager<User> _userManager;
         private readonly IUsersService _usersService;
 
         public AuthController(
-            UserManager<User> userManager,
-            IConfiguration configuration,
             IUsersService usersService
         )
         {
             _usersService = usersService;
-            _userManager = userManager;
         }
 
         [AllowAnonymous]
@@ -64,10 +60,7 @@ namespace Vacations.API.Controllers
         [Route("Reset-Password")]
         public async Task<IActionResult> SendPasswordEmailResetRequestAsync([FromBody] PasswordReset passwordReset)
         {
-            var userEntity = await _userManager.FindByIdAsync(passwordReset.EmployeeId);
-            var codeDecodedBytes = WebEncoders.Base64UrlDecode(passwordReset.Code);
-            var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
-            await _userManager.ResetPasswordAsync(userEntity, codeDecoded, passwordReset.Password);
+            await _usersService.ResetPasswordAsync(passwordReset.EmployeeId, passwordReset.Code, passwordReset.Password);
             return Ok();
         }
     }

@@ -12,5 +12,9 @@ namespace Vacations.BLL.Models
         public string Comment { get; set; }
         public Guid? EmployeeId { get; set; }
         public string VacationStatusName { get; set; }
+        public string TeamName { get; set; }
+        public string EmployeeName { get; set; }
+        public string EmployeeSurname { get; set; }
+        public string EmployeeBalance { get; set; }
     }
 }
