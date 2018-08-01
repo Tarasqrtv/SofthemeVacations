@@ -9,8 +9,15 @@
       <tbody>
         <tr>
           <td>
-            <div class="user-photo float-left" style="background: url('../../../../assets/testfoto.jpg') no-repeat 0px 0;background-size: auto 90px;"></div>
-            <button type="button" class="btn btn-outline-primary float-right ">ADD PHOTO</button>
+            <div class="user-photo float-left" style="background:url({{imgUrl}}) no-repeat 0px 0;background-size: auto 90px;">
+              <img src="{{imgUrl}}" style="border-radius:50%; height:50px; width:50px;margin-top: 18px;" />
+            </div>
+            <label for="file">
+              <div style="border: 1px solid rgb(91, 106, 186); border-radius: 4px; width: 122px; height: 37px;margin-top: 26px;">
+                <p style="color: rgb(91, 106, 186); margin-top: 7px; margin-left: 18px;"> ADD PHOTO</p>
+              </div>
+            </label>
+            <input type="file" id="file" (change)="handleFileInput($event.target.files)" style="display: none;">
           </td>
           <td class="kostil">
             <label for="bday">date of birth</label>
@@ -56,11 +63,11 @@
         <tr>
           <td>
             <label for="sel1">job title:</label>
-            <select  [(ngModel)]="employee.JobTitleId" class="form-control" id="sel1">
+            <select [(ngModel)]="employee.JobTitleId" class="form-control" id="sel1">
               <option *ngFor="let item of jobTitles" [value]="item.JobTitleId">
-                  {{item.Name}}
+                {{item.Name}}
               </option>
-          </select>
+            </select>
           </td>
           <td class="kostil">
             <label for="bday">hire date</label>
@@ -74,24 +81,24 @@
         <tr>
           <td>
             <label for="sel1">status:</label>
-            <select  class="form-control" id="sel1" [(ngModel)]="employee.EmployeeStatusId">
+            <select class="form-control" id="sel1" [(ngModel)]="employee.EmployeeStatusId">
               <option *ngFor="let item of employeeStatuses" [value]="item.EmployeeStatusId">
                 {{item.Name}}
-            </option>
+              </option>
             </select>
           </td>
           <td class="kostil">
             <label for="tnm">team name</label>
-              <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
-                  <option *ngFor="let item of teams" [value]="item.TeamId">
-                      {{item.Name}}
-                  </option>
-              </select>
+            <select [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
+              <option *ngFor="let item of teams" [value]="item.TeamId">
+                {{item.Name}}
+              </option>
+            </select>
           </td>
           <td>
             <label for="tnml">team leader</label>
             {{employee.TeamLead}}
-            <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;"  [(ngModel)]="employee.TeamLead">
+            <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" [(ngModel)]="employee.TeamLead">
           </td>
         </tr>
         <tr>
@@ -103,7 +110,7 @@
             <button type="button" class="btn btn-outline-secondary float-right" (click)="cancel()">CANCEL</button>
           </td>
           <td>
-            <button type="submit" class="btn btn-outline-secondary" (click) = "Save()">DONE</button>
+            <button type="submit" class="btn btn-outline-secondary" (click)="Save()">DONE</button>
           </td>
         </tr>
       </tbody>

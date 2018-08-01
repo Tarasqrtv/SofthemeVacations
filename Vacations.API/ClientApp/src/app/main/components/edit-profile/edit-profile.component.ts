@@ -101,10 +101,10 @@ export class EditProfileComponent implements OnInit {
   Save() {
     console.log(this.employee);
     console.log(this.fileToUpload);
-    if(this.fileToUpload != null){
+    if (this.fileToUpload != null) {
       this.uploadFileToActivity();
     }
-    this.service.updateEmployee(this.employee).subscribe(response => this.employee = response);;
+    this.service.updateEmployee(this.employee).subscribe(response => this.employee = response);
     this.location.back();
     this.toast.success("You successfully edit profile", "");
     console.log(this.employeeStatuses);
