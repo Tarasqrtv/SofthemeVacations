@@ -10,7 +10,7 @@ namespace Vacations.BLL.Services
 {
     public interface IEmployeesService
     {
-        IEnumerable<EmployeeDto> Get();
+        IEnumerable<EmployeeDtoList> Get();
         EmployeeDto GetById(Guid id);
         Task<EmployeeDto> GetByIdAsync(Guid id);
         Task<int> PutAsync(EmployeeDto employeeDto);

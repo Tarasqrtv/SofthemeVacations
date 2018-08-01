@@ -10,14 +10,15 @@ namespace Vacations.API.Infrastructure
     {
         public MappingProfile()
         {
-            //CreateMap<User, UserDto>();
-            //CreateMap<UserDto, User>();
+            CreateMap<Employee, ProfileDto>()
+                .ForMember(p => p.TeamName, o => o.MapFrom(c => c.Team.Name))
+                .ForMember(p => p.TeamLeadName, o=> o.MapFrom(c => c.Team.TeamLead.Name))
+                .ForMember(p => p.TeamLeadSurname, o => o.MapFrom(c => c.Team.TeamLead.Surname))
+                .ForMember(p => p.JobTitle, o => o.MapFrom(c => c.JobTitle.Name))
+                .ForMember(p => p.EmployeeStatus, o => o.MapFrom(c => c.EmployeeStatus.Name));
 
-            //CreateMap<IQueryable<User>, IQueryable<UserDto>>();
-            //CreateMap<IQueryable<UserDto>, IQueryable<User>>();
-
-            //CreateMap<UserDto, UserModel>();
-            //CreateMap<UserModel, UserDto>();
+            CreateMap<Vacation, VacationDto>()
+                .ForMember(vdto => vdto.VacationStatusName, o => o.MapFrom(v => v.VacationStatus.Name));
         }
     }
 }

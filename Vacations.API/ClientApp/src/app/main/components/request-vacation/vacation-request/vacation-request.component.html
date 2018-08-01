@@ -20,11 +20,11 @@
       <div class="right">
         <div class="form-group">
           <label for="from">from</label>
-          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from" [(ngModel)]="vacation.StartVocationDate" >
+          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from"  [(ngModel)]="startDt" >
         </div>
         <div class="form-group">
           <label for="to">to</label>
-          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;" [(ngModel)]="vacation.EndVocationDate">
+          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;" [(ngModel)]="endDt">
             <mat-form-field>
               <input matInput [matDatepicker]="picker" placeholder="Choose a date">
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -34,9 +34,9 @@
         </div>
         <div class="form-group">
           <label for="am">amount</label>
-          <div class="row col-12">
-            <input type="text" class="form-control" id="am" value=" {{(DaysInVac(vacation.EndVocationDate, vacation.StartVocationDate)) }}" style="width: 30%; text-align: center;">
-            <p>days in vacation</p>
+          <div class="row col-12">   
+            <input type="text" class="form-control" id="am" style="width: 30%; text-align: center;"  (click)="DaysInVac(startDt, endDt)">
+            <p>days in vacation </p>
           </div>
         </div>
         <button class="btn btn-primary btn-block" (click)="Send()">SEND REQUEST</button>

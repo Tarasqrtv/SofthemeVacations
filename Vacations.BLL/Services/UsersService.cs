@@ -105,12 +105,17 @@ namespace Vacations.BLL.Services
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<User> GetUserAsync(ClaimsPrincipal user)
+        {
+            return await _userManager.GetUserAsync(user);
+        }
+
         public async Task ForgotPassword(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
             var code = await _userManager.GeneratePasswordResetTokenAsync(user);
             var callbackUrl =
-                $"{_configuration["Domain:RequestScheme"]}://{_configuration["Domain:DomainName"]}/auth/reset-password?code={code}";
+                $"{_configuration["Domain:RequestScheme"]}://{_configuration["Domain:DomainName"]}/auth/reset-password?id={user.Id}&code={code}";
             await _emailSender.SendEmailAsync(email, "Reset Password",
                 $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
         }

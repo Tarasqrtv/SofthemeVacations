@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 
 import { Profile } from './profile.model';
 import { ProfileService } from '../../../services/profile.service';
-import { ImageService } from '../../../../image.service';
+import { ImageService } from '../../../services/image.service';
 
 @Component({
   selector: 'app-my-profile',
@@ -15,8 +15,9 @@ export class MyProfileComponent implements OnInit {
   title = 'profile';
   employee: Profile = <Profile>{};
   constructor(private service: ProfileService, private router: Router, private imgService: ImageService) { }
-  toEdit() {
-    this.router.navigate(['main/edit-profile']);
+  
+  toEdit(empl: Profile) {
+    this.router.navigate(['/edit-profile', { id: empl.EmployeeId }]);
   }
 
   imgUrl: string;
