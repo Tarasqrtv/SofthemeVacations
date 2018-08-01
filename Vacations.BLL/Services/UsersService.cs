@@ -111,6 +111,14 @@ namespace Vacations.BLL.Services
             return await _userManager.GetUserAsync(user);
         }
 
+        public async Task ResetPasswordAsync(string employeeId, string code, string passwordReset)
+        {
+            var userEntity = await _userManager.FindByIdAsync(employeeId);
+            var codeDecodedBytes = WebEncoders.Base64UrlDecode(code);
+            var codeDecoded = Encoding.UTF8.GetString(codeDecodedBytes);
+            await _userManager.ResetPasswordAsync(userEntity, codeDecoded, passwordReset);
+        }
+
         public async Task ForgotPassword(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);

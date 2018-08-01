@@ -14,5 +14,6 @@ namespace Vacations.BLL.Services
         Task<TokenDto> GetTokenAsync(string authorizationHeader);
         Task ForgotPassword(string email);
         Task<User> GetUserAsync(ClaimsPrincipal user);
+        Task ResetPasswordAsync(string employeeId, string code, string passwordReset);
     }
 }
