@@ -6,9 +6,7 @@ import { EditService } from '../../../services/edit.service';
 import { VacationService } from '../../../services/vacation.service';
 
 import { Employee } from '../../edit-profile/models/employee.model';
-import { Vacation } from '../../profile/my-vacations/vacation.model';
-
-declare var require: any;
+import { VacModel } from './vacation-request.model';
 
 @Component({
   selector: 'app-vacation-request',
@@ -18,12 +16,10 @@ declare var require: any;
 
 export class VacationRequestComponent implements OnInit {
 
-  
+
   employee: Employee = <Employee>{};
-  vacation: Vacation = <Vacation>{};
-  startDt: Date;
-  endDt: Date;
-  DateDiff = require('date-diff');
+  vacation: VacModel = <VacModel>{};
+ 
 
   constructor(private location: Location, private service: VacationService, private othService: EditService, private toast: ToastrService) { }
 
@@ -45,38 +41,27 @@ export class VacationRequestComponent implements OnInit {
     this.othService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
   }
 
-  ParseToDate(date) {
-    console.log(date);
-    var oneDate = new Date(date);
-    return oneDate;
-  }
-  //(ParseToDate(vacation.EndVocationDate)-ParseToDate(vacation.StartVocationDate)) /1000/60/60/24
-  DaysInVaac(frst, lst) {
-    //let start = this.ParseToDate(frst);
-    // let end = this.ParseToDate(lst);
-    console.log("working!");
-    let date = (frst - lst) / 1000 / 60 / 60 / 24;
-    let dateLst = this.ParseToDate(date);
-    console.log(dateLst);
-    return dateLst;
+  parseDate(dateString: any): Date {
+    console.log("parsing DATE");
+    console.log(dateString);
+    if (dateString) {
+      return new Date(dateString);
+    } else {
+      return null;
+    }
   }
 
   DaysInVac(frst, lst) {
-    console.log("working!");
-    let start = this.ParseToDate(frst);
-    let end = this.ParseToDate(lst);
-    let diff = new this.DateDiff(start, end);
-    console.log(diff.days());
-    return diff.days();
+    console.log("Datediff!");
+    let date = (lst - frst) / 1000 / 60 / 60 / 24;
+    return date;
   }
 
   Send() {
     console.log(this.employee);
-    this.employee.EmployeeId = this.vacation.EmployeeId;
+    this.vacation.EmployeeId =this.employee.EmployeeId;  
     this.service.SendVacation(this.vacation).subscribe(response => this.vacation = response);
     this.location.back();
     this.toast.success("You successfully send vacation request", "");
   }
-
-
 }

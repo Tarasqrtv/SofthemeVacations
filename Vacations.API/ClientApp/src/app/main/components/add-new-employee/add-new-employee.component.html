@@ -18,10 +18,10 @@
           </td>
           <td>
             <label for="rol">Role</label>
-            <select class="form-control" id="rol" placeholder="Role">
-              <option>Employee</option>
-              <option>Admin</option>
-              <option>Team Leader</option>
+            <select [(ngModel)]="employee.RoleId" class="form-control" id="rol">
+              <option *ngFor="let item of employeeRoles " [value]="item.Id">
+                {{item.Name}}
+              </option>
             </select>
           </td>
         </tr>
@@ -56,11 +56,11 @@
         <tr>
           <td>
             <label for="sel1">job title:</label>
-            <select [(ngModel)]="employee.JobTitle" class="form-control" id="sel1">
-              <option *ngFor="let item of jobTitles">
-                {{item.Name}}
+            <select  [(ngModel)]="employee.JobTitleId" class="form-control" id="sel1">
+              <option *ngFor="let item of jobTitles" [value]="item.JobTitleId">
+                  {{item.Name}}
               </option>
-            </select>
+          </select>
           </td>
           <td class="kostil">
             <label for="bday">hire date</label>
@@ -74,23 +74,24 @@
         <tr>
           <td>
             <label for="sel1">status:</label>
-            <select class="form-control" id="sel1">
-              <option>Active</option>
-              <option>Non Active</option>
+            <select  class="form-control" id="sel1" [(ngModel)]="employee.EmployeeStatusId">
+              <option *ngFor="let item of employeeStatuses" [value]="item.EmployeeStatusId">
+                {{item.Name}}
+            </option>
             </select>
           </td>
           <td class="kostil">
             <label for="tnm">team name</label>
-            <select class="form-control" id="tnm">
-              <option> None </option>
-              <option *ngFor="let item of teams" selected>
-                {{item.Name}}
-              </option>
-            </select>
+              <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
+                  <option *ngFor="let item of teams" [value]="item.TeamId">
+                      {{item.Name}}
+                  </option>
+              </select>
           </td>
           <td>
             <label for="tnml">team leader</label>
-            <input class="form-control" value="Oleksa" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" placeholder="{{employee.TeamLead}} ">
+            {{employee.TeamLead}}
+            <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;"  [(ngModel)]="employee.TeamLead">
           </td>
         </tr>
         <tr>
