@@ -3,4 +3,5 @@ export interface VacModel {
     EndVocationDate: Date;
     Comment: string;
     EmployeeId: string;
+    VacationType: string;
 }
