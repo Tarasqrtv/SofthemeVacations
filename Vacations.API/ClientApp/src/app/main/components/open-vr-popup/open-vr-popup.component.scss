@@ -1,0 +1,40 @@
+.form-group {
+    margin-bottom: 0em;
+    margin-top: 1em;
+}
+
+.form-control {
+    padding-left: 20px;
+    border-radius: 4px;
+    background-color: #2E2E2E;
+    color: white;
+    outline: none;
+    border: 1px solid #dee2e6;
+}
+
+.Myphoto {
+    width: 76px;
+    height: 76px;
+    float: left;
+    border-radius: 50%;
+    background: url('../../../../assets/f60c5950-c05c-41c7-bc6c-5f61f5722f00.jpg') no-repeat 0px 0;
+    background-size: auto 121px;
+    margin-right: 1em;
+}
+
+p {
+    font-family: Muli-Bold;
+    color: grey;
+}
+
+.myp {
+    margin-top: 8px;
+    margin-bottom: 1rem;
+    margin-left: 15px;
+}
+
+.bottominformation {
+    border-top: 1px solid #dee2e6;
+    padding-top: 20px;
+
+}

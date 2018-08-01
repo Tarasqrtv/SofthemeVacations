@@ -1,0 +1,41 @@
+.form-group{
+  margin-bottom: 4em;
+  margin-top: 2em;
+}
+.Myphoto{
+ width: 76px;
+ height: 76px;
+ float: left;
+ border-radius:50%;
+ background:url('../../../../assets/f60c5950-c05c-41c7-bc6c-5f61f5722f00.jpg') no-repeat 0px 0;
+ background-size: auto 121px;
+ margin-right: 1em;
+}
+p {
+    font-family: Muli-Bold;
+    color: grey;
+}
+
+.approvedconteiner {
+    border: none;
+    color: grey;
+    width: 200px !important;
+    padding: 10px;
+    border-bottom: 1px solid #764CA4;
+    border-top:1px solid #667DE9;
+    background-image:
+        linear-gradient(#667DE9,#764CA4),
+        linear-gradient(#667DE9,#764CA4)
+    ;
+    background-size:1px 100%;
+    background-position:0 0, 100% 0;
+    background-repeat:no-repeat;
+    border-radius: 4px;
+    i {
+        float: left;
+        padding-top: 10px;
+        padding-left: 5px;
+        padding-right: 25px;
+        width: 15px;
+    }
+}

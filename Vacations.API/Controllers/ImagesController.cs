@@ -63,12 +63,19 @@ namespace Vacations.API.Controllers
         [HttpGet("current")]
         public async Task<string> GetAsync()
         {
-            var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-
             var user = await _userManager.GetUserAsync(User);
 
             var blockBlob = _blobContainer.GetBlockBlobReference(user.EmployeeId.ToString());
-            return blockBlob.Uri.AbsoluteUri;
+
+            if (blockBlob.Exists())
+            {
+                return blockBlob.Uri.AbsoluteUri;
+            }
+            else
+            {
+                blockBlob = _blobContainer.GetBlockBlobReference("default");
+                return blockBlob.Uri.AbsoluteUri;
+            } 
         }
 
         [Authorize(Roles = "Admin")]

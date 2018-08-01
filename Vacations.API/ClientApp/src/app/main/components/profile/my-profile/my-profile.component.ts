@@ -17,7 +17,7 @@ export class MyProfileComponent implements OnInit {
   constructor(private service: ProfileService, private router: Router, private imgService: ImageService) { }
   
   toEdit(empl: Profile) {
-    this.router.navigate(['/edit-profile', { id: empl.EmployeeId }]);
+    this.router.navigate(['/edit-profile']);
   }
 
   imgUrl: string;
@@ -31,7 +31,7 @@ export class MyProfileComponent implements OnInit {
     });
 
     this.imgService.getImgUrl().subscribe(
-      response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
+      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
       () => this.imgUrl = "default");
   }
 }

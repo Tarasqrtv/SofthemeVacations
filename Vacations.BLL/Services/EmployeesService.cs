@@ -40,38 +40,12 @@ namespace Vacations.BLL.Services
             return employees;
         }
 
-        public EmployeeDto GetById(Guid id)
-        {
-            var employee = _context.Employee.FirstOrDefault(e => e.EmployeeId == id);
-
-            if (employee != null)
-                return new EmployeeDto()
-                {
-                    EmployeeId = employee.EmployeeId,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Birthday = employee.Birthday,
-                    PersonalEmail = employee.PersonalEmail,
-                    WorkEmail = employee.WorkEmail,
-                    TelephoneNumber = employee.TelephoneNumber,
-                    Skype = employee.Skype,
-                    StartDate = employee.StartDate,
-                    EndDate = employee.EndDate,
-                    TeamName = employee.Team.Name,
-                    TeamLeadName = employee.Team.TeamLead.Name,
-                    TeamLeadSurname = employee.Team.TeamLead.Surname,
-                    Balance = employee.Balance,
-                    EmployeeStatusId = employee.EmployeeStatusId,
-                    JobTitleId = employee.JobTitleId,
-                    TeamId = employee.TeamId,
-                    TeamLeadId = employee.Team.TeamLead.EmployeeId
-                };
-            throw new NullReferenceException("Employee not found!");
-        }
-
         public async Task<EmployeeDto> GetByIdAsync(Guid id)
         {
-            var employee = await _context.Employee.Include(e => e.Team.TeamLead).FirstOrDefaultAsync(e => e.EmployeeId == id);
+            var employee = await _context.Employee
+                .Include(e => e.Team.TeamLead)
+                .Include(e => e.User)
+                .FirstOrDefaultAsync(e => e.EmployeeId == id);
 
             if (employee != null)
                 return new EmployeeDto()
@@ -86,14 +60,15 @@ namespace Vacations.BLL.Services
                     Skype = employee.Skype,
                     StartDate = employee.StartDate,
                     EndDate = employee.EndDate,
-                    TeamName = employee.Team.Name,
-                    TeamLeadName = employee.Team.TeamLead.Name,
-                    TeamLeadSurname = employee.Team.TeamLead.Surname,
+                    TeamName = employee.Team?.Name,
+                    TeamLeadName = employee.Team?.TeamLead.Name,
+                    TeamLeadSurname = employee.Team?.TeamLead.Surname,
                     Balance = employee.Balance,
                     EmployeeStatusId = employee.EmployeeStatusId,
                     JobTitleId = employee.JobTitleId,
                     TeamId = employee.TeamId,
-                    TeamLeadId = employee.Team.TeamLead.EmployeeId
+                    TeamLeadId = employee.Team?.TeamLead.EmployeeId,
+                    RoleId = (await _userManager.GetRolesAsync(employee.User)).FirstOrDefault()
                 };
             throw new NullReferenceException("Employee not found!");
         }
@@ -140,8 +115,6 @@ namespace Vacations.BLL.Services
             {
                 await _userManager.AddToRoleAsync(user, result4.Name);
             }
-
-            await _usersService.ForgotPassword(user.Email);
 
             return result1;
         }

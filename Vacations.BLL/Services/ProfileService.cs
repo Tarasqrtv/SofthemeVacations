@@ -19,68 +19,22 @@ namespace Vacations.BLL.Services
             _context = context;
         }
 
-        public ProfileDto GetById(Guid idGuid)
-        {
-            var profile = _context.Employee.Include(e => e.Team)
-                .Where(e => e.EmployeeId == idGuid)
-                .Select(e => new ProfileDto()
-                {
-                    Name = e.Name,
-                    Surname = e.Surname,
-                    JobTitle = e.JobTitle.Name,
-                    EmployeeStatus = e.EmployeeStatus.Name,
-                    Birthday = e.Birthday,
-                    PersonalEmail = e.WorkEmail,
-                    WorkEmail = e.WorkEmail,
-                    TelephoneNumber = e.TelephoneNumber,
-                    Skype = e.Skype,
-                    StartDate = e.StartDate,
-                    EndDate = e.EndDate,
-                    TeamName = e.Team.Name,
-                    TeamLeadName = e.Team.TeamLead.Name,
-                    TeamLeadSurname = e.Team.TeamLead.Surname,
-                    Balance = e.Balance
-                })
-                .FirstOrDefault();
-
-            return profile;
-        }
-
         public async Task<ProfileDto> GetByIdAsync(Guid idGuid)
         {
-            var profile = await _context.Employee.Include(e => e.Team)
-                .Where(e => e.EmployeeId == idGuid)
-                .Select(e => new ProfileDto()
-                {
-                    Name = e.Name,
-                    Surname = e.Surname,
-                    JobTitle = e.JobTitle.Name,
-                    EmployeeStatus = e.EmployeeStatus.Name,
-                    Birthday = e.Birthday,
-                    PersonalEmail = e.WorkEmail,
-                    WorkEmail = e.WorkEmail,
-                    TelephoneNumber = e.TelephoneNumber,
-                    Skype = e.Skype,
-                    StartDate = e.StartDate,
-                    EndDate = e.EndDate,
-                    TeamName = e.Team.Name,
-                    TeamLeadName = e.Team.TeamLead.Name,
-                    TeamLeadSurname = e.Team.TeamLead.Surname,
-                    Balance = e.Balance
-                })
-                .FirstOrDefaultAsync();
+            var employee = await _context.Employee
+                .Include(e => e.Team.TeamLead)
+                .Include(e => e.EmployeeStatus)
+                .Include(e => e.JobTitle)
+                .FirstOrDefaultAsync(e => e.EmployeeId == idGuid);
+
+            if (employee == null)
+            {
+                return null;
+            }
+
+            var profile = _mapper.Map<Employee, ProfileDto>(employee);
 
             return profile;
         }
-
-        //public bool Edit(ProfileDto profileDto)
-        //{
-        //    var profile = _mapper.Map<ProfileDto, Profile>(profileDto);
-
-        //    var employee = 
-        //    _context.Employee.Attach(profile);
-        //    _context.SaveChanges();
-        //    return true;
-        //}
     }
 }

@@ -48,7 +48,15 @@ export class EditService {
 
     getEmployeeId(id: string): Observable<Employee> {
         let idUrl = id;
-        let currentUrl = '/employees/'+idUrl;
+        let currentUrl;
+        if(idUrl == null)
+        {
+            currentUrl = '/employees/current';
+        }
+        else
+        {
+            currentUrl = '/employees/' + idUrl;
+        }
         let requestUrl = environment.baseUrl + currentUrl;
         return this.http.get<Employee>(`${requestUrl}`);
     }

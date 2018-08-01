@@ -14,10 +14,15 @@ namespace Vacations.API.Infrastructure
         {
             services.AddTransient<IEmailSender, EmailSender>();
             services.AddTransient<IUsersService, UsersService>();
+
             services.AddTransient<IEmployeesService, EmployeesService>();
             services.AddTransient<IVacationsService, VacationsService>(); 
             services.AddTransient<IProfileService, ProfileService>();
             services.AddTransient<ITeamsService, TeamsService>();
+
+            services.AddTransient<IVacationStatusService, VacationStatusService>();
+            services.AddTransient<IEmployeeStatusService, EmployeeStatusService>();
+            services.AddTransient<IJobTitlesService, JobTitlesService>();
         }
     }
 }

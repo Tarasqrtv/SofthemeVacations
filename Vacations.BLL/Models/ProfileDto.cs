@@ -7,6 +7,7 @@ namespace Vacations.BLL.Models
 {
     public class ProfileDto
     {
+        public Guid EmployeeId { get; set; }
         public string Name { get; set; }
         public string Surname { get; set; }
         public string WorkEmail { get; set; }
