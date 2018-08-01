@@ -33,21 +33,26 @@ namespace Vacations.BLL.Services
 
         public VacationDto GetById(Guid idGuid)
         {
-            var vacation = _context.Vacation.Include(v => v.VacationStatus).FirstOrDefault(v => v.VacationId == idGuid);
+            var vacation = _context.Vacation
+                .Include(v => v.VacationStatus)
+                .FirstOrDefault(v => v.VacationId == idGuid);
 
             return _mapper.Map<Vacation, VacationDto>(vacation);
         }
 
         public async Task<VacationDto> GetByIdAsync(Guid idGuid)
         {
-            var vacation = await _context.Vacation.Include(v => v.VacationStatus).FirstOrDefaultAsync(v => v.VacationId == idGuid);
+            var vacation = await _context.Vacation
+                .Include(v => v.VacationStatus)
+                .FirstOrDefaultAsync(v => v.VacationId == idGuid);
 
             return _mapper.Map<Vacation, VacationDto>(vacation);
         }
 
         public IEnumerable<VacationDto> Get()
         {
-            var vacations = _context.Vacation.Include(v => v.VacationStatus);
+            var vacations = _context.Vacation
+                .Include(v => v.VacationStatus);
 
             return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         }
@@ -61,7 +66,9 @@ namespace Vacations.BLL.Services
 
         public IEnumerable<VacationDto> GetByEmployeeId(Guid idGuid)
         {
-            var vacations = _context.Vacation.Where(v => v.EmployeeId == idGuid);
+            var vacations = _context.Vacation
+                .Include(v => v.VacationStatus)
+                .Where(v => v.EmployeeId == idGuid);
 
             return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         }
