@@ -11,14 +11,18 @@ import { Router } from '@angular/router';
 export class ListOfEmployeesComponent implements OnInit {
   employees: Profile[] = [];
 
-  toEdit(employee: Profile) {
-    this.router.navigate(['/edit-profile', employee.EmployeeId]);
+  toWiew(employee: Profile) {
+    this.router.navigate(['../profile', employee.EmployeeId]);
   }
 
-  constructor(private service: ProfileService, private router: Router,) { }
+  toEdit(employee: Profile) {
+    this.router.navigate(['../edit-profile', employee.EmployeeId]);
+  }
+
+  constructor(private service: ProfileService, private router: Router) { }
 
   ngOnInit() {
-    this.service.getEmployees() 
+    this.service.getEmployees()
       .subscribe(response => this.employees = response);
   }
 }

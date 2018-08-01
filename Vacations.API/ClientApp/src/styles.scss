@@ -21,11 +21,15 @@
     font-family: Muli-Regular;
 }
 
-.mat-calendar {
-    background: red;
+.mat-form-field-appearance-legacy .mat-form-field-prefix .mat-datepicker-toggle-default-icon, .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-datepicker-toggle-default-icon {
+  width: 2em !important;
 }
 .mat-radio-button.mat-accent .mat-radio-inner-circle {
   background-color: lime;
+}
+
+.mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 0.55em !important;
 }
 
 .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
