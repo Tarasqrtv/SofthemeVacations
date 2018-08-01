@@ -6,6 +6,6 @@ export class Vacation {
     Comment: string;
     EmployeeId: string;
     Employee: string;
-    VacationStatus: string;
+    VacationStatusName: string;
     VacationType: string;
 }

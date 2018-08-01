@@ -8,6 +8,7 @@ import { Team } from '../edit-profile/models/team.model';
 import { JobTitle } from '../edit-profile/models/job-title.model';
 import { EmployeeStatus } from '../edit-profile/models/employee-status.model';
 import { Employee } from '../edit-profile/models/employee.model';
+import { EmployeeRole } from '../edit-profile/models/employee-roles.model';
 
 @Component({
   selector: 'app-add-new-employee',
@@ -20,6 +21,7 @@ export class AddNewEmployeeComponent implements OnInit {
   teams: Team[] = [];
   jobTitles: JobTitle[] = [];
   employeeStatuses: EmployeeStatus[] = [];
+  employeeRoles: EmployeeRole[] = [];
   date = new Date;
 
   constructor(private location: Location, private service: EditService, private toast: ToastrService) { }
@@ -31,21 +33,24 @@ export class AddNewEmployeeComponent implements OnInit {
   ngOnInit() {
       const successfnTeams = (response) => {
       this.teams = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.teams);
     };
     const successfnJobTitles = (response) => {
       this.jobTitles = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.jobTitles);
     };
     const successfnEmployeeStatus = (response) => {
       this.employeeStatuses = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.employeeStatuses);
+    };
+    const successfnEmployeeRole = (response) => {
+      this.employeeRoles = response;
+      this.toast.success("", "");
+      console.log(response);
+      console.log(this.employeeRoles);
     };
 
     const errorfn = () => { };
@@ -54,6 +59,7 @@ export class AddNewEmployeeComponent implements OnInit {
     this.service.getTeam().subscribe(successfnTeams, errorfn, completefn);
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
+    this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
   }
 
   Save() {

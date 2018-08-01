@@ -2,6 +2,7 @@ export interface Profile {
     Name: string;
     Surname: string;
     JobTitle: string;
+    EmployeeId: string;
     EmployeeStatus: string;
     Birthday: Date;
     PersonalEmail: string;
@@ -13,4 +14,5 @@ export interface Profile {
     TeamName: string;
     TeamLead: string;
     Balance: string;
+    Role: string;
 }

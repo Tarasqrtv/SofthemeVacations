@@ -36,7 +36,8 @@ namespace Vacations.BLL.Services
 
         public IEnumerable<TeamDto> Get()
         {
-            var teams = _context.Team;
+            var teams = _context.Team.Include(t => t.TeamLead);
+
             return _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDto>>(teams);
         }
     }

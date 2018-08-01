@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -19,7 +16,6 @@ namespace Vacations.API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly IMapper _mapper;
         private readonly UserManager<User> _userManager;
         private readonly IEmployeesService _employeesService;
 
@@ -28,14 +24,13 @@ namespace Vacations.API.Controllers
             UserManager<User> userManager,
             IEmployeesService employeesService)
         {
-            _mapper = mapper;
             _userManager = userManager;
             _employeesService = employeesService;
         }
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IEnumerable<EmployeeDto> Get()
+        public IEnumerable<EmployeeDtoList> Get()
         {
             return _employeesService.Get();
         }
@@ -44,24 +39,33 @@ namespace Vacations.API.Controllers
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentEmployee()
         {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
             var userDto = await _userManager.GetUserAsync(User);
 
             if (userDto == null)
             {
                 return BadRequest("User == null");
             }
-            
+
             var employeeDto = await _employeesService.GetByIdAsync(userDto.EmployeeId);
 
             return Ok(employeeDto);
         }
 
-        // PUT: api/Employees/5
+        [Authorize]
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployee([FromRoute] Guid id)
+        {
+            var employeeDto = await _employeesService.GetByIdAsync(id);
+
+            if (employeeDto == null)
+            {
+                return NotFound("Employee not found");
+            }
+
+            return Ok(employeeDto);
+        }
+
         [Authorize(Roles = "Admin")]
         [HttpPut]
         public async Task<IActionResult> PutEmployee([FromBody] EmployeeDto employeeDto)
@@ -71,19 +75,11 @@ namespace Vacations.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            try
-            {
-                await _employeesService.PutAsync(employeeDto);
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                return BadRequest();
-            }
+            await _employeesService.PutAsync(employeeDto);
 
             return NoContent();
         }
 
-        // POST: api/Employees
         [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> PostEmployee([FromBody] EmployeeDto employeeDto)

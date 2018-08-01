@@ -86,7 +86,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 })
 
 export class DemoMaterialModule { }
-import { MatChipsModule, MatIconModule } from '../../../node_modules/@angular/material';
+import { MatChipsModule, MatIconModule } from '@angular/material';
 import { LeftNavigationComponent } from './components/left-navigation/left-navigation.component';
 import { MainComponent } from './main.component';
 
@@ -114,6 +114,7 @@ import { CalendarPopupMessageComponent } from './components/calendar-popup-messa
 import { OpenVRPopupComponent } from './components/open-vr-popup/open-vr-popup.component';
 import { ViewEmployeesProfileComponent } from './components/view-employees-profile/view-employees-profile.component';
 import { ViewTeamsProfileComponent } from './components/view-teams-profile/view-teams-profile.component';
+import { ImageService } from './services/image.service';
 
 @NgModule({
   imports: [
@@ -165,7 +166,8 @@ import { ViewTeamsProfileComponent } from './components/view-teams-profile/view-
   providers: [
     ProfileService,
     VacationService,
-    EditService
+    EditService,
+    ImageService
   ]
 
 })

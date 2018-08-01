@@ -15,8 +15,11 @@ export class MyVacationsComponent implements OnInit {
   constructor(private service: VacationService) { }
 
   ngOnInit() {
-    this.service.getVacations()
-      .subscribe(response => this.vacations = response);
+    this.service.getVacations().subscribe(response => {
+      this.vacations = response;
+      console.log(this.vacations);
+      console.log(response);
+    });
   }
 
   ParseToDate(date){

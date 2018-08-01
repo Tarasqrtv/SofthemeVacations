@@ -6,18 +6,20 @@ import { EditService } from '../../../services/edit.service';
 import { VacationService } from '../../../services/vacation.service';
 
 import { Employee } from '../../edit-profile/models/employee.model';
-import { Vacation } from '../../profile/my-vacations/vacation.model';
-
+import { VacModel } from './vacation-request.model';
 
 @Component({
   selector: 'app-vacation-request',
   templateUrl: './vacation-request.component.html',
   styleUrls: ['./vacation-request.component.scss']
 })
+
 export class VacationRequestComponent implements OnInit {
-  
+
+
   employee: Employee = <Employee>{};
-  vacation: Vacation = <Vacation>{};
+  vacation: VacModel = <VacModel>{};
+ 
 
   constructor(private location: Location, private service: VacationService, private othService: EditService, private toast: ToastrService) { }
 
@@ -32,32 +34,34 @@ export class VacationRequestComponent implements OnInit {
       console.log(response);
       console.log(this.employee);
     };
-    
+
     const errorfn = () => { };
     const completefn = () => { };
 
-    this.othService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);  
+    this.othService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
   }
-  
-  ParseToDate(date){
-    let oneDate = new Date (date);
-    return oneDate;
-  } 
-  //(ParseToDate(vacation.EndVocationDate)-ParseToDate(vacation.StartVocationDate)) /1000/60/60/24
-  DaysInVac(start, end) {
-    let date = (start-end)/1000/60/60/24;
-    let dateLst = this.ParseToDate(date);
-    return dateLst;
 
+  parseDate(dateString: any): Date {
+    console.log("parsing DATE");
+    console.log(dateString);
+    if (dateString) {
+      return new Date(dateString);
+    } else {
+      return null;
+    }
   }
-  
+
+  DaysInVac(frst, lst) {
+    console.log("Datediff!");
+    let date = (lst - frst) / 1000 / 60 / 60 / 24;
+    return date;
+  }
+
   Send() {
     console.log(this.employee);
-    this.employee.EmployeeId=this.vacation.EmployeeId;
+    this.vacation.EmployeeId =this.employee.EmployeeId;  
     this.service.SendVacation(this.vacation).subscribe(response => this.vacation = response);
     this.location.back();
     this.toast.success("You successfully send vacation request", "");
   }
-
-  
 }

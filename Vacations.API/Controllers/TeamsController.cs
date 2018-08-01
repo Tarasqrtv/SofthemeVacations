@@ -13,7 +13,9 @@ namespace Vacations.API.Controllers
     {
         private readonly ITeamsService _teamsService;
 
-        public TeamsController(ITeamsService teamsService)
+        public TeamsController(
+            ITeamsService teamsService
+            )
         {
             _teamsService = teamsService;
         }

@@ -1,12 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Location } from '@angular/common';
+import { ToastrService } from 'ngx-toastr';
+import { ActivatedRoute } from '@angular/router';
+
 import { EditService } from '../../services/edit.service';
 import { Employee } from './models/employee.model';
 import { Team } from './models/team.model';
 import { JobTitle } from './models/job-title.model';
 import { EmployeeStatus } from './models/employee-status.model';
-import { ToastrService } from 'ngx-toastr';
-import { ImageService } from '../../../image.service';
+
+import { EmployeeRole } from './models/employee-roles.model';
+import { ImageService } from '../../services/image.service';
+import { environment } from '../../../../environments/environment';
 
 @Component({
   selector: 'app-edit-profile',
@@ -14,14 +19,23 @@ import { ImageService } from '../../../image.service';
   styleUrls: ['./edit-profile.component.scss']
 })
 export class EditProfileComponent implements OnInit {
+  id: string;
 
   employee: Employee = <Employee>{};
   teams: Team[] = [];
   jobTitles: JobTitle[] = [];
   employeeStatuses: EmployeeStatus[] = [];
+  employeeRoles: EmployeeRole[] = [];
   date = new Date;
 
-  constructor(private imgUploadService: ImageService, private location: Location, private service: EditService, private toast: ToastrService) { }
+  constructor(private imgUploadService: ImageService,
+    private location: Location,
+    private service: EditService,
+    private toast: ToastrService,
+    private activateRoute: ActivatedRoute) {
+    this.id = this.activateRoute.snapshot.paramMap.get('id');
+  }
+
 
   fileToUpload: File = null;
   imgUrl: string;
@@ -31,58 +45,65 @@ export class EditProfileComponent implements OnInit {
   }
 
   uploadFileToActivity() {
-  this.imgUploadService.postFile("http://localhost:2705/api" + "/images/upload", this.fileToUpload).subscribe(data => {
-    this.toast.success("File uploaded!","Success")
+    this.imgUploadService.postFile(environment.baseUrl + "/images/upload", this.fileToUpload).subscribe(data => {
+      this.toast.success("File uploaded!", "Success")
     }, error => {
       console.log(error);
     });
- }
- 
+  }
+
   cancel() {
     this.location.back();
   }
- 
+
   ngOnInit() {
     const successfnEmployee = (response) => {
       this.employee = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.employee);
     };
     const successfnTeams = (response) => {
       this.teams = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.teams);
     };
     const successfnJobTitles = (response) => {
       this.jobTitles = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.jobTitles);
     };
     const successfnEmployeeStatus = (response) => {
       this.employeeStatuses = response;
-      this.toast.success("", "");
       console.log(response);
       console.log(this.employeeStatuses);
+    };
+    const successfnEmployeeRole = (response) => {
+      this.employeeRoles = response;
+      this.toast.success("", "");
+      console.log(response);
+      console.log(this.employeeRoles);
     };
 
     const errorfn = () => { };
     const completefn = () => { };
 
-    this.service.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
+    this.service.getEmployeeId(this.id).subscribe(successfnEmployee, errorfn, completefn);
     this.service.getTeam().subscribe(successfnTeams, errorfn, completefn);
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
+    this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
 
     this.imgUploadService.getImgUrl().subscribe(
-      response => {this.imgUrl = response; console.log(response); console.log(this.imgUrl);},
+      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
       () => this.imgUrl = "default");
   }
 
   Save() {
     console.log(this.employee);
+    console.log(this.fileToUpload);
+    if(this.fileToUpload != null){
+      this.uploadFileToActivity();
+    }
     this.service.updateEmployee(this.employee).subscribe(response => this.employee = response);;
     this.location.back();
     this.toast.success("You successfully edit profile", "");
