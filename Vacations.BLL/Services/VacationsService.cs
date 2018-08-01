@@ -96,7 +96,7 @@ namespace Vacations.BLL.Services
 
             vacationDto.EmployeeId = currentUser.EmployeeId;
 
-            vacationDto.VacationStatusId = _vacationStatusService.Get().FirstOrDefault(vs => vs.Name == "InProgress")
+            vacationDto.VacationStatusId = _vacationStatusService.Get().FirstOrDefault(vs => vs.Name == "InProcess")
                 ?.VacationStatusId;
 
             return await PostAsync(vacationDto);
