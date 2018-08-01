@@ -5,6 +5,7 @@ import { RouterModule } from '@angular/router';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpModule } from '@angular/http';
 import { CommonModule } from '@angular/common';
+
 import { ToastrModule } from 'ngx-toastr';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -26,6 +27,7 @@ import { MainModule } from './main/main.module';
     CommonModule,
     BrowserAnimationsModule,
 
+
     ToastrModule.forRoot(),
     RouterModule.forRoot(AppRoutes),
 
@@ -40,4 +42,3 @@ import { MainModule } from './main/main.module';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-//platformBrowserDynamic().bootstrapModule(AppModule);
