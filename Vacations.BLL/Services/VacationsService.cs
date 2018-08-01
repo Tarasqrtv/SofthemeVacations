@@ -52,7 +52,9 @@ namespace Vacations.BLL.Services
         public IEnumerable<VacationDto> Get()
         {
             var vacations = _context.Vacation
-                .Include(v => v.VacationStatus);
+                .Include(v => v.VacationStatus)
+                .Include(v => v.Employee.Team)
+                .Include(v => v.Employee);
 
             return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         }
@@ -68,6 +70,8 @@ namespace Vacations.BLL.Services
         {
             var vacations = _context.Vacation
                 .Include(v => v.VacationStatus)
+                .Include(v => v.Employee.Team)
+                .Include(v => v.Employee)
                 .Where(v => v.EmployeeId == idGuid);
 
             return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
