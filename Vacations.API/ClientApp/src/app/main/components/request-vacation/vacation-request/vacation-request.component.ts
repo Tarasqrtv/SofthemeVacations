@@ -6,7 +6,7 @@ import { EditService } from '../../../services/edit.service';
 import { VacationService } from '../../../services/vacation.service';
 
 import { Employee } from '../../edit-profile/models/employee.model';
-import { Vacation } from '../../profile/my-vacations/vacation.model';
+import { VacModel } from './vacation-request.model';
 
 @Component({
   selector: 'app-vacation-request',
@@ -18,7 +18,7 @@ export class VacationRequestComponent implements OnInit {
 
 
   employee: Employee = <Employee>{};
-  vacation: Vacation = <Vacation>{};
+  vacation: VacModel = <VacModel>{};
  
 
   constructor(private location: Location, private service: VacationService, private othService: EditService, private toast: ToastrService) { }
@@ -59,7 +59,7 @@ export class VacationRequestComponent implements OnInit {
 
   Send() {
     console.log(this.employee);
-    this.employee.EmployeeId = this.vacation.EmployeeId;
+    this.vacation.EmployeeId =this.employee.EmployeeId;  
     this.service.SendVacation(this.vacation).subscribe(response => this.vacation = response);
     this.location.back();
     this.toast.success("You successfully send vacation request", "");

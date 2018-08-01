@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 
 import {environment} from '../../../environments/environment';
 import { Vacation } from '../components/profile/my-vacations/vacation.model';
+import { VacModel } from '../components/request-vacation/vacation-request/vacation-request.model';
 
 @Injectable()
 export class VacationService {
@@ -14,9 +15,9 @@ export class VacationService {
         return this.http.get<Vacation[]>(`${requestUrl}`);
     }
 
-    SendVacation(vacation: Vacation): Observable<Vacation> {
+    SendVacation(vacation: VacModel): Observable<VacModel> {
         console.log("Service works");
-        let requestUrl = environment.baseUrl + '/vacations';
+        let requestUrl = environment.baseUrl + '/vacations/employee';
         const data = JSON.stringify(vacation);
 
         let headers = new HttpHeaders();
