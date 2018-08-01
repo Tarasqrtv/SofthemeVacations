@@ -21,7 +21,7 @@
         <td class="text-muted"> {{empl.WorkEmail}} </td>
         <td> {{empl.Balance}}
           <div class="myi">
-            <img src="../../../../assets/eye.svg">
+            <img src="../../../../assets/eye.svg" (click)="toWiew(empl)">
             <button class="pull-right" (click)="toEdit(empl)">
               <i class="icon-edit-icon-white"></i>
             </button>
