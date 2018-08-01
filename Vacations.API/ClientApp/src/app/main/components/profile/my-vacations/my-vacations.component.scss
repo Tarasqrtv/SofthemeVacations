@@ -1,21 +1,21 @@
 .container{
-   
+
     padding-top: 30px;
     color:  #222222;
-    width: 540px;   
-   
+    width: 540px;
+
     .table{
-       
+
         background-color:rgba(192, 192, 192, 0.1);
-        font-size: 14px;       
-        color: white;  
+        font-size: 14px;
+        color: white;
         border-collapse: collapse;
         border-radius: 10px;
         border-style: hidden; /* hide standard table (collapsed) border */
-        box-shadow: 0 0 0 1px #666; /* this draws the table border  */ 
-        
-        .table-dark{                    
-           
+        box-shadow: 0 0 0 1px #666; /* this draws the table border  */
+
+        .table-dark{
+
             border-top: 0;
             border-radius: 10px 10px 0 0;
         } 
@@ -33,3 +33,4 @@
         }
     }            
 } 
+
