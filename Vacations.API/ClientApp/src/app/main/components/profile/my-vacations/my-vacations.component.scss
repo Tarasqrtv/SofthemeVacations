@@ -18,6 +18,19 @@
 
             border-top: 0;
             border-radius: 10px 10px 0 0;
+        } 
+
+        .approved{
+            color:rgb(19, 164, 72);
         }
-    }
-}
+
+        .denied{
+            color: red;
+        }
+
+        .InProcess{
+            color: orange;
+        }
+    }            
+} 
+

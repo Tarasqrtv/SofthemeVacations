@@ -86,7 +86,7 @@
             </td>
             <td class="kostil">
               <label for="tnm">team name</label>
-              <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
+              <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm" >
                   <option *ngFor="let item of teams" [value]="item.TeamId">
                       {{item.Name}}
                   </option>
@@ -95,8 +95,9 @@
             <td>
               <label for="tnml">team leader</label>
               {{employee.TeamLead}}
-              <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;"  [(ngModel)]="employee.TeamLead">
-            </td>
+              <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" 
+                  value="Mark" [(ngModel)]="employee.TeamLead" >
+            </td> 
           </tr>
           <tr>
             <td>
