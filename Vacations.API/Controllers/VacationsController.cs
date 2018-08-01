@@ -1,17 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
-using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
-using Vacations.DAL.Models;
 
 namespace Vacations.API.Controllers
 {
@@ -19,41 +13,30 @@ namespace Vacations.API.Controllers
     [ApiController]
     public class VacationsController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
         private readonly IVacationsService _vacationsService;
 
         public VacationsController(
-            UserManager<User> userManager,
             IVacationsService vacationsService
             )
         {
-            _userManager = userManager;
             _vacationsService = vacationsService;
         }
 
-        // GET: api/Vacations
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IEnumerable<VacationDto> GetVacation()
         {
-            var vacations = _vacationsService.Get();
-
-            return vacations;
+            return _vacationsService.Get();
         }
 
+        [Authorize]
         [HttpGet("employee")]
-        public IEnumerable<VacationDto> GetVacationByCurrentEmployee()
+        public async Task<IEnumerable<VacationDto>> GetVacationByCurrentEmployeeAsync()
         {
-            var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-
-            var currentUser = _userManager.GetUserAsync(User);
-
-            var userDto = currentUser.Result;
-
-            var vacations = _vacationsService.GetByEmployeeId(userDto.EmployeeId);
-
-            return vacations;
+            return await _vacationsService.GetByCurrentEmployeeId(User);
         }
 
+        [Authorize]
         [HttpGet("employee/{id}")]
         public IEnumerable<VacationDto> GetVacationByEmployeeId([FromRoute] Guid id)
         {
@@ -62,23 +45,36 @@ namespace Vacations.API.Controllers
             return vacations;
         }
 
-        // POST: api/Employees
         [Authorize]
-        [HttpPost]
-        public async Task<IActionResult> PostEmployee([FromBody] VacationDto vacationsDto)
+        [HttpPost("employee")]
+        public async Task<IActionResult> PostVacarion([FromBody] VacationDto vacationsDto)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+            try
+            {
+                await _vacationsService.PostCurrentAsync(User, vacationsDto);
+            }
+            catch (DbUpdateException e)
+            {
+                return BadRequest(e.Message);
+            }
 
-            var currentUser = _userManager.GetUserAsync(User);
+            return Ok();
+        }
 
-            var userDto = currentUser.Result;
-
-            vacationsDto.EmployeeId = userDto.EmployeeId;
+        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "TeamLead")]
+        [HttpPost("employee/{id}")]
+        public async Task<IActionResult> PostVacarion([FromRoute] Guid employeeId, [FromBody] VacationDto vacationsDto)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
 
             try
             {

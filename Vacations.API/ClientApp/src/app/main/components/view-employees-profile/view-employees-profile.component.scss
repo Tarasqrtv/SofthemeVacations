@@ -1,0 +1,62 @@
+.container {
+    padding: 30px;
+    .table {
+        background-color: #2E2E2E;
+        font-size: 14px;
+        color: white;
+        border-collapse: collapse;
+        border-radius: 10px;
+        border-style: hidden;
+        /* hide standard table (collapsed) border */
+        box-shadow: 0 0 0 1px #666;
+        /* this draws the table border  */
+        .thead-dark {
+            border-bottom: 1px solid #dee2e6;
+            border-radius: 10px 10px 0 0;
+        }
+        td {
+            border-top: 0;
+            border-right: 1px solid #dee2e6;
+            width: 33%;
+            padding-right: 30px;
+            padding-left: 30px;
+            .form-control {
+                padding-left: 20px;
+                border-radius: 4px;
+                background-color: #2E2E2E;
+                color: white;
+                outline: none;
+                border: 1px solid #dee2e6;
+            }
+            label {
+                color: grey;
+                ;
+                margin-bottom: -0.5rem;
+            }
+
+            .btn-outline-secondary {
+                color: white;
+                outline: none;
+                text-transform: uppercase;
+                width: 100%;
+                background: linear-gradient(to right, skyblue -50%, purple 150%);
+                border: 0;
+                height: 35px;
+                border-radius: 4px;
+            }
+        }
+        .kostil {
+            border-right: 0 !important;
+        }
+    }
+}
+
+.Myphoto {
+    width: 76px;
+    height: 76px;
+    float: left;
+    border-radius: 50%;
+    background: url('../../../../assets/f60c5950-c05c-41c7-bc6c-5f61f5722f00.jpg') no-repeat 0px 0;
+    background-size: auto 121px;
+    margin-right: 1em;
+}

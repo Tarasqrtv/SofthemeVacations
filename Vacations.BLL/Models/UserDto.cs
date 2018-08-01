@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Vacations.BLL.Models
 {
-    public partial class UserDto
+    public class UserDto
     {
         public Guid UserId { get; set; }
         public Guid EmployeeId { get; set; }

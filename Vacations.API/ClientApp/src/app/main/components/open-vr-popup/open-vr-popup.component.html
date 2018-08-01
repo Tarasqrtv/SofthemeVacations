@@ -1,0 +1,68 @@
+<div class="comp-container">
+  <h3>Vacation Request</h3>
+
+  <div class="details">
+    <div class="topuser">
+      <div class="Myphoto"></div>
+      <div class="pull-right">
+        <p style="font-size: 14px;"> Oleksa Best
+          <br>Cool Architector
+          <br> bestteam - John Snow
+        </p>
+      </div>
+    </div>
+    <form>
+      <div class="left">
+        <div class="form-group">
+          <label>vacation type</label>
+          <p>Vacation</p>
+        </div>
+        <div class="form-group">
+          <label>comment</label>
+          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam maxime cum dolorem officiis assumenda rem alias,
+            omnis nobis nam. Ratione soluta libero architecto cupiditate at fugit consectetur sit dignissimos vitae.
+          </p>
+        </div>
+      </div>
+      <div class="right">
+        <div class="form-group">
+          <label for="from">from</label>
+          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from">
+        </div>
+        <div class="form-group">
+          <label for="to">to</label>
+          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;">
+            <mat-form-field>
+              <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker startView="year"></mat-datepicker>
+            </mat-form-field>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="am">amount</label>
+          <div class="row col-12">
+            <input type="text" class="form-control" id="am" value="" style="width: 30%; text-align: center; height: 35px;">
+            <div class="myp">days in vacation</div>
+          </div>
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </form>
+    <div class="bottominformation">
+      <h6>Answer The Request</h6>
+      <mat-radio-group>
+        <mat-radio-button style="color: lime;" value="1">Approve</mat-radio-button>
+        <mat-radio-button class="refuse" style="margin-left:12em; color: red;" value="2">Refuse</mat-radio-button>
+      </mat-radio-group>
+      <div class="form-group">
+        <label for="comment">comment</label>
+        <textarea class="form-control" rows="5" id="comment" style="margin-top: 0px; margin-bottom: 0px; height: 50px;"></textarea>
+      </div>
+      <mat-dialog-actions>
+        <button class="btn btn-outline-secondary btncancel" md-raised-button (click)="onCloseConfirm()">CANCEL</button>&nbsp;
+        <button class="btn  btn-outline-secondary btnanswer" md-raised-button (click)="onCloseCancel()">ANSWER</button>
+      </mat-dialog-actions>
+    </div>
+  </div>
+</div>

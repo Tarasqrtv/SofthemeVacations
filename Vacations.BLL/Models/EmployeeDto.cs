@@ -1,10 +1,10 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Vacations.BLL.Models
 {
-    public partial class EmployeeDto
+    public class EmployeeDto
     {
         public Guid EmployeeId { get; set; }
 

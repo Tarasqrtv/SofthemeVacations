@@ -1,12 +1,17 @@
 import { Component, OnInit, AfterViewInit, ElementRef, ViewChild } from '@angular/core';
+import {MatDialog} from '@angular/material';
+import { CalendarPopupMessageComponent } from '../calendar-popup-message/calendar-popup-message.component';
 
 @Component({
   selector: 'app-team-calendar',
   templateUrl: './team-calendar.component.html',
   styleUrls: ['./team-calendar.component.scss']
 })
-export class TeamCalendarComponent implements AfterViewInit, OnInit {
 
+export class TeamCalendarComponent implements AfterViewInit, OnInit {
+  constructor(public dialog: MatDialog) {}
+
+  dialogResult = '';
   @ViewChild('calendar') calendar: ElementRef;
 
   currentDate = new Date();
@@ -14,6 +19,17 @@ export class TeamCalendarComponent implements AfterViewInit, OnInit {
 
   ngOnInit() {
     this.vacationsList = this.getEmplVacations();
+  }
+
+  openDialog() {
+    const dialogRef = this.dialog.open(CalendarPopupMessageComponent, {
+      width: '500px',
+      data: 'This text is passed into the dialog!'
+    });
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(`Dialog closed: ${result}`);
+      this.dialogResult = result;
+    });
   }
 
   ngAfterViewInit() {

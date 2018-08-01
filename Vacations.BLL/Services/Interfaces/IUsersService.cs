@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Vacations.BLL.Models;
@@ -12,5 +13,6 @@ namespace Vacations.BLL.Services
         Task<string> GenerateJwtTokenAsync(string email, User user);
         Task<TokenDto> GetTokenAsync(string authorizationHeader);
         Task ForgotPassword(string email);
+        Task<User> GetUserAsync(ClaimsPrincipal user);
     }
 }
