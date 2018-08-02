@@ -22,14 +22,14 @@ namespace Vacations.API.Controllers
             _vacationsService = vacationsService;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet]
         public async Task<IEnumerable<VacationDto>> GetVacation()
         {
             return await _vacationsService.GetVacationRequestsAsync(User);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet("{id}")]
         public async Task<VacationDto> GetVacationById([FromRoute] Guid id)
         {
@@ -73,7 +73,7 @@ namespace Vacations.API.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpPost("employee/{id}")]
         public async Task<IActionResult> PostVacarion([FromRoute] Guid id, [FromBody] VacationDto vacationsDto)
         {

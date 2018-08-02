@@ -57,7 +57,7 @@ namespace Vacations.API.Controllers
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee([FromRoute] Guid id)
         {
