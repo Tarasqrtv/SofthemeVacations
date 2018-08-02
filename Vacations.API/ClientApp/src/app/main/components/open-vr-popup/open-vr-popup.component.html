@@ -5,9 +5,9 @@
     <div class="topuser">
       <div class="Myphoto"></div>
       <div class="pull-right">
-        <p style="font-size: 14px;"> Oleksa Best
-          <br>Cool Architector
-          <br> bestteam - John Snow
+        <p style="font-size: 14px;"> {{employee.Name}} {{employee.Surname}}
+          <br> {{employee.JobTitle}}
+          <br> {{employee.TeamName}} - {{employee.TeamLead}}
         </p>
       </div>
     </div>
@@ -15,12 +15,11 @@
       <div class="left">
         <div class="form-group">
           <label>vacation type</label>
-          <p>Vacation</p>
+          <p> Vacation </p>
         </div>
         <div class="form-group">
           <label>comment</label>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aperiam maxime cum dolorem officiis assumenda rem alias,
-            omnis nobis nam. Ratione soluta libero architecto cupiditate at fugit consectetur sit dignissimos vitae.
+          <p *ngIf="emplVacation.Comment; else comment" >{{emplVacation.Comment}}
           </p>
         </div>
       </div>
@@ -44,8 +43,12 @@
         <div class="form-group">
           <label for="am">amount</label>
           <div class="row col-12">
-            <input type="text" class="form-control" id="am" value="" style="width: 30%; text-align: center; height: 35px;">
-            <div class="myp">days in vacation</div>
+            <div>
+              <div *ngIf="emplVacation.StartVocationDate && emplVacation.EndVocationDate; else count ">
+                {{DaysInVac(parseDate(emplVacation.StartVocationDate), parseDate(emplVacation.EndVocationDate))}}
+              </div>
+              <p>days in vacation </p>
+            </div>
           </div>
         </div>
       </div>
@@ -68,3 +71,6 @@
     </div>
   </div>
 </div>
+
+<ng-template #comment> <br> ____   </ng-template>
+<ng-template #count> XX </ng-template>

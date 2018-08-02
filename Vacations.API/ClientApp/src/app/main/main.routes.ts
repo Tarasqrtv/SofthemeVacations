@@ -20,7 +20,8 @@ export const MainRoutes: Routes = [
     canActivate: [AuthGuardService],
     children: [
       { path: '', component: ProfileComponent },
-      { path: 'profile', component: ProfileComponent },
+      { path: 'profile', component: ProfileComponent,
+        canActivate: [AuthGuardService]},
       { path: 'vacation-requests', component: ListOfVacationRequestsComponent },
       { path: 'add-new-team', component: AddNewTeamComponent },
       { path: 'edit-team', component: EditTeamProfileComponent },

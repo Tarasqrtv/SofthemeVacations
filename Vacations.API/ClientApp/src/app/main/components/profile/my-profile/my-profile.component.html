@@ -58,9 +58,12 @@
 
       <dt>hire date</dt>
       <dl>
-        <p *ngIf="employee.StartDate; else workDate">
-          {{employee.StartDate | date:'mediumDate' }} - {{employee.EndDate | date:'mediumDate'}}
-        </p>
+        <div *ngIf="employee.StartDate; else workDate">
+          {{employee.StartDate | date:'mediumDate' }} - 
+          <p *ngIf="employee.EndDate; else Nowadays">
+            {{employee.EndDate | date:'mediumDate'}}
+          </p>
+        </div>
       </dl>
 
       <dt>team name</dt>
@@ -72,8 +75,8 @@
 
       <dt>team leader</dt>
       <dl>
-        <p *ngIf="employee.TeamLead; else teamLead">
-          {{employee.TeamLead}}
+        <p *ngIf="employee.TeamLeadName; else teamLead">
+          {{employee.TeamLeadName}} {{employee.TeamLeadSurname}}
         </p>
       </dl>
     </dl>
@@ -91,3 +94,4 @@
 <ng-template #workDate>XX Month XXXX - Nowadays</ng-template>
 <ng-template #team>Team name</ng-template>
 <ng-template #teamLead>Name Surname</ng-template>
+<ng-template #Nowadays>Nowadays</ng-template>

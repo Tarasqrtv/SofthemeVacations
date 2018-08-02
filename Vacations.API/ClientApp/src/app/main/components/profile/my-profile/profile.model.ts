@@ -12,7 +12,8 @@ export interface Profile {
     StartDate: Date;
     EndDate: Date;
     TeamName: string;
-    TeamLead: string;
+    TeamLeadName: string;    
+    TeamLeadSurname: string;
     Balance: string;
     Role: string;
 }

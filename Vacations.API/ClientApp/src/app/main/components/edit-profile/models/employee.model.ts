@@ -12,7 +12,7 @@ export interface Employee {
     StartDate: Date;
     EndDate: Date;
     TeamName: string;
-    TeamLead: string;
+    TeamLeadName: string;
     Balance: string;
     EmployeeStatusId: string;
     JobTitleId: string;

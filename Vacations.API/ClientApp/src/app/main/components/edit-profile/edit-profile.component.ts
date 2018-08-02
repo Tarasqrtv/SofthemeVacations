@@ -18,15 +18,18 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './edit-profile.component.html',
   styleUrls: ['./edit-profile.component.scss']
 })
-export class EditProfileComponent implements OnInit {
-  id: string;
 
+export class EditProfileComponent implements OnInit {
+
+  id: string;
   employee: Employee = <Employee>{};
   teams: Team[] = [];
   jobTitles: JobTitle[] = [];
   employeeStatuses: EmployeeStatus[] = [];
   employeeRoles: EmployeeRole[] = [];
   date = new Date;
+
+  teamLeads: string[] = [];
 
   constructor(private imgUploadService: ImageService,
     private location: Location,
@@ -35,7 +38,6 @@ export class EditProfileComponent implements OnInit {
     private activateRoute: ActivatedRoute) {
     this.id = this.activateRoute.snapshot.paramMap.get('id');
   }
-
 
   fileToUpload: File = null;
   imgUrl: string;
@@ -99,14 +101,21 @@ export class EditProfileComponent implements OnInit {
   }
 
   Save() {
+    this.employee.StartDate = new Date(this.employee.StartDate);
+    this.employee.StartDate = new Date (this.employee.StartDate.getFullYear(),
+      this.employee.StartDate.getMonth(),
+      this.employee.StartDate.getDate() + 1
+    );
+    const successfnEmplUpdates = (response) => {
+      this.employee = response;
+    };
+    const LocBack = () => this.location.back();
+    const Success = () => this.toast.success("You successfully edit profile", "");
     console.log(this.employee);
     console.log(this.fileToUpload);
     if (this.fileToUpload != null) {
       this.uploadFileToActivity();
     }
-    this.service.updateEmployee(this.employee).subscribe(response => this.employee = response);
-    this.location.back();
-    this.toast.success("You successfully edit profile", "");
-    console.log(this.employeeStatuses);
+    this.service.updateEmployee(this.employee).subscribe(successfnEmplUpdates, LocBack, Success);
   }
 }

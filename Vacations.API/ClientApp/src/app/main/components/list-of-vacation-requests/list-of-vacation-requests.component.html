@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let vac of vacations">
+        <tr *ngFor="let vac of vacations"  (click)="openDialog(vac.VacationId)">
           <td class="text-muted"> {{vac.EmployeeName}} {{vac.EmployeeSurname}} </td>
           <td class="text-muted"> {{vac.TeamName}} </td>
           <td> 
