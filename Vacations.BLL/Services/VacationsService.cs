@@ -40,6 +40,9 @@ namespace Vacations.BLL.Services
         {
             var vacation = _context.Vacation
                 .Include(v => v.VacationStatus)
+                .Include(v => v.VacationTypes)
+                .Include(v => v.Employee.Team)
+                .Include(v => v.Employee)
                 .FirstOrDefault(v => v.VacationId == idGuid);
 
             return _mapper.Map<Vacation, VacationDto>(vacation);
@@ -49,6 +52,9 @@ namespace Vacations.BLL.Services
         {
             var vacation = await _context.Vacation
                 .Include(v => v.VacationStatus)
+                .Include(v => v.VacationTypes)
+                .Include(v => v.Employee.Team)
+                .Include(v => v.Employee)
                 .FirstOrDefaultAsync(v => v.VacationId == idGuid);
 
             return _mapper.Map<Vacation, VacationDto>(vacation);
@@ -58,6 +64,7 @@ namespace Vacations.BLL.Services
         {
             var vacations = _context.Vacation
                 .Include(v => v.VacationStatus)
+                .Include(v => v.VacationTypes)
                 .Include(v => v.Employee.Team)
                 .Include(v => v.Employee);
 
@@ -72,6 +79,7 @@ namespace Vacations.BLL.Services
 
             var vacations = _context.Vacation
                 .Include(v => v.VacationStatus)
+                .Include(v => v.VacationTypes)
                 .Include(v => v.Employee.Team)
                 .Include(v => v.Employee)
                 .Join(employees, v => v.EmployeeId, e => e.EmployeeId,
@@ -88,6 +96,7 @@ namespace Vacations.BLL.Services
 
             var vacations = _context.Vacation
                 .Include(v => v.VacationStatus)
+                .Include(v => v.VacationTypes)
                 .Include(v => v.Employee.Team)
                 .Include(v => v.Employee)
                 .Join(employees, v => v.EmployeeId, e => e.EmployeeId,
@@ -96,7 +105,7 @@ namespace Vacations.BLL.Services
             return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         }
 
-        public async Task<IEnumerable<VacationDto>> GetByCurrentEmployeeId(ClaimsPrincipal user)
+        public async Task<IEnumerable<VacationDto>> GetByCurrentEmployeeIdAsync(ClaimsPrincipal user)
         {
             var currentUser = await _usersService.GetUserAsync(user);
 
@@ -116,17 +125,24 @@ namespace Vacations.BLL.Services
 
         public async Task<int> PostAsync(VacationDto vacationDto)
         {
+            if (vacationDto.VacationStatusId == null)
+            {
+                throw new ArgumentException("");
+            }
+
             var vacation = new Vacation
             {
                 VacationId = Guid.NewGuid(),
                 StartVocationDate = vacationDto.StartVocationDate,
                 EndVocationDate = vacationDto.EndVocationDate,
-                VacationStatusId = vacationDto.VacationStatusId,
+                VacationStatusId = vacationDto.VacationStatusId ?? new Guid(),
+                VacationTypesId = vacationDto.VacationTypesId,
                 Comment = vacationDto.Comment,
                 EmployeeId = vacationDto.EmployeeId,
             };
 
             await _context.Vacation.AddAsync(vacation);
+
 
             return await _context.SaveChangesAsync();
         }
@@ -137,8 +153,9 @@ namespace Vacations.BLL.Services
 
             vacationDto.EmployeeId = currentUser.EmployeeId;
 
-            vacationDto.VacationStatusId = _vacationStatusService.Get().FirstOrDefault(vs => vs.Name == "InProcess")
-                ?.VacationStatusId;
+            if (_vacationStatusService != null)
+                vacationDto.VacationStatusId = _vacationStatusService.Get().FirstOrDefault(vs => vs.Name == "InProcess")
+                    .VacationStatusId;
 
             return await PostAsync(vacationDto);
         }

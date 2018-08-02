@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../../services/image.service';
+import { Routes, Router } from '@angular/router';
 
 @Component({
   selector: 'app-top-navigation',
@@ -10,7 +11,7 @@ export class TopNavigationComponent implements OnInit {
 
   imgUrl: string;
 
-  constructor(private imgService: ImageService) { }
+  constructor(private imgService: ImageService, private router: Router) { }
 
   ngOnInit() {
     this.imgService.getImgUrl().subscribe(
@@ -25,5 +26,11 @@ export class TopNavigationComponent implements OnInit {
     } else {
       el.style.display = 'block';
     }
+  }
+  logout()
+  {
+    localStorage.setItem("token", "");
+    localStorage.setItem("role", "");
+    this.router.navigate(["/auth"])
   }
 }

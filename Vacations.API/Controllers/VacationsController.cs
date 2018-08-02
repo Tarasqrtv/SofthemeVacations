@@ -40,7 +40,7 @@ namespace Vacations.API.Controllers
         [HttpGet("employee")]
         public async Task<IEnumerable<VacationDto>> GetVacationByCurrentEmployeeAsync()
         {
-            return await _vacationsService.GetByCurrentEmployeeId(User);
+            return await _vacationsService.GetByCurrentEmployeeIdAsync(User);
         }
 
         [Authorize]
@@ -74,9 +74,8 @@ namespace Vacations.API.Controllers
         }
 
         [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "TeamLead")]
         [HttpPost("employee/{id}")]
-        public async Task<IActionResult> PostVacarion([FromRoute] Guid employeeId, [FromBody] VacationDto vacationsDto)
+        public async Task<IActionResult> PostVacarion([FromRoute] Guid id, [FromBody] VacationDto vacationsDto)
         {
             if (!ModelState.IsValid)
             {

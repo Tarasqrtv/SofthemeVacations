@@ -10,6 +10,8 @@ namespace Vacations.API.Infrastructure
     {
         public MappingProfile()
         {
+            AllowNullCollections = true;
+
             CreateMap<Employee, ProfileDto>()
                 .ForMember(p => p.TeamName, o => o.MapFrom(e => e.Team.Name))
                 .ForMember(p => p.TeamLeadName, o=> o.MapFrom(e => e.Team.TeamLead.Name))
@@ -22,7 +24,12 @@ namespace Vacations.API.Infrastructure
                 .ForMember(vdto => vdto.EmployeeSurname, o => o.MapFrom(v => v.Employee.Surname))
                 .ForMember(vdto => vdto.EmployeeBalance, o => o.MapFrom(v => v.Employee.Balance))
                 .ForMember(vdto => vdto.VacationStatusName, o => o.MapFrom(v => v.VacationStatus.Name))
-                .ForMember(vdto => vdto.TeamName, o => o.MapFrom(v => v.Employee.Team.Name));
+                .ForMember(vdto => vdto.TeamName, o => o.MapFrom(v => v.Employee.Team.Name))
+                .ForMember(vdto => vdto.VacationTypeName, o => o.MapFrom(v => v.VacationTypes.Name));
+
+            CreateMap<Team, TeamDto>()
+                .ForMember(tdto => tdto.TeamLeadName, o => o.MapFrom(t => t.TeamLead.Name))
+                .ForMember(tdto => tdto.TeamLeadSurname, o => o.MapFrom(t => t.TeamLead.Surname));
         }
     }
 }

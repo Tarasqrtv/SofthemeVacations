@@ -16,15 +16,15 @@ namespace Vacations.API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
+        private readonly IUsersService _usersService;
         private readonly IEmployeesService _employeesService;
 
         public EmployeesController(
             IMapper mapper,
-            UserManager<User> userManager,
+            IUsersService usersService,
             IEmployeesService employeesService)
         {
-            _userManager = userManager;
+            _usersService = usersService;
             _employeesService = employeesService;
         }
 
@@ -39,7 +39,7 @@ namespace Vacations.API.Controllers
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentEmployee()
         {
-            var userDto = await _userManager.GetUserAsync(User);
+            var userDto = await _usersService.GetUserAsync(User);
 
             if (userDto == null)
             {
@@ -47,6 +47,11 @@ namespace Vacations.API.Controllers
             }
 
             var employeeDto = await _employeesService.GetByIdAsync(userDto.EmployeeId);
+
+            if (employeeDto == null)
+            {
+                return NotFound("Employee == null");
+            }
 
             return Ok(employeeDto);
         }

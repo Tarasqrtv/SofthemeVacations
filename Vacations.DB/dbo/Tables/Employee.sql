@@ -3,7 +3,7 @@
     [Name]             NVARCHAR (50)    NOT NULL,
     [Surname]          NVARCHAR (50)    NOT NULL,
     [Birthday]         DATE             NULL,
-    [WorkEmail]        NVARCHAR (256)   NOT NULL,
+    [WorkEmail]        NVARCHAR (256)   NOT NULL UNIQUE,
     [PersonalEmail]    NVARCHAR (256)   NULL,
     [TelephoneNumber]  NVARCHAR (20)    NULL,
     [Skype]            NVARCHAR (50)    NULL,

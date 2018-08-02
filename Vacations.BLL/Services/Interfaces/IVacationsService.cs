@@ -16,7 +16,7 @@ namespace Vacations.BLL.Services
 
         IEnumerable<VacationDto> GetByEmployeeId(Guid idGuid);
 
-        Task<IEnumerable<VacationDto>> GetByCurrentEmployeeId(ClaimsPrincipal user);
+        Task<IEnumerable<VacationDto>> GetByCurrentEmployeeIdAsync(ClaimsPrincipal user);
 
         Task<int> PostAsync(VacationDto employeeDto);
 
