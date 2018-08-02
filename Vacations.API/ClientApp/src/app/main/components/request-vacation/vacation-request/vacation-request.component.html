@@ -29,8 +29,8 @@
           <label for="picker1">from</label>
           <div class="bg-name-field">
             <mat-form-field class="mypicker" style="width: 100%;">
-              <input matInput [matDatepicker]="picker1" placeholder="Choose date" [value]="vacation.EndVocationDate | date:'yyyy-MM-dd'"
-                (input)="vacation.EndVocationDate=parseDate($event.target.value)" name="firstField">
+              <input matInput [matDatepicker]="picker1" placeholder="Choose date" [value]="vacation.StartVocationDate | date:'yyyy-MM-dd'"
+                (input)="vacation.StartVocationDate=parseDate($event.target.value)" name="firstField">
               <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker #picker1 startView="year"></mat-datepicker>
             </mat-form-field>

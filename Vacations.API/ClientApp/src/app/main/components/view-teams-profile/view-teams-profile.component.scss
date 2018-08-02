@@ -1,0 +1,39 @@
+.bestcontainer {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    color: white;
+    font-size: 14px;
+    font-family: Muli-Bold;
+    border: 1px solid #878787;
+    border-radius: 4px;
+    background: #2e2e2e;
+    .row {
+        .myrow {
+            border-bottom: 1px solid #878787;
+            width: 100%;
+            height: 30px;
+            margin-left: 15px;
+            margin-right: 15px;
+            border-radius: 4px 4px 0 0;
+            background: #222222;
+            padding-left: 15px;
+            padding-top: 4px;
+            i{
+              padding-right: 6px;
+              padding-top: 2px;
+            }
+        }
+        .left {
+            padding: 15px 0 0 20px;
+            border-right: 1px solid #878787;
+        }
+        .right{
+          padding: 15px 0 0 10px;
+        }
+        .active{
+          color: aqua;
+          font-size: 10px;
+          padding-left: 5px;
+        }
+    }
+}
