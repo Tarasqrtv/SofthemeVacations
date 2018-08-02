@@ -24,9 +24,16 @@ namespace Vacations.API.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpGet]
-        public IEnumerable<VacationDto> GetVacation()
+        public async Task<IEnumerable<VacationDto>> GetVacation()
         {
-            return _vacationsService.Get();
+            return await _vacationsService.GetVacationRequestsAsync(User);
+        }
+
+        [Authorize(Roles = "Admin")]
+        [HttpGet("{id}")]
+        public async Task<VacationDto> GetVacationById([FromRoute] Guid id)
+        {
+            return await _vacationsService.GetByIdAsync(id);
         }
 
         [Authorize]

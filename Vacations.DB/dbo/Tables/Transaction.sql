@@ -1,8 +1,8 @@
 ﻿CREATE TABLE [dbo].[Transaction] (
     [TransactionID]     UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
-    [TransactionTypeID] UNIQUEIDENTIFIER NULL,
-    [EmployeeID]        UNIQUEIDENTIFIER NULL,
-    [Days]              INT              NULL,
+    [TransactionTypeID] UNIQUEIDENTIFIER NOT NULL,
+    [EmployeeID]        UNIQUEIDENTIFIER NOT NULL,
+    [Days]              INT              NOT NULL,
     [Comment]           NVARCHAR (200)   NULL,
     CONSTRAINT [PK_Transaction] PRIMARY KEY CLUSTERED ([TransactionID] ASC),
     CONSTRAINT [Transaction_EmployeeID_FK] FOREIGN KEY ([EmployeeID]) REFERENCES [dbo].[Employee] ([EmployeeID]),

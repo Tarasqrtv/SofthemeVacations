@@ -2,13 +2,9 @@
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.WebUtilities;
-using Microsoft.Extensions.Configuration;
 using Vacations.API.Models;
 using Vacations.BLL.Services;
-using Vacations.DAL.Models;
 
 namespace Vacations.API.Controllers
 {
