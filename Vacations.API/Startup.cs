@@ -42,7 +42,6 @@ namespace Vacations.API
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<VacationsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
-            services.AddDbContext<AccountsDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("VacationsDBConn")));
 
             //Configure DAL services
             Installer.ConfigureServices(services);
@@ -54,8 +53,8 @@ namespace Vacations.API
                        .AllowAnyHeader();
             }));
 
-            services.AddIdentity<User, IdentityRole>()
-                .AddEntityFrameworkStores<AccountsDbContext>()
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<VacationsDbContext>()
                 .AddDefaultTokenProviders();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear(); // => remove default claims

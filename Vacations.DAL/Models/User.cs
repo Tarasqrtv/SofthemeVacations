@@ -1,12 +1,11 @@
 ﻿using System;
-using System.ComponentModel.DataAnnotations;
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
 
 namespace Vacations.DAL.Models
 {
-    public class User : IdentityUser
+    public partial class User : IdentityUser
     {
-//        [Required]
         public Guid EmployeeId { get; set; }
 
         public Employee Employee { get; set; }

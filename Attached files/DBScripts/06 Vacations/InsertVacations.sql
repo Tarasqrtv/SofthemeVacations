@@ -1,125 +1,31 @@
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE(),
-	GETDATE() + 10,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
+DECLARE @VacationStatusID_Inprocess uniqueidentifier = (SELECT VacationStatusID FROM VacationStatus WHERE VacationStatus.Name = 'Inprocess');
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() + 30,
-	GETDATE() + 40,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Denied'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
+DECLARE @VacationTypesID_Vacation uniqueidentifier = (SELECT VacationTypesID FROM VacationTypes WHERE VacationTypes.Name = 'Vacation ');
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() - 60,
-	GETDATE() - 50,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
+DECLARE @number int = 5
+WHILE @number > 0
+	BEGIN
+DECLARE c CURSOR READ_ONLY FAST_FORWARD FOR
+    SELECT EmployeeID
+    FROM Employee
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() - 160,
-	GETDATE() - 150,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Denied'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
+DECLARE @id uniqueidentifier
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() - 260,
-	GETDATE() - 250,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
+-- Open the cursor
+OPEN c
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() + 100,
-	GETDATE() + 110,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Chaggai')
+FETCH NEXT FROM c INTO @id
+WHILE (@@FETCH_STATUS = 0)
+BEGIN
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE(),
-	GETDATE() + 10,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
+		INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID, VacationTypesID)
+		SELECT NEWID(), GetDate() + @number, GetDate() + 10 + @number, @VacationStatusID_Inprocess, 'TEST', @id, @VacationTypesID_Vacation
+		FETCH NEXT FROM c INTO @id
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() + 30,
-	GETDATE() + 40,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Denied'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
+END
 
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() - 60,
-	GETDATE() - 50,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
-
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() - 160,
-	GETDATE() - 150,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Denied'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
-
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() - 260,
-	GETDATE() - 250,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
-
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() + 100,
-	GETDATE() + 110,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'Approved'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
-
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() + 100,
-	GETDATE() + 110,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'InProcess'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
-
-INSERT INTO Vacation(VacationID, StartVocationDate, EndVocationDate, VacationStatusID, Comment, EmployeeID)
-SELECT 
-	NEWID(),
-	GETDATE() + 100,
-	GETDATE() + 110,
-	(SELECT VacationStatusID FROM VacationStatus WHERE Name = 'InProcess'),
-	'Vacation',
-	(SELECT EmployeeID FROM Employee WHERE Name = 'Charles')
+-- Close and deallocate the cursor
+CLOSE c
+DEALLOCATE c
+	SET @number = @number - 1
+END

@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Operations Version="1.0" xmlns="http://schemas.microsoft.com/sqlserver/dac/Serialization/2012/02">
+  <Operation Name="Rename Refactor" Key="db465d49-884e-423b-bed7-fd3bca1fe970" ChangeDateTime="08/02/2018 05:32:51">
+    <Property Name="ElementName" Value="[dbo].[VacationTypes].[Id]" />
+    <Property Name="ElementType" Value="SqlSimpleColumn" />
+    <Property Name="ParentElementName" Value="[dbo].[VacationTypes]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="VacationTypesID" />
+  </Operation>
+  <Operation Name="Rename Refactor" Key="dfeef78b-4682-4d44-b52e-e067e7ee263e" ChangeDateTime="08/02/2018 05:35:36">
+    <Property Name="ElementName" Value="[dbo].[Vacations_]" />
+    <Property Name="ElementType" Value="SqlForeignKeyConstraint" />
+    <Property Name="ParentElementName" Value="[dbo].[Vacation]" />
+    <Property Name="ParentElementType" Value="SqlTable" />
+    <Property Name="NewName" Value="[Vacations_VacationTypesID_FK]" />
+  </Operation>
+</Operations>

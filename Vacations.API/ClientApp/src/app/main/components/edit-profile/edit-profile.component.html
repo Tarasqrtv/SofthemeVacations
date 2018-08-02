@@ -1,126 +1,134 @@
 <div class="container">
-    <div class="row">
-      <table class="table">
-        <thead class="thead-dark">
-          <tr>
-            <td colspan="3"> Edite Profile</td>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>
-              <div class="user-photo float-left" style="background:url({{imgUrl}}) no-repeat 0px 0;background-size: auto 90px;">
-              <img src="{{imgUrl}}" height="30" width="30"/>
+  <div class="row">
+    <table class="table">
+      <thead class="thead-dark">
+        <tr>
+          <td colspan="3"> Edite Profile</td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="user-photo float-left" style="background:url({{imgUrl}}) no-repeat 0px 0;background-size: auto 90px;">
+              <img src="{{imgUrl}}" style="border-radius:50%; height:50px; width:50px;margin-top: 18px;" />
+            </div>
+            <label for="file">
+              <div class="float-right" style="border: 1px solid rgb(91, 106, 186); border-radius: 4px; width: 112px; background:transparent; height: 40px;margin-top: -70px; margin-left: 57px;">
+                <p style="color: rgb(91, 106, 186); margin-top: 9px; padding-left: 10px"> EDITE PHOTO </p>
               </div>
-              <label for="file">ADD PHOTO</label>
-              <input type="file" id="file"
-              (change)="handleFileInput($event.target.files)">
-            </td>
-            <td class="kostil">
-              <label for="bday">date of birth</label>
-              <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.Birthday">
-            </td>
-            <td>
-              <label for="rol">Role</label>
-              <select [(ngModel)]="employee.RoleId" class="form-control" id="rol">
-                <option *ngFor="let item of employeeRoles " [value]="item.Id">
-                  {{item.Name}}
-                </option>
-              </select> 
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="usr">name</label>
-              <input type="text" class="form-control" id="usr" [(ngModel)]= "employee.Name">
-            </td>
-            <td class="kostil">
-              <label for="email">personal mail</label>
-              <input type="email" class="form-control" id="email" [(ngModel)]="employee.PersonalEmail">
-            </td>
-            <td>
-              <label for="em">work mail</label>
-              <input type="email" class="form-control" id="em" [(ngModel)]="employee.WorkEmail">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="srnm">surname</label>
-              <input type="text" class="form-control" id="srnm" [(ngModel)]="employee.Surname">
-            </td>
-            <td class="kostil">
-              <label for="phnmbr">phone number</label>
-              <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" [(ngModel)]="employee.TelephoneNumber">
-            </td>
-            <td>
-              <label for="skp">skype</label>
-              <input type="text" class="form-control" id="skp" [(ngModel)]="employee.Skype">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="sel1">job title:</label>
-              <select  [(ngModel)]="employee.JobTitleId" class="form-control" id="sel1">
-                  <option *ngFor="let item of jobTitles" [value]="item.JobTitleId">
-                      {{item.Name}}
-                  </option>
-              </select>
-            </td>
-            <td class="kostil">
-              <label for="bday">hire date</label>
-              <mat-form-field>
-              <!-- <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field"
-                [(ngModel)]="employee.StartDate" [ngValue]="employee.StartDate | date" > -->
-                <input matInput [matDatepicker]="picker" [(ngModel)]="employee.StartDate" placeholder="Choose a date">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                <mat-datepicker #picker></mat-datepicker> 
-              </mat-form-field>
-            </td>
-
-
-            <td>
-              <label for="bday">date disminssal</label>
-              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.EndDate ">
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <label for="sel1">status:</label>
-              <select  class="form-control" id="sel1" [(ngModel)]="employee.EmployeeStatusId">
-                <option *ngFor="let item of employeeStatuses" [value]="item.EmployeeStatusId">
-                  {{item.Name}}
+            </label>
+            <input type="file" id="file" (change)="handleFileInput($event.target.files)" style="display: none;">
+          </td>
+          <td class="kostil">
+            <label for="mypicker">date of birth</label>
+            <mat-form-field class="mypicker" style="width: 184px;">
+              <input matInput [matDatepicker]="picker" placeholder="Choose date" [(ngModel)]="employee.Birthday">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker startView="year"></mat-datepicker>
+            </mat-form-field>
+            <!-- <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control bg-name-field"> -->
+          </td>
+          <td>
+            <label for="rol">Role</label>
+            <select [(ngModel)]="employee.RoleId" class="form-control" id="rol">
+              <option *ngFor="let item of employeeRoles " [value]="item.Id">
+                {{item.Name}}
               </option>
-              </select>
-            </td>
-            <td class="kostil">
-              <label for="tnm">team name</label>
-              <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm" >
-                <option value=""> None </option>
-                  <option *ngFor="let item of teams" [value]="item.TeamId">
-                      {{item.Name}}
-                  </option>
-              </select>
-            </td>
-            <td>
-              <label for="tnml">team leader</label>
-              {{employee.TeamLeadName}}
-              <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" 
-                  [(ngModel)]="employee.TeamLeadName" >
-            </td> 
-          </tr>
-          <tr>
-            <td>
-              <label for="sel1">day in vacation:</label>
-              <input type="number" class="form-control" id="sel1" [(ngModel)]="employee.Balance">
-            </td>
-            <td class="kostil">
-              <button type="button" class="btn btn-outline-secondary float-right" (click) = "cancel()">CANCEL</button>
-            </td>
-            <td>
-              <button type="submit" class="btn btn-outline-secondary" (click) = "Save()">Save Changes</button>
-            </td> 
-          </tr>
-        </tbody>
-      </table>
-    </div>
+            </select>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="usr">name</label>
+            <input type="text" class="form-control" id="usr" [(ngModel)]="employee.Name">
+          </td>
+          <td class="kostil">
+            <label for="email">personal mail</label>
+            <input type="email" class="form-control" id="email" [(ngModel)]="employee.PersonalEmail">
+          </td>
+          <td>
+            <label for="em">work mail</label>
+            <input type="email" class="form-control" id="em" [(ngModel)]="employee.WorkEmail">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="srnm">surname</label>
+            <input type="text" class="form-control" id="srnm" [(ngModel)]="employee.Surname">
+          </td>
+          <td class="kostil">
+            <label for="phnmbr">phone number</label>
+            <input type="text" class="form-control input-medium bfh-phone" data-format="+380 (dd) ddd-dd-dd" id="phnmbr" [(ngModel)]="employee.TelephoneNumber">
+          </td>
+          <td>
+            <label for="skp">skype</label>
+            <input type="text" class="form-control" id="skp" [(ngModel)]="employee.Skype">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="sel1">job title:</label>
+            <select [(ngModel)]="employee.JobTitleId" class="form-control" id="sel1">
+              <option *ngFor="let item of jobTitles" [value]="item.JobTitleId">
+                {{item.Name}}
+              </option>
+            </select>
+          </td>
+          <td class="kostil">
+            <label for="picker1">hire date</label>
+            <!-- <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.StartDate"> -->
+            <mat-form-field class="mypicker" style="width: 184px;">
+              <input matInput [matDatepicker]="picker1" placeholder="Choose date" [(ngModel)]="employee.StartDate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1 startView="year"></mat-datepicker>
+            </mat-form-field>
+          </td>
+          <td>
+            <label for="picker2">date disminssal</label>
+            <mat-form-field class="mypicker" style="width: 184px;">
+              <input matInput [matDatepicker]="picker2" placeholder="Choose date" [(ngModel)]="employee.EndDate ">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 startView="year"></mat-datepicker>
+            </mat-form-field>
+            <!-- <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.EndDate "> -->
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="sel1">status:</label>
+            <select class="form-control" id="sel1" [(ngModel)]="employee.EmployeeStatusId">
+              <option *ngFor="let item of employeeStatuses" [value]="item.EmployeeStatusId">
+                {{item.Name}}
+              </option>
+            </select>
+          </td>
+          <td class="kostil">
+            <label for="tnm">team name</label>
+            <select [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
+              <option *ngFor="let item of teams" [value]="item.TeamId">
+                {{item.Name}}
+              </option>
+            </select>
+          </td>
+          <td>
+            <label for="tnml">team leader</label>
+            {{employee.TeamLead}}
+            <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" value="Mark" [(ngModel)]="employee.TeamLead">
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="sel1">day in vacation:</label>
+            <input type="number" class="form-control" id="sel1" [(ngModel)]="employee.Balance">
+          </td>
+          <td class="kostil">
+            <button type="button" class="btn btn-outline-secondary float-right" (click)="cancel()">CANCEL</button>
+          </td>
+          <td>
+            <button type="submit" class="btn btn-outline-secondary" (click)="Save()">Save Changes</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
+</div>

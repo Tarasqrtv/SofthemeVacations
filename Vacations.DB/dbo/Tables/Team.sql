@@ -1,7 +1,7 @@
 ﻿CREATE TABLE [dbo].[Team] (
     [TeamID]     UNIQUEIDENTIFIER DEFAULT (newid()) NOT NULL,
     [TeamLeadID] UNIQUEIDENTIFIER NULL,
-    [Name]       NVARCHAR (100)   NULL,
+    [Name]       NVARCHAR (100)   NOT NULL,
     CONSTRAINT [PK_Team] PRIMARY KEY CLUSTERED ([TeamID] ASC),
     CONSTRAINT [Team_TeamLeadID_FK] FOREIGN KEY ([TeamLeadID]) REFERENCES [dbo].[Employee] ([EmployeeID])
 );

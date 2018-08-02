@@ -24,13 +24,13 @@ namespace Vacations.BLL.Services
 
         public VacationStatusDto GetById(Guid idGuid)
         {
-            var vacation = _context.VacationStatus.FirstOrDefault(e => e.VacationStatusId == idGuid);
+            var vacation = _context.VacationStatus.FirstOrDefault(vs => vs.VacationStatusId == idGuid);
             return _mapper.Map<VacationStatus, VacationStatusDto>(vacation);
         }
 
         public async Task<VacationStatusDto> GetByIdAsync(Guid idGuid)
         {
-            var vacation = await _context.VacationStatus.FirstOrDefaultAsync(e => e.VacationStatusId == idGuid);
+            var vacation = await _context.VacationStatus.FirstOrDefaultAsync(vs => vs.VacationStatusId == idGuid);
             return _mapper.Map<VacationStatus, VacationStatusDto>(vacation);
         }
 

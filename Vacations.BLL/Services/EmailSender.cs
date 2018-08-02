@@ -22,7 +22,7 @@ namespace Vacations.BLL.Services
             Options.SendGridUser = _configuration["EmailService:SendGridUser"];
         }
 
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        public AuthMessageSenderOptions Options { get; }
 
         public Task SendEmailAsync(string email, string subject, string message)
         {

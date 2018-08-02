@@ -2,8 +2,8 @@
     [Id]                   NVARCHAR (450)     NOT NULL,
     [UserName]             NVARCHAR (256)     NULL,
     [NormalizedUserName]   NVARCHAR (256)     NULL,
-    [Email]                NVARCHAR (256)     NULL,
-    [NormalizedEmail]      NVARCHAR (256)     NULL,
+    [Email]                NVARCHAR (256)     NULL UNIQUE,
+    [NormalizedEmail]      NVARCHAR (256)     NULL UNIQUE,
     [EmailConfirmed]       BIT                NOT NULL,
     [PasswordHash]         NVARCHAR (MAX)     NULL,
     [SecurityStamp]        NVARCHAR (MAX)     NULL,
@@ -14,7 +14,7 @@
     [LockoutEnd]           DATETIMEOFFSET (7) NULL,
     [LockoutEnabled]       BIT                NOT NULL,
     [AccessFailedCount]    INT                NOT NULL,
-    [EmployeeID]           UNIQUEIDENTIFIER   NOT NULL,
+    [EmployeeID]           UNIQUEIDENTIFIER   NOT NULL UNIQUE,
     CONSTRAINT [PK_AspNetUsers] PRIMARY KEY CLUSTERED ([Id] ASC),
     CONSTRAINT [FK_AspNetUsers_Employee_EmployeeID] FOREIGN KEY ([EmployeeID]) REFERENCES [dbo].[Employee] ([EmployeeID])
 );

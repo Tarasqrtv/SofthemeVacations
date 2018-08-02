@@ -34,8 +34,11 @@
     </div>
     <p>Team Leader </p>
     <div class="float-right user-dropdown">
-      <button class="rounded-circle user-photo " style="background: url() no-repeat 0px 0;background-size: auto 60px;">
-        <img src="{{imgUrl}}" style="border-radius:50%; height:30px; width:30px;" />
+      <button class="rounded-circle user-photo" style="background: url() no-repeat 0px 0;background-size: auto 60px; border: none; outline: none;">
+        <img src="{{imgUrl}}" (click)="viewdiv('mydiv');" style="border-radius:50%; height:30px; width:30px;" />
+        <div class="speech-bubble" id="mydiv" style="display:none;">
+          <a class="nav-link" style="font-family: Muli-Bold; font-size: 14px;" (click)="logout();"><i class="icon-logout-icon" style="padding-right: 8px;"></i> Log Out </a>
+        </div>
       </button>
     </div>
   </nav>

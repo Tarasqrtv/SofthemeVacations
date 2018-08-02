@@ -15,23 +15,17 @@ namespace Vacations.BLL.Services
     {
         private readonly IMapper _mapper;
         private readonly VacationsDbContext _context;
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUsersService _usersService;
 
         public EmployeesService(
             VacationsDbContext context,
             IMapper mapper,
-            UserManager<User> userManager,
-            IUsersService usersService,
-            RoleManager<IdentityRole> roleManager
+            IUsersService usersService
             )
         {
             _mapper = mapper;
             _context = context;
-            _userManager = userManager;
             _usersService = usersService;
-            _roleManager = roleManager;
         }
 
         public IEnumerable<EmployeeDtoList> Get()
@@ -47,37 +41,40 @@ namespace Vacations.BLL.Services
                 .Include(e => e.User)
                 .FirstOrDefaultAsync(e => e.EmployeeId == id);
 
-            if (employee != null)
-                return new EmployeeDto()
-                {
-                    EmployeeId = employee.EmployeeId,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Birthday = employee.Birthday,
-                    PersonalEmail = employee.PersonalEmail,
-                    WorkEmail = employee.WorkEmail,
-                    TelephoneNumber = employee.TelephoneNumber,
-                    Skype = employee.Skype,
-                    StartDate = employee.StartDate,
-                    EndDate = employee.EndDate,
-                    TeamName = employee.Team?.Name,
-                    TeamLeadName = employee.Team?.TeamLead.Name,
-                    TeamLeadSurname = employee.Team?.TeamLead.Surname,
-                    Balance = employee.Balance,
-                    EmployeeStatusId = employee.EmployeeStatusId,
-                    JobTitleId = employee.JobTitleId,
-                    TeamId = employee.TeamId,
-                    TeamLeadId = employee.Team?.TeamLead.EmployeeId,
-                    RoleId = (await _userManager.GetRolesAsync(employee.User)).FirstOrDefault()
-                };
-            throw new NullReferenceException("Employee not found!");
+            if (employee == null)
+            {
+                return null;
+            }
+
+            return new EmployeeDto()
+            {
+                EmployeeId = employee.EmployeeId,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                Birthday = employee.Birthday,
+                PersonalEmail = employee.PersonalEmail,
+                WorkEmail = employee.WorkEmail,
+                TelephoneNumber = employee.TelephoneNumber,
+                Skype = employee.Skype,
+                StartDate = employee.StartDate,
+                EndDate = employee.EndDate,
+                TeamName = employee.Team?.Name,
+                TeamLeadName = employee.Team?.TeamLead?.Name,
+                TeamLeadSurname = employee.Team?.TeamLead?.Surname,
+                Balance = employee.Balance,
+                EmployeeStatusId = employee.EmployeeStatusId,
+                JobTitleId = employee.JobTitleId,
+                TeamId = employee.TeamId,
+                TeamLeadId = employee.Team?.TeamLead?.EmployeeId,
+                RoleId = await _usersService.GetUserRole(employee.User)
+            };
         }
 
         public async Task<int> PutAsync(EmployeeDto employeeDto)
         {
             var employee = await _context.Employee.FindAsync(employeeDto.EmployeeId);
 
-            var user = await _userManager.FindByEmailAsync(employee.WorkEmail);
+            var user = await _usersService.FindByEmailAsync(employee.WorkEmail);
 
             employee.Name = employeeDto.Name;
             employee.Surname = employeeDto.Surname;
@@ -101,20 +98,9 @@ namespace Vacations.BLL.Services
 
             var result1 = await _context.SaveChangesAsync();
 
-            var result2 = await _userManager.UpdateAsync(user);
+            await _usersService.UpdateUser(user);
 
-            foreach (var role in await _userManager.GetRolesAsync(user))
-            {
-                var result3 = await _userManager.RemoveFromRoleAsync(user, role);
-            }
-
-            //TODO: Add role
-            var result4 = await _roleManager.FindByIdAsync(employeeDto.RoleId);
-
-            if (result4 != null)
-            {
-                await _userManager.AddToRoleAsync(user, result4.Name);
-            }
+            await _usersService.UpdateUserRole(user, employeeDto.RoleId);
 
             return result1;
         }
@@ -150,19 +136,9 @@ namespace Vacations.BLL.Services
 
             var result1 = await _context.SaveChangesAsync();
 
-            var result2 = await _userManager.CreateAsync(user, "asd123Q!");
+            await _usersService.CreateAsync(user, "asd123Q!");
 
-            //TODO: Add role
-            var result3 = await _roleManager.FindByIdAsync(employeeDto.RoleId);
-
-            if (result3 == null)
-            {
-                await _userManager.AddToRoleAsync(user, "Employee");
-            }
-            else
-            {
-                await _userManager.AddToRoleAsync(user, result3.Name);
-            }
+            await _usersService.UpdateUserRole(user, employeeDto.RoleId);
 
             await _usersService.ForgotPassword(user.Email);
 

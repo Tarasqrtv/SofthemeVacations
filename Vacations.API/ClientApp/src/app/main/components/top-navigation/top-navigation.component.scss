@@ -2,87 +2,98 @@
     background-color: #222222;
     padding-left: 0;
     padding-right: 0;
-
     nav.navbar {
         padding: 0 165px;
         background-color: #2E2E2E;
         color: white;
-
         a {
             color: white;
             font-size: 14px;
         }
-
         ul li {
             padding-left: 37px;
             padding-right: 37px;
             height: 85px;
             line-height: 85px;
-
             a {
                 display: block;
                 line-height: 81px;
                 padding: 0;
-
                 span {
                     padding: 0 10px;
                 }
-
                 &:active div {
-                  height: 3px;
-                  background: linear-gradient(to right, #667DE9, #764CA4);
-              }
-
+                    height: 3px;
+                    background: linear-gradient(to right, #667DE9, #764CA4);
+                }
             }
         }
-        p{
-          color: grey;
-          font-size: 13px;
-          font-family: Muli-Bold;
-          margin-top: 12px;
-          padding-right: 5px;
+        p {
+            color: grey;
+            font-size: 13px;
+            font-family: Muli-Bold;
+            margin-top: 12px;
+            padding-right: 5px;
         }
-
         .logo {
             margin: 23px 0;
             font-size: 18px;
             font-family: Muli-Bold;
             width: 290px;
-
             h1 {
                 font-size: 16px;
                 margin-left: 53px;
                 margin-top: 7px;
                 text-transform: uppercase;
             }
-
             i.icon-logo-softheme {
                 font-size: 38px;
             }
         }
-
         .user-dropdown {
             color: #878787;
             font-size: 16px;
-
+            .speech-bubble {
+                margin-top: 10px;
+                margin-left: -80px;
+                position: relative;
+                background-color: #292929;
+                width: 125px;
+                height: 40px;
+                color: white;
+                text-align: center;
+                border-radius: 4px;
+                border: 1px solid #878787;
+            }
+            .speech-bubble:after {
+                content: '';
+                position: absolute;
+                width: 0;
+                height: 0;
+                border: 10px solid;
+                border-bottom-color: #292929;
+                border-top-color: transparent;
+                border-left-color: transparent;
+                border-right-color: transparent;
+                bottom: 100%;
+                right: 20px;
+                margin-left: -15px;
+            }
             .rounded-circle {
-
                 border: 0;
                 background-color: #878787;
                 width: 38px;
                 height: 38px;
-
                 i.icon-user-icon:before {
                     color: black;
                 }
-                .user-photo{
-                  width: 38px;
-                  height: 38px;
-                  border-radius: 50%;
+                .user-photo {
+                    width: 38px;
+                    height: 38px;
+                    border-radius: 50%;
                 }
             }
         }
-
     }
 }
 
