@@ -20,7 +20,10 @@
 * {
     font-family: Muli-Regular;
 }
-
+.mypicker.mat-form-field-appearance-legacy .mat-form-field-infix {
+  padding: .4375em 0;
+  padding-bottom: 0px;
+}
 .mat-form-field-appearance-legacy .mat-form-field-prefix .mat-datepicker-toggle-default-icon,
 .mat-form-field-appearance-legacy .mat-form-field-suffix .mat-datepicker-toggle-default-icon {
     width: 2em !important;
@@ -86,7 +89,7 @@
 }
 
 .mat-dialog-container {
-    background: #2E2E2E;
+    background: transparent;
     padding: 0 !important;
 }
 

@@ -13,15 +13,20 @@
               <img src="{{imgUrl}}" style="border-radius:50%; height:50px; width:50px;margin-top: 18px;" />
             </div>
             <label for="file">
-              <div style="border: 1px solid rgb(91, 106, 186); border-radius: 4px; width: 122px; height: 37px;margin-top: 26px;">
-                <p style="color: rgb(91, 106, 186); margin-top: 7px; margin-left: 18px;"> EDITE PHOTO</p>
+              <div class="float-right" style="border: 1px solid rgb(91, 106, 186); border-radius: 4px; width: 112px; background:transparent; height: 40px;margin-top: -70px; margin-left: 57px;">
+                <p style="color: rgb(91, 106, 186); margin-top: 9px; padding-left: 10px"> EDITE PHOTO </p>
               </div>
             </label>
             <input type="file" id="file" (change)="handleFileInput($event.target.files)" style="display: none;">
           </td>
           <td class="kostil">
-            <label for="bday">date of birth</label>
-            <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.Birthday">
+            <label for="mypicker">date of birth</label>
+            <mat-form-field class="mypicker" style="width: 184px;">
+              <input matInput [matDatepicker]="picker" placeholder="Choose date" [(ngModel)]="employee.Birthday">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker startView="year"></mat-datepicker>
+            </mat-form-field>
+            <!-- <input type="date" name="bday" min="1000-01-01" max="3000-12-31" class="form-control bg-name-field"> -->
           </td>
           <td>
             <label for="rol">Role</label>
@@ -70,12 +75,22 @@
             </select>
           </td>
           <td class="kostil">
-            <label for="bday">hire date</label>
-            <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.StartDate">
+            <label for="picker1">hire date</label>
+            <!-- <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.StartDate"> -->
+            <mat-form-field class="mypicker" style="width: 184px;">
+              <input matInput [matDatepicker]="picker1" placeholder="Choose date" [(ngModel)]="employee.StartDate">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1 startView="year"></mat-datepicker>
+            </mat-form-field>
           </td>
           <td>
-            <label for="bday">date disminssal</label>
-            <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.EndDate ">
+            <label for="picker2">date disminssal</label>
+            <mat-form-field class="mypicker" style="width: 184px;">
+              <input matInput [matDatepicker]="picker2" placeholder="Choose date" [(ngModel)]="employee.EndDate ">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 startView="year"></mat-datepicker>
+            </mat-form-field>
+            <!-- <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.EndDate "> -->
           </td>
         </tr>
         <tr>

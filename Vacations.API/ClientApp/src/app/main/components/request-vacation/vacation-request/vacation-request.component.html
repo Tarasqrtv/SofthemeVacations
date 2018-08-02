@@ -6,12 +6,12 @@
       <div class="left">
         <div class="form-group">
           <label for="vacation_type">vacation type</label>
-          <select  [(ngModel)]="vacation.VacationType" class="form-control" id="sel1">
-              <option *ngFor="let item of vacationTypes" [value]="item">
-                  {{item}}
-              </option>
-          </select>         
-         <!--
+          <select [(ngModel)]="vacation.VacationType" class="form-control" id="sel1">
+            <option *ngFor="let item of vacationTypes" [value]="item">
+              {{item}}
+            </option>
+          </select>
+          <!--
           <select [(ngModel)]="vacation.VacationType"class="form-control" id="vacation_type">
             <option>Not Choosen</option>
             <option>Vacation</option>
@@ -20,26 +20,36 @@
         {{vacation.VacationType}}
         <div class="form-group">
           <label for="comment">Comment:</label>
-          <textarea class="form-control" rows="5" id="comment" [(ngModel)]="vacation.Comment" ></textarea>
+          <textarea class="form-control" rows="5" id="comment" [(ngModel)]="vacation.Comment"></textarea>
         </div>
         <button class="btn btn-outline-secondary" style="width: 60%; float: right;" (click)="cancel()">CANCEL</button>
       </div>
       <div class="right">
         <div class="form-group">
-          <label for="from">from</label>
-          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from" [value]="vacation.StartVocationDate | date:'yyyy-MM-dd'"
-            (input)="vacation.StartVocationDate=parseDate($event.target.value)" name="firstField">
+          <label for="picker1">from</label>
+          <div class="bg-name-field">
+            <mat-form-field class="mypicker" style="width: 100%;">
+              <input matInput [matDatepicker]="picker1" placeholder="Choose date" [value]="vacation.EndVocationDate | date:'yyyy-MM-dd'"
+                (input)="vacation.EndVocationDate=parseDate($event.target.value)" name="firstField">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1 startView="year"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <!-- <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from" [value]="vacation.StartVocationDate | date:'yyyy-MM-dd'"
+            (input)="vacation.StartVocationDate=parseDate($event.target.value)" name="firstField"> -->
         </div>
         <div class="form-group">
-          <label for="to">to</label>
-          <!--  <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;">
-           <mat-form-field>
-              <input matInput [matDatepicker]="picker" [(ngModel)]="vacation.EndVocationDate">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker startView="year" ></mat-datepicker>
-            </mat-form-field>  -->
-          <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from" [value]="vacation.EndVocationDate | date:'yyyy-MM-dd'"
-            (input)="vacation.EndVocationDate=parseDate($event.target.value)" name="secondField">
+          <label for="picker2">to</label>
+          <div class="bg-name-field">
+            <mat-form-field class="mypicker" style="width: 100%;">
+              <input matInput [matDatepicker]="picker2" placeholder="Choose date" [value]="vacation.EndVocationDate | date:'yyyy-MM-dd'"
+                (input)="vacation.EndVocationDate=parseDate($event.target.value)" name="secondField">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+              <mat-datepicker #picker2 startView="year"></mat-datepicker>
+            </mat-form-field>
+          </div>
+          <!-- <input type="date" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" id="from" [value]="vacation.EndVocationDate | date:'yyyy-MM-dd'" -->
+          <!-- (input)="vacation.EndVocationDate=parseDate($event.target.value)" name="secondField"> -->
         </div>
         <div class="form-group">
           <label for="am">amount</label>
