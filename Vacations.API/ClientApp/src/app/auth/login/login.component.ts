@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
       response => {
       this.serviceResponse = response;
       localStorage.setItem("token", this.serviceResponse.Token);
-      localStorage.setItem("role", JSON.stringify(this.serviceResponse.Role));
+      localStorage.setItem("role", this.serviceResponse.Role);
       this.router.navigate(["/main"])
     }
   )
