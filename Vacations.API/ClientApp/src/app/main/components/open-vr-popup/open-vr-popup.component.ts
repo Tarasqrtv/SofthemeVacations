@@ -1,11 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { MAT_DIALOG_DATA } from '@angular/material';
-import { MatDialogRef } from '@angular/material';
+//import { MAT_DIALOG_DATA } from '@angular/material';
+//import { MatDialogRef } from '@angular/material';
 
 import { Vacation } from '../profile/my-vacations/vacation.model';
 import { VacationService } from '../../services/vacation.service';
 import { EditService } from '../../services/edit.service';
 import { Employee } from '../edit-profile/models/employee.model';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-open-vr-popup',

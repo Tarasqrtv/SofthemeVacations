@@ -43,11 +43,6 @@ export class VacationRequestComponent implements OnInit {
       console.log(this.vacTypes);
     };
 
-    var someArray = [9, 2, 5];
-    for (var item in someArray) {
-      console.log(item); // 0,1,2
-    }
-
     const errorfn = () => { };
     const completefn = () => { };
 
@@ -56,6 +51,7 @@ export class VacationRequestComponent implements OnInit {
   }
 
   calculateDate() {
+    console.log("was trying to parse");
     this.DaysInVac(
       this.parseDate(this.vacation.StartVocationDate),
       this.parseDate(this.vacation.EndVocationDate));
@@ -70,10 +66,12 @@ export class VacationRequestComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
+  
     this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
   }
 
   Send() {
+    
     console.log(this.employee);
     console.log(this.vacation.VacationTypesId);
     this.vacation.EmployeeId =this.employee.EmployeeId;

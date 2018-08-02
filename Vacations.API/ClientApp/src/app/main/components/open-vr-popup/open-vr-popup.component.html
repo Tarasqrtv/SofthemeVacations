@@ -27,7 +27,8 @@
         <div class="form-group">
           <label for="from">from</label>
           <mat-form-field>
-            <input matInput [matDatepicker]="picker" placeholder="Choose date">
+            <input matInput [matDatepicker]="picker" placeholder="Choose date"
+             [value]="emplVacation.StartVocationDate | date:'yyyy-MM-dd'">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker startView="year"></mat-datepicker>
           </mat-form-field>
@@ -35,7 +36,8 @@
         <div class="form-group">
           <label for="picker1">to</label>
           <mat-form-field>
-            <input matInput [matDatepicker]="picker1" placeholder="Choose date">
+            <input matInput [matDatepicker]="picker1" placeholder="Choose date"
+            [value]="emplVacation.EndVocationDate | date:'yyyy-MM-dd'">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1 startView="year"></mat-datepicker>
           </mat-form-field>

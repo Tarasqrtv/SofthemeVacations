@@ -100,12 +100,7 @@ export class EditProfileComponent implements OnInit {
       () => this.imgUrl = "default");
   }
 
-  Save() {
-    this.employee.StartDate = new Date(this.employee.StartDate);
-    this.employee.StartDate = new Date (this.employee.StartDate.getFullYear(),
-      this.employee.StartDate.getMonth(),
-      this.employee.StartDate.getDate() + 1
-    );
+  Save() {   
     const successfnEmplUpdates = (response) => {
       this.employee = response;
     };
