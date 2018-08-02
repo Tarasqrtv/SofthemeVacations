@@ -83,6 +83,7 @@
           <td class="kostil">
             <label for="tnm">team name</label>
               <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
+                  <option value=""> None </option>
                   <option *ngFor="let item of teams" [value]="item.TeamId">
                       {{item.Name}}
                   </option>

@@ -68,8 +68,16 @@
             </td>
             <td class="kostil">
               <label for="bday">hire date</label>
-              <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.StartDate" >
+              <mat-form-field>
+              <!-- <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field"
+                [(ngModel)]="employee.StartDate" [ngValue]="employee.StartDate | date" > -->
+                <input matInput [matDatepicker]="picker" [(ngModel)]="employee.StartDate" placeholder="Choose a date">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker> 
+              </mat-form-field>
             </td>
+
+
             <td>
               <label for="bday">date disminssal</label>
               <input type="date" name="bday" min="2000-01-01" max="3000-12-31" class="form-control bg-name-field" [(ngModel)]="employee.EndDate ">
@@ -87,6 +95,7 @@
             <td class="kostil">
               <label for="tnm">team name</label>
               <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm" >
+                <option value=""> None </option>
                   <option *ngFor="let item of teams" [value]="item.TeamId">
                       {{item.Name}}
                   </option>
@@ -109,7 +118,7 @@
             </td>
             <td>
               <button type="submit" class="btn btn-outline-secondary" (click) = "Save()">Save Changes</button>
-            </td>
+            </td> 
           </tr>
         </tbody>
       </table>

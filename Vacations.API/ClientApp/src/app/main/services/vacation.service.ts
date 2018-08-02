@@ -6,6 +6,7 @@ import {environment} from '../../../environments/environment';
 import { Vacation } from '../components/profile/my-vacations/vacation.model';
 import { VacModel } from '../components/request-vacation/vacation-request/vacation-request.model';
 import { VacRequest } from '../components/list-of-vacation-requests/vacation-request.model';
+import { VacType } from '../components/request-vacation/vacation-request/vacation-types.model';
 
 @Injectable()
 export class VacationService {
@@ -27,6 +28,11 @@ export class VacationService {
     getVacationRequests(): Observable<VacRequest[]> {
         let requestUrl = environment.baseUrl + '/vacations';
         return this.http.get<VacRequest[]>(`${requestUrl}`);
+    }
+
+    getVacationType(): Observable<VacType[]> {
+        let requestUrl = environment.baseUrl + '/vacationtypes';
+        return this.http.get<VacType[]>(`${requestUrl}`);
     }
 
     SendVacation(vacation: VacModel): Observable<VacModel> {

@@ -54,11 +54,28 @@ export class OpenVRPopupComponent implements OnInit {
   }
 
   onCloseCancel() {
+
     this.thisDialogRef.close('Cancel');
   }
 
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
   }
+
+  // Save() {
+  //   const successfnEmplUpdates = (response) => {
+  //     this.employee = response;
+  //   };
+  //   const LocBack = () => this.location.back();
+  //   console.log(this.employee);
+  //   console.log(this.fileToUpload);
+  //   if (this.fileToUpload != null) {
+  //     this.uploadFileToActivity();
+  //   }
+  //   this.service.updateEmployee(this.employee).subscribe(successfnEmplUpdates, LocBack);;
+    
+  //   this.toast.success("You successfully edit profile", "");
+  //   console.log(this.employeeStatuses);
+  // }
 
 }
