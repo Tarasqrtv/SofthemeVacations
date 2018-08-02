@@ -31,13 +31,11 @@
         </div>
         <div class="form-group">
           <label for="to">to</label>
-          <div class="conteiner" style="color:white; border: 1px solid #dee2e6;; border-radius: 4px; padding-left: 10px;">
-            <mat-form-field>
-              <input matInput [matDatepicker]="picker">
-              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-              <mat-datepicker #picker startView="year"></mat-datepicker>
-            </mat-form-field>
-          </div>
+          <mat-form-field>
+            <input matInput [matDatepicker]="picker" placeholder="Choose date">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker startView="year"></mat-datepicker>
+          </mat-form-field>
         </div>
         <div class="form-group">
           <label for="am">amount</label>
