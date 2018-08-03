@@ -33,7 +33,7 @@
           <label for="picker2">to</label>
           <div class="bg-name-field">
             <mat-form-field class="mypicker" style="width: 100%;">
-              <input matInput [matDatepicker]="picker2" placeholder="Choose date" 
+              <input matInput [matDatepicker]="picker2" placeholder="Choose date" [value]="vacation.EndVocationDate | date:'yyyy-MM-dd'"
               [(ngModel)]="vacation.EndVocationDate" name="endDate" (ngModelChange)="calculateDate()">
               <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle >
               <mat-datepicker #picker2 startView="year"></mat-datepicker>

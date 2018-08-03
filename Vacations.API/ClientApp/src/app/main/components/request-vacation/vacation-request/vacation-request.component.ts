@@ -76,6 +76,14 @@ export class VacationRequestComponent implements OnInit {
   }
 
   Send() {    
+    this.vacation.StartVocationDate = new Date (this.vacation.StartVocationDate.getFullYear(),	
+      this.vacation.StartVocationDate.getMonth(),	
+      this.vacation.StartVocationDate.getDate() + 1	
+    );
+    this.vacation.EndVocationDate = new Date (this.vacation.EndVocationDate.getFullYear(),	
+      this.vacation.EndVocationDate.getMonth(),	
+      this.vacation.EndVocationDate.getDate() + 1	
+    );
     console.log(this.employee);
     console.log(this.vacation.VacationTypesId);
     this.vacation.EmployeeId =this.employee.EmployeeId;

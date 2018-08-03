@@ -28,7 +28,8 @@
           <label for="from">from</label>
           <mat-form-field>
             <input matInput [matDatepicker]="picker" placeholder="Choose date"
-             [value]="emplVacation.StartVocationDate | date:'yyyy-MM-dd'">
+            [(ngModel)]="emplVacation.StartVocationDate" [value]="emplVacation.StartVocationDate | date:'yyyy-MM-dd'"
+            name="startDate" (ngModelChange)="calculateDate()">
             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
             <mat-datepicker #picker startView="year"></mat-datepicker>
           </mat-form-field>
@@ -37,7 +38,8 @@
           <label for="picker1">to</label>
           <mat-form-field>
             <input matInput [matDatepicker]="picker1" placeholder="Choose date"
-            [value]="emplVacation.EndVocationDate | date:'yyyy-MM-dd'">
+            [(ngModel)]="emplVacation.EndVocationDate" [value]="emplVacation.EndVocationDate | date:'yyyy-MM-dd'"
+            name="endDate" (ngModelChange)="calculateDate()">
             <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
             <mat-datepicker #picker1 startView="year"></mat-datepicker>
           </mat-form-field>
@@ -45,11 +47,9 @@
         <div class="form-group">
           <label for="am">amount</label>
           <div class="row col-12">
-            <div>
-              <div *ngIf="emplVacation.StartVocationDate && emplVacation.EndVocationDate; else count ">
-                {{DaysInVac(parseDate(emplVacation.StartVocationDate), parseDate(emplVacation.EndVocationDate))}}
-              </div>
-              <p>days in vacation </p>
+            <div class="row col-12">
+              <input type="text" class="form-control" id="am" style="width: 35%; text-align: center; height: 35px;" readonly [value]="dateDiff">             
+              <div class="myp">days in vacation</div>
             </div>
           </div>
         </div>

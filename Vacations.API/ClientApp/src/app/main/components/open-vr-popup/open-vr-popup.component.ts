@@ -1,12 +1,11 @@
 import { Component, OnInit, Inject } from '@angular/core';
-//import { MAT_DIALOG_DATA } from '@angular/material';
-//import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 import { Vacation } from '../profile/my-vacations/vacation.model';
 import { VacationService } from '../../services/vacation.service';
 import { EditService } from '../../services/edit.service';
 import { Employee } from '../edit-profile/models/employee.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+
 
 @Component({
   selector: 'app-open-vr-popup',
@@ -18,6 +17,7 @@ export class OpenVRPopupComponent implements OnInit {
   vacations: Vacation[] = [];
   emplVacation: Vacation = <Vacation>{};
   employee: Employee = <Employee>{};
+  dateDiff: any = 'XX';
 
   constructor(private vacService: VacationService,
     private emplService: EditService,
@@ -37,8 +37,15 @@ export class OpenVRPopupComponent implements OnInit {
     this.vacService.getVacation(this.data).subscribe(response => {
       this.emplVacation = response;
       console.log(response);
+      this.calculateDate();
       this.emplService.getEmployeeId(this.emplVacation.EmployeeId).subscribe(successfnEmployee, errorfn, completefn);
-    });   
+    }); 
+  }
+
+  calculateDate() {
+    this.DaysInVac(
+      this.parseDate(this.emplVacation.StartVocationDate),
+      this.parseDate(this.emplVacation.EndVocationDate));
   }
 
   parseDate(dateString: any): Date {
@@ -50,12 +57,10 @@ export class OpenVRPopupComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
-    let date = (lst - frst) / 1000 / 60 / 60 / 24;
-    return date;
+    this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
   }
 
   onCloseCancel() {
-
     this.thisDialogRef.close('Cancel');
   }
 
