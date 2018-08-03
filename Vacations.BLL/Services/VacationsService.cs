@@ -123,7 +123,7 @@ namespace Vacations.BLL.Services
             return _mapper.Map<IEnumerable<Vacation>, IEnumerable<VacationDto>>(vacations);
         }
 
-        public async Task<int> PostAsync(VacationDto vacationDto)
+        public async Task<int> PutAsync(VacationDto vacationDto)
         {
             if (vacationDto.VacationStatusId == null)
             {
@@ -141,8 +141,7 @@ namespace Vacations.BLL.Services
                 EmployeeId = vacationDto.EmployeeId,
             };
 
-            await _context.Vacation.AddAsync(vacation);
-
+            _context.Vacation.Update(vacation);
 
             return await _context.SaveChangesAsync();
         }
@@ -157,7 +156,7 @@ namespace Vacations.BLL.Services
                 vacationDto.VacationStatusId = _vacationStatusService.Get().FirstOrDefault(vs => vs.Name == "InProcess")
                     .VacationStatusId;
 
-            return await PostAsync(vacationDto);
+            return await PutAsync(vacationDto);
         }
 
         public async Task<IEnumerable<VacationDto>> GetVacationRequestsAsync(ClaimsPrincipal user)

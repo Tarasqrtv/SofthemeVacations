@@ -84,7 +84,7 @@ namespace Vacations.API.Controllers
 
             try
             {
-                await _vacationsService.PostAsync(vacationsDto);
+                await _vacationsService.PutAsync(vacationsDto);
             }
             catch (DbUpdateException e)
             {
