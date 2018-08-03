@@ -139,6 +139,19 @@ namespace Vacations.BLL.Services
             return (await _userManager.GetRolesAsync(user)).FirstOrDefault();
         }
 
+        public async Task<string> GetUserRoleId(User user)
+        {
+            foreach (var role in _roleManager.Roles)
+            {
+                if(role.Name.Equals(await GetUserRole(user)))
+                {
+                    return role.Id;
+                }
+            }
+
+            return null;
+        }
+
         public async Task UpdateUserRole(User user, string roleId)
         {
             var result4 = await _roleManager.FindByIdAsync(roleId);

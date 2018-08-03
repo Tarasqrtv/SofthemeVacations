@@ -15,6 +15,7 @@ namespace Vacations.BLL.Services
         Task ForgotPassword(string email);
         Task<User> GetUserAsync(ClaimsPrincipal user);
         Task ResetPasswordAsync(string employeeId, string code, string passwordReset);
+        Task<string> GetUserRoleId(User user);
         Task<string> GetUserRole(User user);
         Task UpdateUserRole(User user, string role);
         Task SetUserRole(User user, string role);

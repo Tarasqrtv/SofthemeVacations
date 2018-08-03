@@ -69,7 +69,7 @@ namespace Vacations.BLL.Services
                 JobTitleId = employee.JobTitleId,
                 TeamId = employee.TeamId,
                 TeamLeadId = employee.Team?.TeamLead?.EmployeeId,
-                RoleId = await _usersService.GetUserRole(employee.User),
+                RoleId = await _usersService.GetUserRoleId(employee.User),
                 ImgUrl = employee.ImgUrl
 
             };
