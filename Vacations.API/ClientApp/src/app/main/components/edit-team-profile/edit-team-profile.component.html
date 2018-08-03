@@ -22,18 +22,17 @@
                   {{user.name}}
                   <mat-icon matChipRemove *ngIf="removable" style="color: white;">x</mat-icon>
                 </mat-chip>
-                <input [matChipInputFor]="chipList" [matChipInputSeparatorKeyCodes]="separatorKeysCodes" [matChipInputAddOnBlur]="addOnBlur"
-                  (matChipInputTokenEnd)="add($event)" style="color: white; background: transparent; border: none;">
+                <input style="color: white; background: transparent; border: none;"
+                  [matChipInputFor]="chipList" 
+                  [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                  [matChipInputAddOnBlur]="addOnBlur"
+                  (matChipInputTokenEnd)="add($event)" >
               </mat-chip-list>
             </div>
             <label for="fmem" style="margin-top: 15px;">found members</label>
-            <div>
+            <div style="margin-top: 30px;" *ngFor="let empl of noTeamEmpl" >
               <img src="../../../../assets/user profile icon.svg" id="fmem" class="user-photo float-left" />
-              <p>Name Surname</p>
-            </div>
-            <div style="margin-top: 30px;">
-              <img src="../../../../assets/user profile icon.svg" id="fmem" class="user-photo float-left" />
-              <p>Name Surname</p>
+              <p>{{empl.Name}} {{empl.Surname}} </p>
             </div>
           </td>
         </tr>

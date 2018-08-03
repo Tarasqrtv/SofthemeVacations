@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
+import { VacationService } from '../../services/vacation.service';
+
+import { VacRequest } from '../list-of-vacation-requests/vacation-request.model';
+
 @Component({
   selector: 'app-left-navigation',
   templateUrl: './left-navigation.component.html',
@@ -7,9 +11,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LeftNavigationComponent implements OnInit {
 
-  constructor() { }
+  vacations: VacRequest[];
+  vacCount: number;
+  constructor(private service: VacationService) { }
 
   ngOnInit() {
+    this.service.getVacationRequests().subscribe(response => {
+      this.vacations = response;
+      this.vacCount = this.vacations.length;
+      console.log("left");
+    });
   }
-
 }
