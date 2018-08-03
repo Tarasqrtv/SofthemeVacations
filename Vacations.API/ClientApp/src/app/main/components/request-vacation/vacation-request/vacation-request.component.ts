@@ -21,7 +21,8 @@ export class VacationRequestComponent implements OnInit {
   employee: Employee = <Employee>{};
   vacation: VacModel = <VacModel>{};
   vacTypes: VacType[] = [];
- 
+  dateDiff: any = 'XX';
+  errorMessage: string = 'You put invalid dates!';
 
   constructor(private location: Location, private service: VacationService, private emplService: EditService, private toast: ToastrService) { }
 
@@ -29,7 +30,7 @@ export class VacationRequestComponent implements OnInit {
     this.location.back();
   }
 
-  dateDiff: any = 'XX';
+  
 
   ngOnInit() {
     const successfnEmployee = (response) => {
@@ -66,12 +67,23 @@ export class VacationRequestComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
-  
-    this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
+    if (frst && lst) { 
+      if (lst > frst) {
+        this.errorMessage = '';
+        this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
+      }
+    }
   }
 
-  Send() {
-    
+  Send() {    
+    this.vacation.StartVocationDate = new Date (this.vacation.StartVocationDate.getFullYear(),	
+      this.vacation.StartVocationDate.getMonth(),	
+      this.vacation.StartVocationDate.getDate() + 1	
+    );
+    this.vacation.EndVocationDate = new Date (this.vacation.EndVocationDate.getFullYear(),	
+      this.vacation.EndVocationDate.getMonth(),	
+      this.vacation.EndVocationDate.getDate() + 1	
+    );
     console.log(this.employee);
     console.log(this.vacation.VacationTypesId);
     this.vacation.EmployeeId =this.employee.EmployeeId;

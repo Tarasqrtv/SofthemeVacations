@@ -1,12 +1,16 @@
 import { Component, OnInit, Inject } from '@angular/core';
-//import { MAT_DIALOG_DATA } from '@angular/material';
-//import { MatDialogRef } from '@angular/material';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Location } from '@angular/common';
 
-import { Vacation } from '../profile/my-vacations/vacation.model';
+import { ToastrService } from 'ngx-toastr';
 import { VacationService } from '../../services/vacation.service';
 import { EditService } from '../../services/edit.service';
+
 import { Employee } from '../edit-profile/models/employee.model';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { VacRequest } from '../list-of-vacation-requests/vacation-request.model';
+import { Statuses } from './vacation-statuses.model';
+
+
 
 @Component({
   selector: 'app-open-vr-popup',
@@ -15,12 +19,15 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 })
 export class OpenVRPopupComponent implements OnInit {
 
-  vacations: Vacation[] = [];
-  emplVacation: Vacation = <Vacation>{};
+  emplVacation: VacRequest = <VacRequest>{};
   employee: Employee = <Employee>{};
+  vacStatuses: Statuses[] = [];
+  dateDiff: any = 'XX';
 
   constructor(private vacService: VacationService,
+    private location: Location,
     private emplService: EditService,
+    private toast: ToastrService,
     public thisDialogRef: MatDialogRef<OpenVRPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string) { }
 
@@ -37,8 +44,20 @@ export class OpenVRPopupComponent implements OnInit {
     this.vacService.getVacation(this.data).subscribe(response => {
       this.emplVacation = response;
       console.log(response);
+      this.calculateDate();
       this.emplService.getEmployeeId(this.emplVacation.EmployeeId).subscribe(successfnEmployee, errorfn, completefn);
-    });   
+    }); 
+
+    this.vacService.getVacationStatuses().subscribe(response => {
+      this.vacStatuses = response;
+      console.log(response);
+    })
+  }
+
+  calculateDate() {
+    this.DaysInVac(
+      this.parseDate(this.emplVacation.StartVocationDate),
+      this.parseDate(this.emplVacation.EndVocationDate));
   }
 
   parseDate(dateString: any): Date {
@@ -50,33 +69,19 @@ export class OpenVRPopupComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
-    let date = (lst - frst) / 1000 / 60 / 60 / 24;
-    return date;
-  }
-
-  onCloseCancel() {
-
-    this.thisDialogRef.close('Cancel');
+    this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
   }
 
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
   }
 
-  // Save() {
-  //   const successfnEmplUpdates = (response) => {
-  //     this.employee = response;
-  //   };
-  //   const LocBack = () => this.location.back();
-  //   console.log(this.employee);
-  //   console.log(this.fileToUpload);
-  //   if (this.fileToUpload != null) {
-  //     this.uploadFileToActivity();
-  //   }
-  //   this.service.updateEmployee(this.employee).subscribe(successfnEmplUpdates, LocBack);;
-    
-  //   this.toast.success("You successfully edit profile", "");
-  //   console.log(this.employeeStatuses);
-  // }
-
+  onCloseCancel() {
+    console.log(this.emplVacation);
+    this.thisDialogRef.close('Cancel');
+    this.vacService.SendVacationRequest(this.emplVacation).subscribe(response => {
+      this.toast.success("You successfully send vacation request", "");
+      this.location.back();
+    });
+  }
 }
