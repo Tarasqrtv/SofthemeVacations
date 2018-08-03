@@ -18,7 +18,7 @@ export interface Employee {
     JobTitleId: string;
     TeamId: string;
     TeamLeadId: string;
-    Role: string;
+    RoleName: string;
     RoleId: string;
     ImgUrl: string;
 }

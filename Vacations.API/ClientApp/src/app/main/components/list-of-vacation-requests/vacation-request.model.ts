@@ -12,4 +12,6 @@ export interface VacRequest{
     EmployeeName: string;
     EmployeeSurname: string;
     EmployeeBalance: string;
+    VacationTypeName: string;
+    BossComment: string;
 }

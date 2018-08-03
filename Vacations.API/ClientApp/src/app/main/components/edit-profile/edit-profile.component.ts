@@ -92,19 +92,14 @@ export class EditProfileComponent implements OnInit {
     const errorfn = () => { };
     const completefn = () => { };
 
+    this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
     this.service.getEmployeeId(this.id).subscribe(successfnEmployee, errorfn, completefn);
     this.service.getTeam().subscribe(successfnTeams, errorfn, completefn);
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
-    this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
   }
 
   Save() {   
-    const successfnEmplUpdates = (response) => {
-      this.employee = response;
-    };
-    const LocBack = () => this.location.back();
-    const Success = () => this.toast.success("You successfully edit profile", "");
     console.log(this.employee);
     console.log(this.fileToUpload);
     if (this.fileToUpload != null) {
@@ -112,6 +107,10 @@ export class EditProfileComponent implements OnInit {
       this.employee.ImgUrl = this.newFileName;
       this.uploadFileToActivity();
     }
-    this.service.updateEmployee(this.employee).subscribe(successfnEmplUpdates, LocBack, Success);
+    this.service.updateEmployee(this.employee).subscribe(response => {
+      this.location.back();
+      this.toast.success("You successfully edit profile", "");
+      (response) =>  this.employee = response;
+    });
   }
 }
