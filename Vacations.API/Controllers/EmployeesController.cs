@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
-using Vacations.DAL.Models;
 
 namespace Vacations.API.Controllers
 {

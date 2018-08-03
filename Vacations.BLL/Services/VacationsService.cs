@@ -19,13 +19,15 @@ namespace Vacations.BLL.Services
         private readonly IUsersService _usersService;
         private readonly IVacationStatusService _vacationStatusService;
         private readonly UserManager<User> _userManager;
+        private readonly IEmployeesService _employeesService;
 
         public VacationsService(
             VacationsDbContext context,
             IMapper mapper,
             IUsersService usersService,
             IVacationStatusService vacationStatusService,
-            UserManager<User> userManager
+            UserManager<User> userManager,
+            IEmployeesService employeesService
             )
         {
             _mapper = mapper;
@@ -33,6 +35,7 @@ namespace Vacations.BLL.Services
             _usersService = usersService;
             _vacationStatusService = vacationStatusService;
             _userManager = userManager;
+            _employeesService = employeesService;
         }
 
 
@@ -92,7 +95,9 @@ namespace Vacations.BLL.Services
         {
             var employees = _context.Employee
                 .Include(t => t.Team)
-                .Where(e => e.Team.TeamLeadId == currentUser.EmployeeId || e.TeamId == null || e.EmployeeId == e.Team.TeamLeadId);
+                .Where(e => e.Team.TeamLeadId == currentUser.EmployeeId 
+                            || e.TeamId == null 
+                            || e.EmployeeId == e.Team.TeamLeadId);
 
             var vacations = _context.Vacation
                 .Include(v => v.VacationStatus)
@@ -132,7 +137,7 @@ namespace Vacations.BLL.Services
 
             var vacation = new Vacation
             {
-                VacationId = Guid.NewGuid(),
+                VacationId = vacationDto.VacationId,
                 StartVocationDate = vacationDto.StartVocationDate,
                 EndVocationDate = vacationDto.EndVocationDate,
                 VacationStatusId = vacationDto.VacationStatusId ?? new Guid(),
@@ -142,6 +147,8 @@ namespace Vacations.BLL.Services
             };
 
             _context.Vacation.Update(vacation);
+
+            var employee = await _context.Employee.FindAsync(vacation.EmployeeId);
 
             return await _context.SaveChangesAsync();
         }

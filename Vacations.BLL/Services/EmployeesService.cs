@@ -44,6 +44,8 @@ namespace Vacations.BLL.Services
                 .Include(e => e.User)
                 .FirstOrDefaultAsync(e => e.EmployeeId == id);
 
+
+
             if (employee == null)
             {
                 return null;
@@ -71,7 +73,6 @@ namespace Vacations.BLL.Services
                 TeamLeadId = employee.Team?.TeamLead?.EmployeeId,
                 RoleId = await _usersService.GetUserRoleId(employee.User),
                 ImgUrl = employee.ImgUrl
-
             };
         }
 
@@ -92,7 +93,14 @@ namespace Vacations.BLL.Services
             employee.EmployeeStatusId = employeeDto.EmployeeStatusId;
             employee.EndDate = employeeDto.EndDate;
             employee.JobTitleId = employeeDto.JobTitleId;
-            employee.Balance = employeeDto.Balance;
+
+            if (employee.Balance != employeeDto.Balance)
+            {
+            }
+            else
+            {
+                employee.Balance = employeeDto.Balance;
+            }
             employee.TeamId = employeeDto.TeamId;
             employee.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
 
