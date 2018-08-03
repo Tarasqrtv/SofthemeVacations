@@ -23,8 +23,8 @@
             <mat-form-field class="mypicker" style="width: 100%;">
               <input matInput [matDatepicker]="picker1" placeholder="Choose date" 
               [(ngModel)]="vacation.StartVocationDate" [value]="vacation.StartVocationDate | date:'yyyy-MM-dd'"
-               name="startDate" (change)="calculateDate()">
-              <mat-datepicker-toggle matSuffix [for]="picker1" (change)="calculateDate()"></mat-datepicker-toggle>
+               name="startDate" (ngModelChange)="calculateDate()">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
               <mat-datepicker #picker1 startView="year"></mat-datepicker>
             </mat-form-field>
           </div>
@@ -34,21 +34,20 @@
           <div class="bg-name-field">
             <mat-form-field class="mypicker" style="width: 100%;">
               <input matInput [matDatepicker]="picker2" placeholder="Choose date" 
-              [(ngModel)]="vacation.EndVocationDate" name="endDate" (change)="calculateDate()">
-              <mat-datepicker-toggle matSuffix [for]="picker2"(change)="calculateDate()"></mat-datepicker-toggle >
+              [(ngModel)]="vacation.EndVocationDate" name="endDate" (ngModelChange)="calculateDate()">
+              <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle >
               <mat-datepicker #picker2 startView="year"></mat-datepicker>
             </mat-form-field>
           </div>
+          <p> {{errorMessage}} </p>
         </div>
         <div class="form-group">
           <label for="am">amount</label>
-          <div>
-            <div>
-              {{dateDiff}}
-            </div>
+          <div class="row col-12">
+            <input type="text" class="form-control" id="am" style="width: 30%; text-align: center;" readonly [value]="dateDiff">             
             <p>days in vacation </p>
           </div>
-        </div>
+        </div> 
         <button type="submit" class="btn btn-primary btn-block"  >SEND REQUEST</button>
       </div>
       <div class="clearfix"></div>
