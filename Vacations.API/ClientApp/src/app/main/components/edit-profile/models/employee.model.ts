@@ -20,4 +20,5 @@ export interface Employee {
     TeamLeadId: string;
     Role: string;
     RoleId: string;
+    ImgUrl: string;
 }

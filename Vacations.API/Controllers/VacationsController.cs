@@ -54,7 +54,7 @@ namespace Vacations.API.Controllers
 
         [Authorize]
         [HttpPost("employee")]
-        public async Task<IActionResult> PostVacarion([FromBody] VacationDto vacationsDto)
+        public async Task<IActionResult> PostVacation([FromBody] VacationDto vacationsDto)
         {
             if (!ModelState.IsValid)
             {
@@ -74,8 +74,8 @@ namespace Vacations.API.Controllers
         }
 
         [Authorize(Roles = "Admin, TeamLead")]
-        [HttpPost("employee/{id}")]
-        public async Task<IActionResult> PostVacarion([FromRoute] Guid id, [FromBody] VacationDto vacationsDto)
+        [HttpPut]
+        public async Task<IActionResult> PutVacation([FromBody] VacationDto vacationsDto)
         {
             if (!ModelState.IsValid)
             {

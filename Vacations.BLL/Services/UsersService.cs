@@ -153,6 +153,21 @@ namespace Vacations.BLL.Services
             }
         }
 
+        public async Task SetUserRole(User user, string roleId)
+        {
+            var result4 = await _roleManager.FindByIdAsync(roleId);
+
+            foreach (var role in _roleManager.Roles)
+            {
+                await _userManager.RemoveFromRoleAsync(user, role.Name);
+            }
+
+            if (result4 != null)
+            {
+                await _userManager.AddToRoleAsync(user, result4.Name);
+            }
+        }
+
         public async Task UpdateUser(User user)
         {
             await _userManager.UpdateAsync(user);

@@ -25,13 +25,9 @@ export class MyProfileComponent implements OnInit {
   ngOnInit() {
     this.service.getProfile().subscribe(response => {
       this.employee = response;
-
+      this.imgUrl = this.employee.ImgUrl
       console.log(this.employee);
       console.log(response);
     });
-
-    this.imgService.getImgUrl().subscribe(
-      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
-      () => this.imgUrl = "default");
   }
 }

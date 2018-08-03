@@ -17,9 +17,10 @@ namespace Vacations.BLL.Services
         Task ResetPasswordAsync(string employeeId, string code, string passwordReset);
         Task<string> GetUserRole(User user);
         Task UpdateUserRole(User user, string role);
+        Task SetUserRole(User user, string role);
         Task UpdateUser(User user);
         IEnumerable<RoleDto> GetRoles();
         Task CreateAsync(User user, string password);
-        Task<User> FindByEmailAsync(string email);
+        Task<User> FindByEmailAsync(string email);       
     }
 }

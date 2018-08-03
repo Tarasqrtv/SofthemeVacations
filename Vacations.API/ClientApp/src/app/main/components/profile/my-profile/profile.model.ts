@@ -16,4 +16,5 @@ export interface Profile {
     TeamLeadSurname: string;
     Balance: string;
     Role: string;
+    ImgUrl: string;
 }

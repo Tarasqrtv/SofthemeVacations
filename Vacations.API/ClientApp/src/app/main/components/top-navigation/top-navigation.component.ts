@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ImageService } from '../../services/image.service';
 import { Routes, Router } from '@angular/router';
+import { EditService } from '../../services/edit.service';
+import { Employee } from '../edit-profile/models/employee.model';
 
 @Component({
   selector: 'app-top-navigation',
@@ -11,12 +13,16 @@ export class TopNavigationComponent implements OnInit {
 
   imgUrl: string;
 
-  constructor(private imgService: ImageService, private router: Router) { }
+  constructor(private service: EditService, private router: Router) { }
 
   ngOnInit() {
-    this.imgService.getImgUrl().subscribe(
-      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
-      () => this.imgUrl = "default");
+    let employee: Employee;
+    this.service.getEmployee().subscribe(response => {
+      employee = response;
+      this.imgUrl = employee.ImgUrl
+      console.log(employee);
+      console.log(response);
+    });
   }
   viewdiv(id) {
     const el = document.getElementById(id);

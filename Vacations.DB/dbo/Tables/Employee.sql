@@ -13,6 +13,7 @@
     [JobTitleID]       UNIQUEIDENTIFIER NULL,
     [TeamID]           UNIQUEIDENTIFIER NULL,
     [Balance]          INT              NOT NULL,
+    [ImgUrl] NVARCHAR(200) NULL, 
     CONSTRAINT [PK_Employee] PRIMARY KEY CLUSTERED ([EmployeeID] ASC),
     CONSTRAINT [Employee_EmployeeStatusID_FK] FOREIGN KEY ([EmployeeStatusID]) REFERENCES [dbo].[EmployeeStatus] ([EmployeeStatusID]),
     CONSTRAINT [Employee_JobTitleID_FK] FOREIGN KEY ([JobTitleID]) REFERENCES [dbo].[JobTitle] ([JobTitleID]),

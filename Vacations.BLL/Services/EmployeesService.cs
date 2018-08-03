@@ -16,16 +16,19 @@ namespace Vacations.BLL.Services
         private readonly IMapper _mapper;
         private readonly VacationsDbContext _context;
         private readonly IUsersService _usersService;
+        private readonly IImagesService _imagesService;
 
         public EmployeesService(
             VacationsDbContext context,
             IMapper mapper,
-            IUsersService usersService
+            IUsersService usersService,
+            IImagesService imagesService
             )
         {
             _mapper = mapper;
             _context = context;
             _usersService = usersService;
+            _imagesService = imagesService;
         }
 
         public IEnumerable<EmployeeDtoList> Get()
@@ -66,7 +69,9 @@ namespace Vacations.BLL.Services
                 JobTitleId = employee.JobTitleId,
                 TeamId = employee.TeamId,
                 TeamLeadId = employee.Team?.TeamLead?.EmployeeId,
-                RoleId = await _usersService.GetUserRole(employee.User)
+                RoleId = await _usersService.GetUserRole(employee.User),
+                ImgUrl = employee.ImgUrl
+
             };
         }
 
@@ -89,6 +94,7 @@ namespace Vacations.BLL.Services
             employee.JobTitleId = employeeDto.JobTitleId;
             employee.Balance = employeeDto.Balance;
             employee.TeamId = employeeDto.TeamId;
+            employee.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
 
             _context.Employee.Update(employee);
 
@@ -122,7 +128,8 @@ namespace Vacations.BLL.Services
                 EndDate = employeeDto.EndDate,
                 JobTitleId = employeeDto.JobTitleId,
                 Balance = employeeDto.Balance,
-                TeamId = employeeDto.TeamId
+                TeamId = employeeDto.TeamId,
+                ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl)
             };
 
             await _context.Employee.AddAsync(employee);
@@ -138,7 +145,7 @@ namespace Vacations.BLL.Services
 
             await _usersService.CreateAsync(user, "asd123Q!");
 
-            await _usersService.UpdateUserRole(user, employeeDto.RoleId);
+            await _usersService.SetUserRole(user, employeeDto.RoleId);
 
             await _usersService.ForgotPassword(user.Email);
 
