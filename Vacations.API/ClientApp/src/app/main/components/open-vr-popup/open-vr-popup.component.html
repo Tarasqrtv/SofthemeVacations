@@ -57,14 +57,14 @@
       <div class="clearfix"></div>
     </form>
     <div class="bottominformation">
-      <h6>Answer The Request</h6>
-      <mat-radio-group>
-        <mat-radio-button style="color: lime;" value="1">Approve</mat-radio-button>
-        <mat-radio-button class="refuse" style="margin-left:12em; color: red;" value="2">Refuse</mat-radio-button>
+      <h6>Answer The Request</h6> 
+      <mat-radio-group  [(ngModel)]="emplVacation.VacationStatusId">
+        <mat-radio-button style="color: lime;" [value]="vacStatuses[2].VacationStatusId"> Approve </mat-radio-button>
+        <mat-radio-button class="refuse" style="margin-left:12em; color: red;" [value]="vacStatuses[1].VacationStatusId"> Refuse</mat-radio-button>
       </mat-radio-group>
       <div class="form-group">
         <label for="comment">comment</label>
-        <textarea class="form-control" rows="5" id="comment" style="margin-top: 0px; margin-bottom: 0px; height: 50px;"></textarea>
+        <textarea class="form-control" rows="5" id="comment" style="margin-top: 0px; margin-bottom: 0px; height: 50px;" [(ngModel)]="emplVacation.BossComment"></textarea>
       </div>
       <mat-dialog-actions>
         <button class="btn btn-outline-secondary btncancel" md-raised-button (click)="onCloseConfirm()">CANCEL</button>&nbsp;

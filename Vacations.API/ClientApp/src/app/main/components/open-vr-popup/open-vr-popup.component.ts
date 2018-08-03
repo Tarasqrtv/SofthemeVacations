@@ -1,10 +1,15 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { Location } from '@angular/common';
 
-import { Vacation } from '../profile/my-vacations/vacation.model';
+import { ToastrService } from 'ngx-toastr';
 import { VacationService } from '../../services/vacation.service';
 import { EditService } from '../../services/edit.service';
+
 import { Employee } from '../edit-profile/models/employee.model';
+import { VacRequest } from '../list-of-vacation-requests/vacation-request.model';
+import { Statuses } from './vacation-statuses.model';
+
 
 
 @Component({
@@ -14,13 +19,15 @@ import { Employee } from '../edit-profile/models/employee.model';
 })
 export class OpenVRPopupComponent implements OnInit {
 
-  vacations: Vacation[] = [];
-  emplVacation: Vacation = <Vacation>{};
+  emplVacation: VacRequest = <VacRequest>{};
   employee: Employee = <Employee>{};
+  vacStatuses: Statuses[] = [];
   dateDiff: any = 'XX';
 
   constructor(private vacService: VacationService,
+    private location: Location,
     private emplService: EditService,
+    private toast: ToastrService,
     public thisDialogRef: MatDialogRef<OpenVRPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string) { }
 
@@ -40,6 +47,11 @@ export class OpenVRPopupComponent implements OnInit {
       this.calculateDate();
       this.emplService.getEmployeeId(this.emplVacation.EmployeeId).subscribe(successfnEmployee, errorfn, completefn);
     }); 
+
+    this.vacService.getVacationStatuses().subscribe(response => {
+      this.vacStatuses = response;
+      console.log(response);
+    })
   }
 
   calculateDate() {
@@ -60,28 +72,16 @@ export class OpenVRPopupComponent implements OnInit {
     this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
   }
 
-  onCloseCancel() {
-    this.thisDialogRef.close('Cancel');
-  }
-
   onCloseConfirm() {
     this.thisDialogRef.close('Confirm');
   }
 
-  // Save() {
-  //   const successfnEmplUpdates = (response) => {
-  //     this.employee = response;
-  //   };
-  //   const LocBack = () => this.location.back();
-  //   console.log(this.employee);
-  //   console.log(this.fileToUpload);
-  //   if (this.fileToUpload != null) {
-  //     this.uploadFileToActivity();
-  //   }
-  //   this.service.updateEmployee(this.employee).subscribe(successfnEmplUpdates, LocBack);;
-    
-  //   this.toast.success("You successfully edit profile", "");
-  //   console.log(this.employeeStatuses);
-  // }
-
+  onCloseCancel() {
+    console.log(this.emplVacation);
+    this.thisDialogRef.close('Cancel');
+    this.vacService.SendVacationRequest(this.emplVacation).subscribe(response => {
+      this.toast.success("You successfully send vacation request", "");
+      this.location.back();
+    });
+  }
 }

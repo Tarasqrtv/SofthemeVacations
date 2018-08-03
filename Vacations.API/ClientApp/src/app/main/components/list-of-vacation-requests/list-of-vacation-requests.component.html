@@ -24,12 +24,14 @@
           <td class="text-muted"> 
               {{DaysInVac(parseDate(vac.StartVocationDate), parseDate(vac.EndVocationDate))}}
           <td>{{vac.EmployeeBalance}}
-              <!-- <i [ngClass]="{'icon-approved-request approved': vac.VacationStatusName == 'Approved', 'icon-approved-request cancel': vac.VacationStatusName == 'Denied', 'icon-approved-request procces': vac.VacationStatusName == 'InProcess'}"></i>
-                <i class="icon-approved-request cancel"></i>
-                <i class="icon-approved-request procces"></i>
-                <i class="icon-approved-request approved"></i>  -->
+               <i [ngClass]="{
+                 'icon-approved-request': true, 
+                 'approved': vac.VacationStatusName == 'Approved', 
+                 'cancel': vac.VacationStatusName == 'Denied', 
+                 'procces': vac.VacationStatusName == 'InProcess'
+                }">
+              </i>
             </td>
-            
         </tr>
     </tbody>
   </table>
