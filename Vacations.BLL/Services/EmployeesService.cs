@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Transactions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -17,18 +19,21 @@ namespace Vacations.BLL.Services
         private readonly VacationsDbContext _context;
         private readonly IUsersService _usersService;
         private readonly IImagesService _imagesService;
+        private readonly ITransactionService _transactionService;
 
         public EmployeesService(
-            VacationsDbContext context,
-            IMapper mapper,
-            IUsersService usersService,
-            IImagesService imagesService
-            )
+             VacationsDbContext context,
+             IMapper mapper,
+             IUsersService usersService,
+             IImagesService imagesService,
+             ITransactionService transactionService
+             )
         {
             _mapper = mapper;
             _context = context;
             _usersService = usersService;
             _imagesService = imagesService;
+            _transactionService = transactionService;
         }
 
         public IEnumerable<EmployeeDtoList> Get()
@@ -71,68 +76,74 @@ namespace Vacations.BLL.Services
                 TeamLeadId = employee.Team?.TeamLead?.EmployeeId,
                 RoleId = await _usersService.GetUserRoleId(employee.User),
                 ImgUrl = employee.ImgUrl
-
             };
         }
 
-        public async Task<int> PutAsync(EmployeeDto employeeDto)
+        public async Task PutAsync(EmployeeDto employeeDto, ClaimsPrincipal admin)
         {
+            var user = await _usersService.FindByEmailAsync(employeeDto.WorkEmail);
+
             var employee = await _context.Employee.FindAsync(employeeDto.EmployeeId);
 
-            var user = await _usersService.FindByEmailAsync(employee.WorkEmail);
+            if (user == null || employee == null)
+            {
+                return;
+            }
 
-            employee.Name = employeeDto.Name;
-            employee.Surname = employeeDto.Surname;
-            employee.PersonalEmail = employeeDto.PersonalEmail;
-            employee.WorkEmail = employeeDto.WorkEmail;
-            employee.TelephoneNumber = employeeDto.TelephoneNumber;
-            employee.Birthday = employeeDto.Birthday;
-            employee.Skype = employeeDto.Skype;
-            employee.StartDate = employeeDto.StartDate;
-            employee.EmployeeStatusId = employeeDto.EmployeeStatusId;
-            employee.EndDate = employeeDto.EndDate;
-            employee.JobTitleId = employeeDto.JobTitleId;
-            employee.Balance = employeeDto.Balance;
-            employee.TeamId = employeeDto.TeamId;
-            employee.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
+            _context.Entry(employee).State = EntityState.Detached;
+            
+            var newBalance = (employeeDto.Balance ?? CulcBalance()) - employee.Balance;
 
-            _context.Employee.Update(employee);
+            var newEmployee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
 
-            user.UserName = employeeDto.WorkEmail;
+            newEmployee.Balance = employeeDto.Balance ?? CulcBalance();
 
-            user.Email = employeeDto.WorkEmail;
+            newEmployee.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
 
-            var result1 = await _context.SaveChangesAsync();
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                _context.Employee.Update(newEmployee);
 
-            await _usersService.UpdateUser(user);
+                user.UserName = employeeDto.WorkEmail;
 
-            await _usersService.UpdateUserRole(user, employeeDto.RoleId);
+                user.Email = employeeDto.WorkEmail;
 
-            return result1;
+                await _transactionService.CreateTransactionByAdminAsync(newEmployee.EmployeeId, newBalance, admin);
+
+                await _usersService.UpdateUser(user);
+
+                await _usersService.UpdateUserRole(user, employeeDto.RoleId);
+
+                await _context.SaveChangesAsync();
+
+                scope.Complete();
+            }
         }
 
-        public async Task<int> PostAsync(EmployeeDto employeeDto)
-        {
-            var employee = new Employee
-            {
-                EmployeeId = Guid.NewGuid(),
-                Name = employeeDto.Name,
-                Surname = employeeDto.Surname,
-                PersonalEmail = employeeDto.PersonalEmail,
-                WorkEmail = employeeDto.WorkEmail,
-                TelephoneNumber = employeeDto.TelephoneNumber,
-                Birthday = employeeDto.Birthday,
-                Skype = employeeDto.Skype,
-                StartDate = employeeDto.StartDate,
-                EmployeeStatusId = employeeDto.EmployeeStatusId,
-                EndDate = employeeDto.EndDate,
-                JobTitleId = employeeDto.JobTitleId,
-                Balance = employeeDto.Balance,
-                TeamId = employeeDto.TeamId,
-                ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl)
-            };
+        private const float _startBalance = 28;
 
-            await _context.Employee.AddAsync(employee);
+        private int CulcBalance()
+        {
+            DateTime dateTimeNow = DateTime.Now;
+
+            var days = DateTime.IsLeapYear(dateTimeNow.Year) ? 366 : 365;
+
+            var vacationPerDay = _startBalance / (days);
+
+            var daysLeft = days - dateTimeNow.DayOfYear;
+
+            return (int)(vacationPerDay * daysLeft);
+        }
+
+        public async Task PostAsync(EmployeeDto employeeDto, ClaimsPrincipal admin)
+        {
+            employeeDto.EmployeeId = Guid.NewGuid();
+
+            employeeDto.Balance = employeeDto.Balance ?? CulcBalance();
+
+            employeeDto.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
+
+            var employee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
 
             var user = new User
             {
@@ -141,15 +152,22 @@ namespace Vacations.BLL.Services
                 EmployeeId = employee.EmployeeId
             };
 
-            var result1 = await _context.SaveChangesAsync();
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+            {
+                await _context.Employee.AddAsync(employee);
 
-            await _usersService.CreateAsync(user, "asd123Q!");
+                await _usersService.CreateAsync(user, "asd123Q!");
 
-            await _usersService.SetUserRole(user, employeeDto.RoleId);
+                await _usersService.SetUserRole(user, employeeDto.RoleId);
 
-            await _usersService.ForgotPassword(user.Email);
+                await _transactionService.CreateTransactionByAdminAsync(employee.EmployeeId, employee.Balance, admin);
 
-            return result1;
+                await _usersService.ForgotPassword(user.Email);
+
+                await _context.SaveChangesAsync();
+
+                scope.Complete();
+            }
         }
     }
 }
