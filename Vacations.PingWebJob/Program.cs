@@ -4,6 +4,7 @@ using System.IO;
 using System.Net;
 using System.Threading;
 
+
 namespace Vacations.PingWebJob
 {
     internal class Program

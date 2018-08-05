@@ -23,7 +23,7 @@ namespace Vacations.BLL.Models
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
 
-        public int Balance { get; set; }
+        public int? Balance { get; set; }
         public string TeamName { get; set; }
         public string TeamLeadName { get; set; }
         public string TeamLeadSurname { get; set; }

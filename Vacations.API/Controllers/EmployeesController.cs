@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
-using Vacations.DAL.Models;
 
 namespace Vacations.API.Controllers
 {
@@ -20,7 +18,6 @@ namespace Vacations.API.Controllers
         private readonly IEmployeesService _employeesService;
 
         public EmployeesController(
-            IMapper mapper,
             IUsersService usersService,
             IEmployeesService employeesService)
         {
@@ -43,7 +40,7 @@ namespace Vacations.API.Controllers
 
             if (userDto == null)
             {
-                return BadRequest("User == null");
+                return NotFound("User == null");
             }
 
             var employeeDto = await _employeesService.GetByIdAsync(userDto.EmployeeId);
@@ -80,7 +77,7 @@ namespace Vacations.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _employeesService.PutAsync(employeeDto);
+            await _employeesService.PutAsync(employeeDto, User);
 
             return NoContent();
         }
@@ -96,7 +93,7 @@ namespace Vacations.API.Controllers
 
             try
             {
-                await _employeesService.PostAsync(employeeDto);
+                await _employeesService.PostAsync(employeeDto, User);
             }
             catch (DbUpdateException e)
             {
