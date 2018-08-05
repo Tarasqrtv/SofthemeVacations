@@ -97,9 +97,11 @@ export class AddNewEmployeeComponent implements OnInit {
       this.employee.ImgUrl = this.newFileName;
       this.uploadFileToActivity();
     }
-    this.service.addEmployee(this.employee).subscribe(response => this.employee = response);;
-    this.location.back();
-    this.toast.success("You successfully added new profile", "");
-    console.log(this.employeeStatuses);
+    this.service.addEmployee(this.employee).subscribe(response => {
+      this.employee = response;
+      this.location.back();
+     this.toast.success("You successfully added new profile", "");
+     console.log(this.employeeStatuses);
+    });
   }
 }

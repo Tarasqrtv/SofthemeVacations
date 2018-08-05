@@ -63,8 +63,8 @@
         <mat-radio-button class="refuse" style="margin-left:12em; color: red;" [value]="vacStatuses[1].VacationStatusId"> Refuse</mat-radio-button>
       </mat-radio-group>
       <div class="form-group">
-        <label for="comment">comment</label>
-        <textarea class="form-control" rows="5" id="comment" style="margin-top: 0px; margin-bottom: 0px; height: 50px;" [(ngModel)]="emplVacation.BossComment"></textarea>
+        <label for="comment">comment</label> {{emplVacation.TransactionComment}}
+        <textarea class="form-control" rows="5" id="comment" style="margin-top: 0px; margin-bottom: 0px; height: 50px;" [(ngModel)]="emplVacation.TransactionComment"></textarea>
       </div>
       <mat-dialog-actions>
         <button class="btn btn-outline-secondary btncancel" md-raised-button (click)="onCloseConfirm()">CANCEL</button>&nbsp;
