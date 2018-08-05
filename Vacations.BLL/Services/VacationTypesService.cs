@@ -25,18 +25,21 @@ namespace Vacations.BLL.Services
         public VacationTypesDto GetById(Guid idGuid)
         {
             var vacationTypes = _context.VacationTypes.FirstOrDefault(vt => vt.VacationTypesId == idGuid);
+
             return _mapper.Map<VacationTypes, VacationTypesDto>(vacationTypes);
         }
 
         public async Task<VacationTypesDto> GetByIdAsync(Guid idGuid)
         {
             var vacationTypes = await _context.VacationTypes.FirstOrDefaultAsync(vt => vt.VacationTypesId == idGuid);
+
             return _mapper.Map<VacationTypes, VacationTypesDto>(vacationTypes);
         }
 
         public IEnumerable<VacationTypesDto> Get()
         {
             var vacationTypes = _context.VacationTypes;
+
             return _mapper.Map<IEnumerable<VacationTypes>, IEnumerable<VacationTypesDto>>(vacationTypes);
         }
     }

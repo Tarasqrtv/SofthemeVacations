@@ -84,9 +84,9 @@ export class AddNewEmployeeComponent implements OnInit {
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
     this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
 
-    this.imgUploadService.getImgUrl().subscribe(
-      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
-      () => this.imgUrl = "default");
+    // this.imgUploadService.getImgUrl().subscribe(
+    //   response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
+    //   () => this.imgUrl = "default");
   }
 
   Save() {
