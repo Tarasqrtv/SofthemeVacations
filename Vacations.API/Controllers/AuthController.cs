@@ -44,6 +44,7 @@ namespace Vacations.API.Controllers
             if (ModelState.IsValid)
             {
                 await _usersService.ForgotPassword(email.Email);
+
                 return Ok();
             }
 
@@ -56,6 +57,7 @@ namespace Vacations.API.Controllers
         public async Task<IActionResult> SendPasswordEmailResetRequestAsync([FromBody] PasswordReset passwordReset)
         {
             await _usersService.ResetPasswordAsync(passwordReset.EmployeeId, passwordReset.Code, passwordReset.Password);
+
             return Ok();
         }
     }

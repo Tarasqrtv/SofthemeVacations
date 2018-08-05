@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System.IO;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
@@ -20,17 +22,16 @@ namespace Vacations.BLL.Services
 
             _blobClient = storageAccount.CreateCloudBlobClient();
 
+            _blobContainer = _blobClient.GetContainerReference("images");
+
+            _blobContainer.CreateIfNotExistsAsync();
+
+            _blobContainer.SetPermissionsAsync(new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob });
+
         }
 
         public async Task<string> GetUrlAsync(string imgName)
         {
-            _blobContainer = _blobClient.GetContainerReference("images");
-            await _blobContainer.CreateIfNotExistsAsync();
-
-            await _blobContainer.SetPermissionsAsync(
-                new BlobContainerPermissions { PublicAccess = BlobContainerPublicAccessType.Blob }
-                );
-
             var blockBlob = _blobContainer.GetBlockBlobReference(imgName);
 
             if (await blockBlob.ExistsAsync())
@@ -39,7 +40,20 @@ namespace Vacations.BLL.Services
             }
 
             blockBlob = _blobContainer.GetBlockBlobReference("default");
+
             return blockBlob.Uri.AbsoluteUri;
+        }
+
+        public async Task UploadAsync(IFormFile file)
+        {
+            using (var binaryReader = new BinaryReader(file.OpenReadStream()))
+            {
+                var fileContent = binaryReader.ReadBytes((int)file.Length);
+
+                var blockBlob = _blobContainer.GetBlockBlobReference(file.Name);
+
+                await blockBlob.UploadFromByteArrayAsync(fileContent, 0, fileContent.Length);
+            }
         }
     }
 }
