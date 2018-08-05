@@ -17,6 +17,7 @@ namespace Vacations.API.Infrastructure
                 .ForMember(p => p.TeamLeadName, o=> o.MapFrom(e => e.Team.TeamLead.Name))
                 .ForMember(p => p.TeamLeadSurname, o => o.MapFrom(e => e.Team.TeamLead.Surname))
                 .ForMember(p => p.JobTitle, o => o.MapFrom(e => e.JobTitle.Name))
+                .ForMember(p => p.ImgUrl, o => o.MapFrom(e => e.ImgUrl))
                 .ForMember(p => p.EmployeeStatus, o => o.MapFrom(e => e.EmployeeStatus.Name));
 
             CreateMap<Vacation, VacationDto>()

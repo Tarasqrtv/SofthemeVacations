@@ -6,10 +6,17 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./left-navigation.component.scss']
 })
 export class LeftNavigationComponent implements OnInit {
+  
+  IsShow: boolean;
 
   constructor() { }
 
   ngOnInit() {
+    this.IsShow = false;
+    if(localStorage.getItem('role') === "Admin")
+    {
+      this.IsShow = true;
+    }
   }
 
 }

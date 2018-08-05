@@ -7,9 +7,15 @@ import { Component, OnInit } from '@angular/core';
 })
 export class MainComponent implements OnInit {
 
+  IsShowLeftNav: boolean;
+
   constructor() { }
 
   ngOnInit() {
+    this.IsShowLeftNav = false;
+    if(localStorage.getItem('role') != 'Employee')
+    {
+      this.IsShowLeftNav = true;
+    }
   }
-
 }

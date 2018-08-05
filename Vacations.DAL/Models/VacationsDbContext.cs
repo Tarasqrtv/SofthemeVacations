@@ -191,6 +191,9 @@ namespace Vacations.DAL.Models
                     .WithMany(p => p.Employee)
                     .HasForeignKey(d => d.TeamId)
                     .HasConstraintName("Employee_TeamID_FK");
+
+
+                entity.Property(e => e.ImgUrl).HasColumnName("ImgUrl").HasMaxLength(200);
             });
 
             modelBuilder.Entity<EmployeeStatus>(entity =>
