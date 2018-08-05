@@ -8,8 +8,7 @@ namespace Vacations.DAL.Models
         public Employee()
         {
             TeamNavigation = new HashSet<Team>();
-            TransactionAuthor = new HashSet<Transaction>();
-            TransactionEmployee = new HashSet<Transaction>();
+            Transaction = new HashSet<Transaction>();
             Vacation = new HashSet<Vacation>();
         }
 
@@ -34,8 +33,7 @@ namespace Vacations.DAL.Models
         public Team Team { get; set; }
         public User User { get; set; }
         public ICollection<Team> TeamNavigation { get; set; }
-        public ICollection<Transaction> TransactionAuthor { get; set; }
-        public ICollection<Transaction> TransactionEmployee { get; set; }
+        public ICollection<Transaction> Transaction { get; set; }
         public ICollection<Vacation> Vacation { get; set; }
     }
 }
