@@ -177,6 +177,8 @@ namespace Vacations.DAL.Models
                     .IsRequired()
                     .HasMaxLength(256);
 
+                entity.Property(e => e.ImgUrl).HasMaxLength(200);
+
                 entity.HasOne(d => d.EmployeeStatus)
                     .WithMany(p => p.Employee)
                     .HasForeignKey(d => d.EmployeeStatusId)
@@ -191,9 +193,6 @@ namespace Vacations.DAL.Models
                     .WithMany(p => p.Employee)
                     .HasForeignKey(d => d.TeamId)
                     .HasConstraintName("Employee_TeamID_FK");
-
-
-                entity.Property(e => e.ImgUrl).HasColumnName("ImgUrl").HasMaxLength(200);
             });
 
             modelBuilder.Entity<EmployeeStatus>(entity =>
@@ -248,14 +247,23 @@ namespace Vacations.DAL.Models
                     .HasColumnName("TransactionID")
                     .HasDefaultValueSql("(newid())");
 
+                entity.Property(e => e.AuthorId).HasColumnName("AuthorID");
+
                 entity.Property(e => e.Comment).HasMaxLength(200);
 
                 entity.Property(e => e.EmployeeId).HasColumnName("EmployeeID");
 
                 entity.Property(e => e.TransactionTypeId).HasColumnName("TransactionTypeID");
 
+                entity.Property(e => e.VacationId).HasColumnName("VacationID");
+
+                entity.HasOne(d => d.Author)
+                    .WithMany(p => p.TransactionAuthor)
+                    .HasForeignKey(d => d.AuthorId)
+                    .HasConstraintName("Transaction_AuthorID_FK");
+
                 entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.Transaction)
+                    .WithMany(p => p.TransactionEmployee)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Transaction_EmployeeID_FK");
@@ -265,6 +273,11 @@ namespace Vacations.DAL.Models
                     .HasForeignKey(d => d.TransactionTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("Transaction_TransactionTypeID_FK");
+
+                entity.HasOne(d => d.Vacation)
+                    .WithMany(p => p.Transaction)
+                    .HasForeignKey(d => d.VacationId)
+                    .HasConstraintName("Transaction_VacationID_FK");
             });
 
             modelBuilder.Entity<TransactionType>(entity =>

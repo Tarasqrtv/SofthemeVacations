@@ -19,5 +19,6 @@ namespace Vacations.BLL.Models
         public Guid? JobTitleId { get; set; }
         public Guid? TeamId { get; set; }
         public int? Balance { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

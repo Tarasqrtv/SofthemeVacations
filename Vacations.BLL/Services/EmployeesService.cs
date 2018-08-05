@@ -72,7 +72,7 @@ namespace Vacations.BLL.Services
                 TeamId = employee.TeamId,
                 TeamLeadId = employee.Team?.TeamLead?.EmployeeId,
                 RoleId = await _usersService.GetUserRoleId(employee.User),
-                ImgUrl = employee.ImgUrl
+               // ImgUrl = employee.ImgUrl
             };
         }
 
@@ -102,7 +102,7 @@ namespace Vacations.BLL.Services
                 employee.Balance = employeeDto.Balance;
             }
             employee.TeamId = employeeDto.TeamId;
-            employee.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
+           // employee.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
 
             _context.Employee.Update(employee);
 
@@ -137,7 +137,7 @@ namespace Vacations.BLL.Services
                 JobTitleId = employeeDto.JobTitleId,
                 Balance = employeeDto.Balance,
                 TeamId = employeeDto.TeamId,
-                ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl)
+                //ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl)
             };
 
             await _context.Employee.AddAsync(employee);
