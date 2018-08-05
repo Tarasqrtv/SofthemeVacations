@@ -7,7 +7,9 @@ using System.Threading.Tasks;
 using System.Transactions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Vacations.BLL.Models;
 using Vacations.DAL.Models;
 
@@ -22,6 +24,8 @@ namespace Vacations.BLL.Services
         private readonly UserManager<User> _userManager;
         private readonly IEmployeesService _employeesService;
         private readonly ITransactionService _transactionService;
+        private readonly IEmailSender _emailSender;
+        private readonly IConfiguration _configuration;
 
         public VacationsService(
             VacationsDbContext context,
@@ -30,7 +34,9 @@ namespace Vacations.BLL.Services
             IVacationStatusService vacationStatusService,
             UserManager<User> userManager,
             IEmployeesService employeesService,
-            ITransactionService transactionService
+            ITransactionService transactionService,
+            IEmailSender emailSender,
+            IConfiguration configuration
             )
         {
             _mapper = mapper;
@@ -40,6 +46,8 @@ namespace Vacations.BLL.Services
             _userManager = userManager;
             _employeesService = employeesService;
             _transactionService = transactionService;
+            _emailSender = emailSender;
+            _configuration = configuration;
         }
 
 
@@ -164,6 +172,28 @@ namespace Vacations.BLL.Services
 
                 scope.Complete();
             }
+
+            var workEmail = (await _context.Employee
+                .Include(t => t.Team.TeamLead)
+                .Select(
+                    e => new
+                    {
+                        e.Team.TeamLead.WorkEmail,
+                        e.EmployeeId
+                    }
+                ).FirstOrDefaultAsync(e => e.EmployeeId == vacationDto.EmployeeId)).WorkEmail;
+
+            if (workEmail == null)
+            {
+                foreach (var item in await _userManager.GetUsersInRoleAsync("Admin"))
+                {
+                    await VacationRequestSendEmail(vacationDto, item.Email);
+                }
+            }
+            else
+            {
+                await VacationRequestSendEmail(vacationDto, workEmail);
+            }
         }
 
         public async Task PostCurrentAsync(ClaimsPrincipal user, VacationDto vacationDto)
@@ -183,7 +213,27 @@ namespace Vacations.BLL.Services
 
             _context.Vacation.Add(_mapper.Map<VacationDto, Vacation>(vacationDto));
 
+            await VacationStatusSendEmail(vacationDto, currentUser.Email);
+
             await _context.SaveChangesAsync();
+        }
+
+        private async Task VacationStatusSendEmail(VacationDto vacation, string email)
+        {
+            var callbackUrl =
+                $"{_configuration["Domain:RequestScheme"]}://{_configuration["Domain:DomainName"]}/profile";
+            await _emailSender.SendEmailAsync(email, "Vacation Status Updated",
+                $"Your vacation with {vacation.StartVocationDate} - {vacation.EndVocationDate} has been {vacation.VacationStatusName}." +
+                $"<a href='{callbackUrl}'>https://btangular.azurewebsites.net/profile</a>");
+        }
+
+        private async Task VacationRequestSendEmail(VacationDto vacation, string email)
+        {
+            var callbackUrl =
+                $"{_configuration["Domain:RequestScheme"]}://{_configuration["Domain:DomainName"]}/vacation-requests";
+            await _emailSender.SendEmailAsync(email, "New Vacation Request",
+                $"You have new vacation request from {vacation.EmployeeName} {vacation.EmployeeSurname}." +
+                $"<a href='{callbackUrl}'>https://btangular.azurewebsites.net/profile</a>");
         }
 
         public async Task<IEnumerable<VacationDto>> GetVacationRequestsAsync(ClaimsPrincipal user)

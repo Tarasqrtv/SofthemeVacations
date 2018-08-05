@@ -4,6 +4,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Vacations.BLL.Models;
 
 namespace Vacations.BLL.Services
 {
