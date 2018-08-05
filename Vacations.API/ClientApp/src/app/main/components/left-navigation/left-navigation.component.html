@@ -3,7 +3,7 @@
   <a class="nav-link" [routerLink]="['/add-new-team']" *ngIf="IsShow">Add New Team</a>
   <a class="nav-link active" [routerLink]="['/vacation-requests']">
     Vacation Requests
-    <span class="badge badge-pill">5</span>
+    <span class="badge badge-pill"> {{vacCount}} </span>
   </a>
   <a class="nav-link" [routerLink]="['/team-calendar']">Team Calendar</a>
   <a class="nav-link" [routerLink]="['/list-of-employees']">List Of Employees</a>

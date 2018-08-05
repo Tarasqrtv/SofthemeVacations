@@ -22,7 +22,7 @@ export class VacationRequestComponent implements OnInit {
   vacation: VacModel = <VacModel>{};
   vacTypes: VacType[] = [];
   dateDiff: any = 'XX';
-  errorMessage: string = 'You put invalid dates!';
+  errorMessage: string = '';
 
   constructor(private location: Location, private service: VacationService, private emplService: EditService, private toast: ToastrService) { }
 
@@ -68,7 +68,9 @@ export class VacationRequestComponent implements OnInit {
 
   DaysInVac(frst, lst) {
     if (frst && lst) { 
-      if (lst > frst) {
+      if (lst < frst) {
+        this.errorMessage = 'You put invalid dates!';
+      } else {
         this.errorMessage = '';
         this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
       }

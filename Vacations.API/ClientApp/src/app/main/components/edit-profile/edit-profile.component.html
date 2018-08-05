@@ -26,9 +26,9 @@
               <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
               <mat-datepicker #picker startView="year"></mat-datepicker>
             </mat-form-field>
-           </td>
+          </td>
           <td>
-            <label for="rol">Role</label>
+            <label for="rol">Role</label> 
             <select [(ngModel)]="employee.RoleId" class="form-control" id="rol">
               <option *ngFor="let item of employeeRoles" [value]="item.Id">
                 {{item.Name}}
@@ -71,7 +71,7 @@
               <option *ngFor="let item of jobTitles" [value]="item.JobTitleId">
                 {{item.Name}}
               </option>
-            </select>           
+            </select>
           </td>
           <td class="kostil">
             <label for="picker1">hire date</label>

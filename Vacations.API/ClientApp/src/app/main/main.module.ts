@@ -115,6 +115,7 @@ import { OpenVRPopupComponent } from './components/open-vr-popup/open-vr-popup.c
 import { ViewEmployeesProfileComponent } from './components/view-employees-profile/view-employees-profile.component';
 import { ViewTeamsProfileComponent } from './components/view-teams-profile/view-teams-profile.component';
 import { ImageService } from './services/image.service';
+import { TeamService } from './services/team.service';
 
 @NgModule({
   imports: [
@@ -167,7 +168,8 @@ import { ImageService } from './services/image.service';
     ProfileService,
     VacationService,
     EditService,
-    ImageService
+    ImageService,
+    TeamService
   ]
 
 })
