@@ -79,7 +79,7 @@ export class OpenVRPopupComponent implements OnInit {
     console.log(this.emplVacation);
     this.thisDialogRef.close('Cancel');
     this.vacService.SendVacationRequest(this.emplVacation).subscribe(response => {
-      this.toast.success("You successfully send vacation request", "");
+      this.toast.success("You successfully send answer on vacation request", "");
     });
   }
 }

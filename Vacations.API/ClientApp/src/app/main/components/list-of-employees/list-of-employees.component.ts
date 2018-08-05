@@ -10,6 +10,8 @@ import { Router } from '@angular/router';
 })
 export class ListOfEmployeesComponent implements OnInit {
   employees: Profile[] = [];
+  
+  constructor(private service: ProfileService, private router: Router) { }
 
   toWiew(employee: Profile) {
     this.router.navigate(['../profile', employee.EmployeeId]);
@@ -18,8 +20,6 @@ export class ListOfEmployeesComponent implements OnInit {
   toEdit(employee: Profile) {
     this.router.navigate(['../edit-profile', employee.EmployeeId]);
   }
-
-  constructor(private service: ProfileService, private router: Router) { }
 
   ngOnInit() {
     this.service.getEmployees()

@@ -3,7 +3,6 @@ import { Injectable } from '@angular/core';
 import { ActivatedRoute} from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/map';
-import { Subscription } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { Employee } from '../components/edit-profile/models/employee.model';
