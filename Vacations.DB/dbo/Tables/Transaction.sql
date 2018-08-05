@@ -6,6 +6,7 @@
     [Comment]           NVARCHAR (200)   NULL,
     [AuthorID] UNIQUEIDENTIFIER NULL, 
     [VacationID] UNIQUEIDENTIFIER NULL, 
+    [TransactionDate] DATETIME NOT NULL, 
     CONSTRAINT [PK_Transaction] PRIMARY KEY CLUSTERED ([TransactionID] ASC),
     CONSTRAINT [Transaction_EmployeeID_FK] FOREIGN KEY ([EmployeeID]) REFERENCES [dbo].[Employee] ([EmployeeID]),
     CONSTRAINT [Transaction_TransactionTypeID_FK] FOREIGN KEY ([TransactionTypeID]) REFERENCES [dbo].[TransactionType] ([TransactionTypeID]),

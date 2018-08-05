@@ -18,7 +18,6 @@ namespace Vacations.API.Controllers
         private readonly IEmployeesService _employeesService;
 
         public EmployeesController(
-            IMapper mapper,
             IUsersService usersService,
             IEmployeesService employeesService)
         {
@@ -41,7 +40,7 @@ namespace Vacations.API.Controllers
 
             if (userDto == null)
             {
-                return BadRequest("User == null");
+                return NotFound("User == null");
             }
 
             var employeeDto = await _employeesService.GetByIdAsync(userDto.EmployeeId);
@@ -78,7 +77,7 @@ namespace Vacations.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _employeesService.PutAsync(employeeDto);
+            await _employeesService.PutAsync(employeeDto, User);
 
             return NoContent();
         }
@@ -94,7 +93,7 @@ namespace Vacations.API.Controllers
 
             try
             {
-                await _employeesService.PostAsync(employeeDto);
+                await _employeesService.PostAsync(employeeDto, User);
             }
             catch (DbUpdateException e)
             {
