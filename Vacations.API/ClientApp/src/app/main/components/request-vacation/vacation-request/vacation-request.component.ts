@@ -30,7 +30,7 @@ export class VacationRequestComponent implements OnInit {
     this.location.back();
   }
 
-  
+
 
   ngOnInit() {
     const successfnEmployee = (response) => {
@@ -48,8 +48,10 @@ export class VacationRequestComponent implements OnInit {
     const completefn = () => { };
 
     this.service.getVacationType().subscribe(successfnVacationTypes, errorfn, completefn);
-    this.emplService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);  
+    this.emplService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
   }
+
+
 
   calculateDate() {
     console.log("was trying to parse");
@@ -57,7 +59,7 @@ export class VacationRequestComponent implements OnInit {
       this.parseDate(this.vacation.StartVocationDate),
       this.parseDate(this.vacation.EndVocationDate));
   }
-  
+
   parseDate(dateString: any): Date {
     if (dateString) {
       return new Date(dateString);
@@ -67,28 +69,31 @@ export class VacationRequestComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
-    if (frst && lst) { 
+    if (frst && lst) {
       if (lst < frst) {
         this.errorMessage = 'You put invalid dates!';
       } else {
         this.errorMessage = '';
         this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
+        if (this.dateDiff > this.employee.Balance) {
+          this.toast.error("Request number less than amount", "");
+        }
       }
     }
   }
 
-  Send() {    
-    this.vacation.StartVocationDate = new Date (this.vacation.StartVocationDate.getFullYear(),	
-      this.vacation.StartVocationDate.getMonth(),	
-      this.vacation.StartVocationDate.getDate() + 1	
+  Send() {
+    this.vacation.StartVocationDate = new Date(this.vacation.StartVocationDate.getFullYear(),
+      this.vacation.StartVocationDate.getMonth(),
+      this.vacation.StartVocationDate.getDate() + 1
     );
-    this.vacation.EndVocationDate = new Date (this.vacation.EndVocationDate.getFullYear(),	
-      this.vacation.EndVocationDate.getMonth(),	
-      this.vacation.EndVocationDate.getDate() + 1	
+    this.vacation.EndVocationDate = new Date(this.vacation.EndVocationDate.getFullYear(),
+      this.vacation.EndVocationDate.getMonth(),
+      this.vacation.EndVocationDate.getDate() + 1
     );
     console.log(this.employee);
     console.log(this.vacation.VacationTypesId);
-    this.vacation.EmployeeId =this.employee.EmployeeId;
+    this.vacation.EmployeeId = this.employee.EmployeeId;
     this.service.SendVacation(this.vacation).subscribe(response => {
       this.toast.success("You successfully send vacation request", "");
       this.location.back();

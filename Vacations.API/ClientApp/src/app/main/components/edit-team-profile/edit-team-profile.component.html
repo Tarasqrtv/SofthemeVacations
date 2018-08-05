@@ -30,7 +30,7 @@
               </mat-chip-list>
             </div>
             <label for="fmem" style="margin-top: 15px;">found members</label>
-            <div style="margin-top: 30px;" *ngFor="let empl of noTeamEmpl" >
+            <div style="margin-top: 30px;" *ngFor="let empl of noTeamEmpl" (click)="OnClick(empl)" >
               <img src="../../../../assets/user profile icon.svg" id="fmem" class="user-photo float-left" />
               <p>{{empl.Name}} {{empl.Surname}} </p>
             </div>
