@@ -24,7 +24,7 @@ export class VacationRequestComponent implements OnInit {
   dateDiff: any = 'XX';
   errorMessage: string = '';
 
-  constructor(private location: Location, private service: VacationService, private emplService: EditService, private toast: ToastrService) { }
+  constructor(private location: Location, private service: VacationService, private emplService: EditService, private toastr: ToastrService) { }
 
   cancel() {
     this.location.back();
@@ -76,7 +76,7 @@ export class VacationRequestComponent implements OnInit {
         this.errorMessage = '';
         this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
         if (this.dateDiff > this.employee.Balance) {
-          this.toast.error("Request number less than amount", "");
+          this.toastr.warning("Request number less than amount", "");
         }
       }
     }
@@ -95,7 +95,7 @@ export class VacationRequestComponent implements OnInit {
     console.log(this.vacation.VacationTypesId);
     this.vacation.EmployeeId = this.employee.EmployeeId;
     this.service.SendVacation(this.vacation).subscribe(response => {
-      this.toast.success("You successfully send vacation request", "");
+      this.toastr.success("You successfully send vacation request", "");
       this.location.back();
     });
   }

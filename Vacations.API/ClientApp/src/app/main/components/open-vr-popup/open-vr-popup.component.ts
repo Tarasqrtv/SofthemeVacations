@@ -23,18 +23,24 @@ export class OpenVRPopupComponent implements OnInit {
   employee: Employee = <Employee>{};
   vacStatuses: Statuses[] = [];
   dateDiff: any = 'XX';
+  imgUrl: string
 
   constructor(private vacService: VacationService,
     private emplService: EditService,
-    private toast: ToastrService,
+    private toastr: ToastrService,
     public thisDialogRef: MatDialogRef<OpenVRPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: string) { }
 
   ngOnInit() {
+    this.imgUrl = '../../../../assets/user-profile-icon.svg';
     console.log(this.data);
     const successfnEmployee = (response) => {
       this.employee = response;
       console.log(this.employee);
+      if(this.employee.ImgUrl !== null)
+      {
+        this.imgUrl = this.employee.ImgUrl;
+      }
     };
 
     const errorfn = () => { };
@@ -56,7 +62,7 @@ export class OpenVRPopupComponent implements OnInit {
 
   balanceChecking(){
     if (this.emplVacation.EmployeeBalance < this.calculateDate()) {
-      this.toast.error("Request number less than amount", "");
+      this.toastr.warning("Request number less than amount", "");
     } 
   }
 
@@ -86,7 +92,7 @@ export class OpenVRPopupComponent implements OnInit {
     console.log(this.emplVacation);
     this.thisDialogRef.close('Cancel');
     this.vacService.SendVacationRequest(this.emplVacation).subscribe(response => {
-      this.toast.success("You successfully send answer on vacation request", "");
+      this.toastr.success("You successfully send answer on vacation request", "");
     });
   }
 }
