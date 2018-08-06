@@ -11,7 +11,7 @@ export interface VacRequest{
     TeamName: string;
     EmployeeName: string;
     EmployeeSurname: string;
-    EmployeeBalance: string;
+    EmployeeBalance: any;
     VacationTypeName: string;
     TransactionComment: string;
 }

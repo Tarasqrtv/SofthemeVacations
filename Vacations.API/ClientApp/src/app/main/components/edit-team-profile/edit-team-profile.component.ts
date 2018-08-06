@@ -48,15 +48,13 @@ export class EditTeamProfileComponent implements OnInit {
     });
   }
 
-
-
-
   add(event: MatChipInputEvent): void {
     const input = event.input;
     const value = event.value;
 
     // Add our user
     if ((value || '').trim()) {
+      console.log("Add user");
       this.users.push({ name: value.trim() });
     }
 
@@ -72,5 +70,11 @@ export class EditTeamProfileComponent implements OnInit {
     if (index >= 0) {
       this.users.splice(index, 1);
     }
+  }
+
+  OnClick(empl: Profile){
+    let employee = empl.Name + ' ' + empl.Surname;
+    console.log("Click on user");
+    this.users.push({ name: employee.trim() });
   }
 }

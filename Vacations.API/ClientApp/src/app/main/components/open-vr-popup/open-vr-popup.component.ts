@@ -45,6 +45,7 @@ export class OpenVRPopupComponent implements OnInit {
       console.log(response);
       this.calculateDate();
       this.emplService.getEmployeeId(this.emplVacation.EmployeeId).subscribe(successfnEmployee, errorfn, completefn);
+      this.balanceChecking();
     }); 
 
     this.vacService.getVacationStatuses().subscribe(response => {
@@ -53,8 +54,14 @@ export class OpenVRPopupComponent implements OnInit {
     })
   }
 
+  balanceChecking(){
+    if (this.emplVacation.EmployeeBalance < this.calculateDate()) {
+      this.toast.error("Request number less than amount", "");
+    } 
+  }
+
   calculateDate() {
-    this.DaysInVac(
+   return this.DaysInVac(
       this.parseDate(this.emplVacation.StartVocationDate),
       this.parseDate(this.emplVacation.EndVocationDate));
   }
@@ -68,7 +75,7 @@ export class OpenVRPopupComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
-    this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
+    return this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
   }
 
   onCloseConfirm() {
