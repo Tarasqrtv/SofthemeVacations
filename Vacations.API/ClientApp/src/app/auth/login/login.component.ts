@@ -23,16 +23,14 @@ export class LoginComponent implements OnInit, AfterViewInit {
   constructor(private service: AuthService, private toaster: ToastrService, private router: Router) { }
 
   login() {
+    localStorage.setItem("token", "");
+    localStorage.setItem("role", "");
     let requestUrl = environment.baseUrl + '/auth/token';
     this.service.get(requestUrl, this.user).subscribe(
       response => {
       this.serviceResponse = response;
-      // console.log(this.serviceResponse.Token);
-      // console.log(this.serviceResponse.Role);
-      // console.log(localStorage.getItem('token'));
-      // console.log(localStorage.getItem('role'));
       localStorage.setItem("token", this.serviceResponse.Token);
-      localStorage.setItem("role", JSON.stringify(this.serviceResponse.Role));
+      localStorage.setItem("role", this.serviceResponse.Role);
       this.router.navigate(["/main"])
     }
   )

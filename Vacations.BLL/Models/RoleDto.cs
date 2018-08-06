@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace Vacations.BLL.Models
+﻿namespace Vacations.BLL.Models
 {
     public class RoleDto
     {

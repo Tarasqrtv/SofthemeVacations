@@ -1,6 +1,10 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatChipInputEvent } from '@angular/material';
+
+import { ProfileService } from '../../services/profile.service';
+
+import { Profile } from '../profile/my-profile/profile.model';
 
 export interface User {
   name: string;
@@ -12,17 +16,37 @@ export interface User {
   styleUrls: ['./edit-team-profile.component.scss']
 })
 
-export class EditTeamProfileComponent {
+export class EditTeamProfileComponent implements OnInit {
   visible = true;
   selectable = true;
   removable = true;
   addOnBlur = true;
   readonly separatorKeysCodes: number[] = [ENTER, COMMA];
+  
   users: User[] = [
     { name: 'Markiz de Saad' },
     { name: 'Harry Potter' },
     { name: 'Sara Konor' },
   ];
+
+  employees: Profile[] = [];
+  noTeamEmpl: Profile[] = [];
+
+  constructor(private service: ProfileService) { }
+
+  ngOnInit() {
+    this.service.getEmployees()
+      .subscribe(response => {
+        this.employees = response;
+        for (let item of this.employees) {
+          let i = 0;
+          if (!item.TeamId) {
+            this.noTeamEmpl[i] = item;
+            i++;
+          }
+        }
+    });
+  }
 
   add(event: MatChipInputEvent): void {
     const input = event.input;
@@ -30,6 +54,7 @@ export class EditTeamProfileComponent {
 
     // Add our user
     if ((value || '').trim()) {
+      console.log("Add user");
       this.users.push({ name: value.trim() });
     }
 
@@ -45,5 +70,11 @@ export class EditTeamProfileComponent {
     if (index >= 0) {
       this.users.splice(index, 1);
     }
+  }
+
+  OnClick(empl: Profile){
+    let employee = empl.Name + ' ' + empl.Surname;
+    console.log("Click on user");
+    this.users.push({ name: employee.trim() });
   }
 }

@@ -3,12 +3,10 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
-using Vacations.DAL.Models;
 
 namespace Vacations.API.Controllers
 {
@@ -16,15 +14,14 @@ namespace Vacations.API.Controllers
     [ApiController]
     public class EmployeesController : ControllerBase
     {
-        private readonly UserManager<User> _userManager;
+        private readonly IUsersService _usersService;
         private readonly IEmployeesService _employeesService;
 
         public EmployeesController(
-            IMapper mapper,
-            UserManager<User> userManager,
+            IUsersService usersService,
             IEmployeesService employeesService)
         {
-            _userManager = userManager;
+            _usersService = usersService;
             _employeesService = employeesService;
         }
 
@@ -39,20 +36,25 @@ namespace Vacations.API.Controllers
         [HttpGet("current")]
         public async Task<IActionResult> GetCurrentEmployee()
         {
-            var userDto = await _userManager.GetUserAsync(User);
+            var userDto = await _usersService.GetUserAsync(User);
 
             if (userDto == null)
             {
-                return BadRequest("User == null");
+                return NotFound("User == null");
             }
 
             var employeeDto = await _employeesService.GetByIdAsync(userDto.EmployeeId);
+
+            if (employeeDto == null)
+            {
+                return NotFound("Employee == null");
+            }
 
             return Ok(employeeDto);
         }
 
         [Authorize]
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployee([FromRoute] Guid id)
         {
@@ -75,7 +77,7 @@ namespace Vacations.API.Controllers
                 return BadRequest(ModelState);
             }
 
-            await _employeesService.PutAsync(employeeDto);
+            await _employeesService.PutAsync(employeeDto, User);
 
             return NoContent();
         }
@@ -91,7 +93,7 @@ namespace Vacations.API.Controllers
 
             try
             {
-                await _employeesService.PostAsync(employeeDto);
+                await _employeesService.PostAsync(employeeDto, User);
             }
             catch (DbUpdateException e)
             {

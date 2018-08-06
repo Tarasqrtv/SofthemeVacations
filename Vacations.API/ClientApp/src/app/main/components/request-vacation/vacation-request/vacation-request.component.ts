@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnChanges, DoCheck } from '@angular/core';
 import { Location, getLocaleFirstDayOfWeek } from '@angular/common';
 import { ToastrService } from 'ngx-toastr';
 
@@ -7,6 +7,7 @@ import { VacationService } from '../../../services/vacation.service';
 
 import { Employee } from '../../edit-profile/models/employee.model';
 import { VacModel } from './vacation-request.model';
+import { VacType } from './vacation-types.model';
 
 @Component({
   selector: 'app-vacation-request',
@@ -19,32 +20,47 @@ export class VacationRequestComponent implements OnInit {
 
   employee: Employee = <Employee>{};
   vacation: VacModel = <VacModel>{};
-  vacationTypes: string[] = [ 'Not choosen', 'Vacation', 'Holiday'];
- 
+  vacTypes: VacType[] = [];
+  dateDiff: any = 'XX';
+  errorMessage: string = '';
 
-  constructor(private location: Location, private service: VacationService, private othService: EditService, private toast: ToastrService) { }
+  constructor(private location: Location, private service: VacationService, private emplService: EditService, private toastr: ToastrService) { }
 
   cancel() {
     this.location.back();
   }
 
+
+
   ngOnInit() {
     const successfnEmployee = (response) => {
       this.employee = response;
-      this.toast.success("", "");
-      console.log(response);
       console.log(this.employee);
+    };
+
+    const successfnVacationTypes = (response) => {
+      this.vacTypes = response;
+      console.log(response);
+      console.log(this.vacTypes);
     };
 
     const errorfn = () => { };
     const completefn = () => { };
 
-    this.othService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
+    this.service.getVacationType().subscribe(successfnVacationTypes, errorfn, completefn);
+    this.emplService.getEmployee().subscribe(successfnEmployee, errorfn, completefn);
+  }
+
+
+
+  calculateDate() {
+    console.log("was trying to parse");
+    this.DaysInVac(
+      this.parseDate(this.vacation.StartVocationDate),
+      this.parseDate(this.vacation.EndVocationDate));
   }
 
   parseDate(dateString: any): Date {
-    console.log("parsing DATE");
-    console.log(dateString);
     if (dateString) {
       return new Date(dateString);
     } else {
@@ -53,16 +69,34 @@ export class VacationRequestComponent implements OnInit {
   }
 
   DaysInVac(frst, lst) {
-    console.log("Datediff!");
-    let date = (lst - frst) / 1000 / 60 / 60 / 24;
-    return date;
+    if (frst && lst) {
+      if (lst < frst) {
+        this.errorMessage = 'You put invalid dates!';
+      } else {
+        this.errorMessage = '';
+        this.dateDiff = (lst - frst) / 1000 / 60 / 60 / 24;
+        if (this.dateDiff > this.employee.Balance) {
+          this.toastr.warning("Request number less than amount", "");
+        }
+      }
+    }
   }
 
   Send() {
+    this.vacation.StartVocationDate = new Date(this.vacation.StartVocationDate.getFullYear(),
+      this.vacation.StartVocationDate.getMonth(),
+      this.vacation.StartVocationDate.getDate() + 1
+    );
+    this.vacation.EndVocationDate = new Date(this.vacation.EndVocationDate.getFullYear(),
+      this.vacation.EndVocationDate.getMonth(),
+      this.vacation.EndVocationDate.getDate() + 1
+    );
     console.log(this.employee);
-    this.vacation.EmployeeId =this.employee.EmployeeId;
-    this.service.SendVacation(this.vacation).subscribe(response => this.vacation = response);
-    this.location.back();
-    this.toast.success("You successfully send vacation request", "");
+    console.log(this.vacation.VacationTypesId);
+    this.vacation.EmployeeId = this.employee.EmployeeId;
+    this.service.SendVacation(this.vacation).subscribe(response => {
+      this.toastr.success("You successfully send vacation request", "");
+      this.location.back();
+    });
   }
 }

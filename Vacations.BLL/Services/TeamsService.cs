@@ -24,19 +24,29 @@ namespace Vacations.BLL.Services
 
         public TeamDto GetById(Guid idGuid)
         {
-            var team = _context.Team.FirstOrDefault(e => e.TeamId == idGuid);
+            var team = _context.Team
+                .Include(t => t.TeamLead)
+                .Include(t => t.Employee)
+                .FirstOrDefault(e => e.TeamId == idGuid);
+
             return _mapper.Map<Team, TeamDto>(team);
         }
 
         public async Task<TeamDto> GetByIdAsync(Guid idGuid)
         {
-            var team = await _context.Team.FirstOrDefaultAsync(e => e.TeamId == idGuid);
+            var team = await _context.Team
+                .Include(t => t.TeamLead)
+                .Include(t => t.Employee)
+                .FirstOrDefaultAsync(e => e.TeamId == idGuid);
+
             return _mapper.Map<Team, TeamDto>(team);
         }
 
         public IEnumerable<TeamDto> Get()
         {
-            var teams = _context.Team.Include(t => t.TeamLead);
+            var teams = _context.Team
+                .Include(t => t.TeamLead)
+                .Include(t => t.Employee);
 
             return _mapper.Map<IEnumerable<Team>, IEnumerable<TeamDto>>(teams);
         }

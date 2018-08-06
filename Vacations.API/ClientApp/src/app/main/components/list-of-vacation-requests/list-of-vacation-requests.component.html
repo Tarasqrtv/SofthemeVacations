@@ -1,5 +1,5 @@
 <div class="container">
-  <table class="table " style=" max-height: 80vh; overflow-y: auto; -ms-overflow-style: -ms-autohiding-scrollbar;"  (click)="openDialog()">
+  <table class="table " style=" max-height: 80vh; overflow-y: auto; -ms-overflow-style: -ms-autohiding-scrollbar;" >
     <thead>
       <tr>
         <td class="table-dark" colspan="5">List of Vacation Requests</td>
@@ -15,7 +15,7 @@
       </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let vac of vacations">
+        <tr *ngFor="let vac of vacations"  (click)="openDialog(vac.VacationId)">
           <td class="text-muted"> {{vac.EmployeeName}} {{vac.EmployeeSurname}} </td>
           <td class="text-muted"> {{vac.TeamName}} </td>
           <td> 
@@ -24,12 +24,14 @@
           <td class="text-muted"> 
               {{DaysInVac(parseDate(vac.StartVocationDate), parseDate(vac.EndVocationDate))}}
           <td>{{vac.EmployeeBalance}}
-              <!-- <i [ngClass]="{'icon-approved-request approved': vac.VacationStatusName == 'Approved', 'icon-approved-request cancel': vac.VacationStatusName == 'Denied', 'icon-approved-request procces': vac.VacationStatusName == 'InProcess'}"></i>
-                <i class="icon-approved-request cancel"></i>
-                <i class="icon-approved-request procces"></i>
-                <i class="icon-approved-request approved"></i>  -->
+               <i [ngClass]="{
+                 'icon-approved-request': true, 
+                 'approved': vac.VacationStatusName == 'Approved', 
+                 'cancel': vac.VacationStatusName == 'Denied', 
+                 'procces': vac.VacationStatusName == 'InProcess'
+                }">
+              </i>
             </td>
-            
         </tr>
     </tbody>
   </table>

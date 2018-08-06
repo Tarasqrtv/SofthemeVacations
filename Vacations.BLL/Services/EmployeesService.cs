@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using System.Transactions;
 using AutoMapper;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -15,23 +17,23 @@ namespace Vacations.BLL.Services
     {
         private readonly IMapper _mapper;
         private readonly VacationsDbContext _context;
-        private readonly UserManager<User> _userManager;
-        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IUsersService _usersService;
+        private readonly IImagesService _imagesService;
+        private readonly ITransactionService _transactionService;
 
         public EmployeesService(
-            VacationsDbContext context,
-            IMapper mapper,
-            UserManager<User> userManager,
-            IUsersService usersService,
-            RoleManager<IdentityRole> roleManager
-            )
+             VacationsDbContext context,
+             IMapper mapper,
+             IUsersService usersService,
+             IImagesService imagesService,
+             ITransactionService transactionService
+             )
         {
             _mapper = mapper;
             _context = context;
-            _userManager = userManager;
             _usersService = usersService;
-            _roleManager = roleManager;
+            _imagesService = imagesService;
+            _transactionService = transactionService;
         }
 
         public IEnumerable<EmployeeDtoList> Get()
@@ -47,99 +49,101 @@ namespace Vacations.BLL.Services
                 .Include(e => e.User)
                 .FirstOrDefaultAsync(e => e.EmployeeId == id);
 
-            if (employee != null)
-                return new EmployeeDto()
-                {
-                    EmployeeId = employee.EmployeeId,
-                    Name = employee.Name,
-                    Surname = employee.Surname,
-                    Birthday = employee.Birthday,
-                    PersonalEmail = employee.PersonalEmail,
-                    WorkEmail = employee.WorkEmail,
-                    TelephoneNumber = employee.TelephoneNumber,
-                    Skype = employee.Skype,
-                    StartDate = employee.StartDate,
-                    EndDate = employee.EndDate,
-                    TeamName = employee.Team?.Name,
-                    TeamLeadName = employee.Team?.TeamLead.Name,
-                    TeamLeadSurname = employee.Team?.TeamLead.Surname,
-                    Balance = employee.Balance,
-                    EmployeeStatusId = employee.EmployeeStatusId,
-                    JobTitleId = employee.JobTitleId,
-                    TeamId = employee.TeamId,
-                    TeamLeadId = employee.Team?.TeamLead.EmployeeId,
-                    RoleId = (await _userManager.GetRolesAsync(employee.User)).FirstOrDefault()
-                };
-            throw new NullReferenceException("Employee not found!");
+            if (employee == null)
+            {
+                return null;
+            }
+
+            return new EmployeeDto()
+            {
+                EmployeeId = employee.EmployeeId,
+                Name = employee.Name,
+                Surname = employee.Surname,
+                Birthday = employee.Birthday,
+                PersonalEmail = employee.PersonalEmail,
+                WorkEmail = employee.WorkEmail,
+                TelephoneNumber = employee.TelephoneNumber,
+                Skype = employee.Skype,
+                StartDate = employee.StartDate,
+                EndDate = employee.EndDate,
+                TeamName = employee.Team?.Name,
+                TeamLeadName = employee.Team?.TeamLead?.Name,
+                TeamLeadSurname = employee.Team?.TeamLead?.Surname,
+                Balance = employee.Balance,
+                EmployeeStatusId = employee.EmployeeStatusId,
+                JobTitleId = employee.JobTitleId,
+                TeamId = employee.TeamId,
+                TeamLeadId = employee.Team?.TeamLead?.EmployeeId,
+                RoleId = await _usersService.GetUserRoleId(employee.User),
+                ImgUrl = employee.ImgUrl
+            };
         }
 
-        public async Task<int> PutAsync(EmployeeDto employeeDto)
+        public async Task PutAsync(EmployeeDto employeeDto, ClaimsPrincipal admin)
         {
+            var user = await _usersService.FindByEmailAsync(employeeDto.WorkEmail);
+
             var employee = await _context.Employee.FindAsync(employeeDto.EmployeeId);
 
-            var user = await _userManager.FindByEmailAsync(employee.WorkEmail);
-
-            employee.Name = employeeDto.Name;
-            employee.Surname = employeeDto.Surname;
-            employee.PersonalEmail = employeeDto.PersonalEmail;
-            employee.WorkEmail = employeeDto.WorkEmail;
-            employee.TelephoneNumber = employeeDto.TelephoneNumber;
-            employee.Birthday = employeeDto.Birthday;
-            employee.Skype = employeeDto.Skype;
-            employee.StartDate = employeeDto.StartDate;
-            employee.EmployeeStatusId = employeeDto.EmployeeStatusId;
-            employee.EndDate = employeeDto.EndDate;
-            employee.JobTitleId = employeeDto.JobTitleId;
-            employee.Balance = employeeDto.Balance;
-            employee.TeamId = employeeDto.TeamId;
-
-            _context.Employee.Update(employee);
-
-            user.UserName = employeeDto.WorkEmail;
-
-            user.Email = employeeDto.WorkEmail;
-
-            var result1 = await _context.SaveChangesAsync();
-
-            var result2 = await _userManager.UpdateAsync(user);
-
-            foreach (var role in await _userManager.GetRolesAsync(user))
+            if (user == null || employee == null)
             {
-                var result3 = await _userManager.RemoveFromRoleAsync(user, role);
+                return;
             }
 
-            //TODO: Add role
-            var result4 = await _roleManager.FindByIdAsync(employeeDto.RoleId);
+            _context.Entry(employee).State = EntityState.Detached;
+            
+            var newBalance = (employeeDto.Balance ?? CulcBalance()) - employee.Balance;
 
-            if (result4 != null)
+            var newEmployee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
+
+            newEmployee.Balance = employeeDto.Balance ?? CulcBalance();
+
+            newEmployee.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
+
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                await _userManager.AddToRoleAsync(user, result4.Name);
-            }
+                _context.Employee.Update(newEmployee);
 
-            return result1;
+                user.UserName = employeeDto.WorkEmail;
+
+                user.Email = employeeDto.WorkEmail;
+
+                await _transactionService.CreateTransactionByAdminAsync(newEmployee.EmployeeId, newBalance, admin);
+
+                await _usersService.UpdateUser(user);
+
+                await _usersService.UpdateUserRole(user, employeeDto.RoleId);
+
+                await _context.SaveChangesAsync();
+
+                scope.Complete();
+            }
         }
 
-        public async Task<int> PostAsync(EmployeeDto employeeDto)
-        {
-            var employee = new Employee
-            {
-                EmployeeId = Guid.NewGuid(),
-                Name = employeeDto.Name,
-                Surname = employeeDto.Surname,
-                PersonalEmail = employeeDto.PersonalEmail,
-                WorkEmail = employeeDto.WorkEmail,
-                TelephoneNumber = employeeDto.TelephoneNumber,
-                Birthday = employeeDto.Birthday,
-                Skype = employeeDto.Skype,
-                StartDate = employeeDto.StartDate,
-                EmployeeStatusId = employeeDto.EmployeeStatusId,
-                EndDate = employeeDto.EndDate,
-                JobTitleId = employeeDto.JobTitleId,
-                Balance = employeeDto.Balance,
-                TeamId = employeeDto.TeamId
-            };
+        private const float _startBalance = 28;
 
-            await _context.Employee.AddAsync(employee);
+        private int CulcBalance()
+        {
+            DateTime dateTimeNow = DateTime.Now;
+
+            var days = DateTime.IsLeapYear(dateTimeNow.Year) ? 366 : 365;
+
+            var vacationPerDay = _startBalance / (days);
+
+            var daysLeft = days - dateTimeNow.DayOfYear;
+
+            return (int)(vacationPerDay * daysLeft);
+        }
+
+        public async Task PostAsync(EmployeeDto employeeDto, ClaimsPrincipal admin)
+        {
+            employeeDto.EmployeeId = Guid.NewGuid();
+
+            employeeDto.Balance = employeeDto.Balance ?? CulcBalance();
+
+            employeeDto.ImgUrl = await _imagesService.GetUrlAsync(employeeDto.ImgUrl);
+
+            var employee = _mapper.Map<EmployeeDto, Employee>(employeeDto);
 
             var user = new User
             {
@@ -148,25 +152,22 @@ namespace Vacations.BLL.Services
                 EmployeeId = employee.EmployeeId
             };
 
-            var result1 = await _context.SaveChangesAsync();
-
-            var result2 = await _userManager.CreateAsync(user, "asd123Q!");
-
-            //TODO: Add role
-            var result3 = await _roleManager.FindByIdAsync(employeeDto.RoleId);
-
-            if (result3 == null)
+            using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
             {
-                await _userManager.AddToRoleAsync(user, "Employee");
-            }
-            else
-            {
-                await _userManager.AddToRoleAsync(user, result3.Name);
-            }
+                await _context.Employee.AddAsync(employee);
 
-            await _usersService.ForgotPassword(user.Email);
+                await _usersService.CreateAsync(user, "asd123Q!");
 
-            return result1;
+                await _usersService.SetUserRole(user, employeeDto.RoleId);
+
+                await _transactionService.CreateTransactionByAdminAsync(employee.EmployeeId, employee.Balance, admin);
+
+                await _usersService.ForgotPassword(user.Email);
+
+                await _context.SaveChangesAsync();
+
+                scope.Complete();
+            }
         }
     }
 }

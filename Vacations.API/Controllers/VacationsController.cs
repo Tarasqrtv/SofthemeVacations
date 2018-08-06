@@ -22,14 +22,14 @@ namespace Vacations.API.Controllers
             _vacationsService = vacationsService;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet]
         public async Task<IEnumerable<VacationDto>> GetVacation()
         {
             return await _vacationsService.GetVacationRequestsAsync(User);
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet("{id}")]
         public async Task<VacationDto> GetVacationById([FromRoute] Guid id)
         {
@@ -40,7 +40,7 @@ namespace Vacations.API.Controllers
         [HttpGet("employee")]
         public async Task<IEnumerable<VacationDto>> GetVacationByCurrentEmployeeAsync()
         {
-            return await _vacationsService.GetByCurrentEmployeeId(User);
+            return await _vacationsService.GetByCurrentEmployeeIdAsync(User);
         }
 
         [Authorize]
@@ -54,7 +54,7 @@ namespace Vacations.API.Controllers
 
         [Authorize]
         [HttpPost("employee")]
-        public async Task<IActionResult> PostVacarion([FromBody] VacationDto vacationsDto)
+        public async Task<IActionResult> PostVacation([FromBody] VacationDto vacationsDto)
         {
             if (!ModelState.IsValid)
             {
@@ -73,10 +73,9 @@ namespace Vacations.API.Controllers
             return Ok();
         }
 
-        [Authorize(Roles = "Admin")]
-        [Authorize(Roles = "TeamLead")]
-        [HttpPost("employee/{id}")]
-        public async Task<IActionResult> PostVacarion([FromRoute] Guid employeeId, [FromBody] VacationDto vacationsDto)
+        [Authorize(Roles = "Admin, TeamLead")]
+        [HttpPut]
+        public async Task<IActionResult> PutVacation([FromBody] VacationDto vacationsDto)
         {
             if (!ModelState.IsValid)
             {
@@ -85,7 +84,7 @@ namespace Vacations.API.Controllers
 
             try
             {
-                await _vacationsService.PostAsync(vacationsDto);
+                await _vacationsService.PutAsync(vacationsDto, User);
             }
             catch (DbUpdateException e)
             {

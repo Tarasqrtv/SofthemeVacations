@@ -14,10 +14,10 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
-        <td>Team Name</td>
-        <td class="text-muted">Name Surname</td>
-        <td class="text-muted">XX</td>
+      <tr *ngFor="let item of teams" >
+        <td> {{item.Name}} </td>
+        <td class="text-muted"> {{item.TeamLeadName}} {{item.TeamLeadSurname}} </td>
+        <td class="text-muted"> {{item.MembersNumber}} </td>
         <td>
           <div class="myi">
             <img src="../../../../assets/eye.svg">

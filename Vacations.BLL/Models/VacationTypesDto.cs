@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Vacations.BLL.Models
 {
-    public class TransactionTypeDto
+    public partial class VacationTypesDto
     {
-        public Guid TransactionTypeId { get; set; }
+        public Guid VacationTypesId { get; set; }
         public string Name { get; set; }
     }
 }

@@ -10,8 +10,9 @@ import { LoginComponent } from './login/login.component';
 import { SendResetComponent } from './send-reset/send-reset.component';
 import { AuthRoutes } from './auth.routes';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
-import { AuthGuardService } from './auth.guard';
+import { AuthGuardService } from './auth-guard.service';
 import { PasswordService } from './password.service';
+import { RoleGuardService } from './role-guard.service';
 
 export function jwtTokenGetter() {
   return localStorage.getItem('token');
@@ -42,7 +43,9 @@ export function jwtTokenGetter() {
   providers: [
     AuthService, 
     AuthGuardService,
-    PasswordService],
+    PasswordService,
+    RoleGuardService
+  ],
   exports: [
     LoginComponent,
     SendResetComponent,

@@ -23,5 +23,6 @@ namespace Vacations.BLL.Models
         public string TeamName { get; set; }
         public string TeamLeadName { get; set; }
         public string TeamLeadSurname { get; set; }
+        public string ImgUrl { get; set; }
     }
 }

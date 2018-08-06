@@ -104,16 +104,16 @@
           </td>
           <td class="kostil">
             <label for="tnm">team name</label>
-            <select [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
-              <option *ngFor="let item of teams" [value]="item.TeamId">
-                {{item.Name}}
-              </option>
-            </select>
+              <select  [(ngModel)]="employee.TeamId" class="form-control" id="tnm">
+                  <option value=""> None </option>
+                  <option *ngFor="let item of teams" [value]="item.TeamId">
+                      {{item.Name}}
+                  </option>
+              </select>
           </td>
           <td>
             <label for="tnml">team leader</label>
-            {{employee.TeamLead}}
-            <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" [(ngModel)]="employee.TeamLead">
+            <input class="form-control" id="tnml" readonly style="color: #b8b8b8; box-shadow: none;" [(ngModel)]="employee.TeamLeadName">
           </td>
         </tr>
         <tr>

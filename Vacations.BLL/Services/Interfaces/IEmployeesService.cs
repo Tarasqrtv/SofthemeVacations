@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Vacations.BLL.Models;
@@ -12,7 +13,7 @@ namespace Vacations.BLL.Services
     {
         IEnumerable<EmployeeDtoList> Get();
         Task<EmployeeDto> GetByIdAsync(Guid id);
-        Task<int> PutAsync(EmployeeDto employeeDto);
-        Task<int> PostAsync(EmployeeDto employeeDto);
+        Task PutAsync(EmployeeDto employeeDto, ClaimsPrincipal admin);
+        Task PostAsync(EmployeeDto employeeDto, ClaimsPrincipal admin);
     }
 }

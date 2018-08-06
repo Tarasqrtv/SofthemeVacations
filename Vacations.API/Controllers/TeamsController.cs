@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Vacations.BLL.Models;
 using Vacations.BLL.Services;
@@ -20,12 +21,14 @@ namespace Vacations.API.Controllers
             _teamsService = teamsService;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IEnumerable<TeamDto> GetTeams()
         {
             return _teamsService.Get();
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTeam([FromRoute] Guid id)
         {

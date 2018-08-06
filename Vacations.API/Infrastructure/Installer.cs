@@ -21,8 +21,11 @@ namespace Vacations.API.Infrastructure
             services.AddTransient<ITeamsService, TeamsService>();
 
             services.AddTransient<IVacationStatusService, VacationStatusService>();
+            services.AddTransient<IVacationTypesService, VacationTypesService>();
             services.AddTransient<IEmployeeStatusService, EmployeeStatusService>();
             services.AddTransient<IJobTitlesService, JobTitlesService>();
+            services.AddTransient<IImagesService, ImagesService>();
+            services.AddTransient<ITransactionService, TransactionService>();
         }
     }
 }

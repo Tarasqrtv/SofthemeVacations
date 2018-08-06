@@ -10,6 +10,8 @@ namespace Vacations.API.Infrastructure
     {
         public MappingProfile()
         {
+            AllowNullCollections = true;
+
             CreateMap<Employee, ProfileDto>()
                 .ForMember(p => p.TeamName, o => o.MapFrom(e => e.Team.Name))
                 .ForMember(p => p.TeamLeadName, o=> o.MapFrom(e => e.Team.TeamLead.Name))
@@ -22,7 +24,22 @@ namespace Vacations.API.Infrastructure
                 .ForMember(vdto => vdto.EmployeeSurname, o => o.MapFrom(v => v.Employee.Surname))
                 .ForMember(vdto => vdto.EmployeeBalance, o => o.MapFrom(v => v.Employee.Balance))
                 .ForMember(vdto => vdto.VacationStatusName, o => o.MapFrom(v => v.VacationStatus.Name))
-                .ForMember(vdto => vdto.TeamName, o => o.MapFrom(v => v.Employee.Team.Name));
+                .ForMember(vdto => vdto.TeamName, o => o.MapFrom(v => v.Employee.Team.Name))
+                .ForMember(vdto => vdto.VacationTypeName, o => o.MapFrom(v => v.VacationTypes.Name));
+
+            CreateMap<Team, TeamDto>()
+                .ForMember(tdto => tdto.TeamLeadName, o => o.MapFrom(t => t.TeamLead.Name))
+                .ForMember(tdto => tdto.TeamLeadSurname, o => o.MapFrom(t => t.TeamLead.Surname))
+                .ForMember(tdto => tdto.MembersNumber, o => o.MapFrom(t => t.Employee.Count));
+
+            CreateMap<EmployeeDto, Employee>()
+            .ForMember(e => e.EmployeeStatus, opt => opt.Ignore())
+            .ForMember(e => e.JobTitle, opt => opt.Ignore())
+            .ForMember(e => e.Team, opt => opt.Ignore())
+            .ForMember(e => e.User, opt => opt.Ignore())
+            .ForMember(e => e.TeamNavigation, opt => opt.Ignore())
+            .ForMember(e => e.Transaction, opt => opt.Ignore())
+            .ForMember(e => e.Vacation, opt => opt.Ignore());         
         }
     }
 }

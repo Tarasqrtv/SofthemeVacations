@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
+import { UUID } from 'angular2-uuid';
 import 'rxjs/add/operator/map';
 import { environment } from '../../../environments/environment';
 
@@ -8,9 +9,9 @@ import { environment } from '../../../environments/environment';
 export class ImageService {
     constructor (private http: HttpClient) { }
 
-    postFile(url: string, file: File): Observable<File> {
+    postFile(url: string, file: File, newFileName: string): Observable<File> {
         let formData:FormData = new FormData();
-        formData.append('uploadFile', file, file.name);
+        formData.append(newFileName, file, file.name);
         let headers = new HttpHeaders();
         
         headers.append('Content-Type', 'multipart/form-data');

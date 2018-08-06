@@ -21,14 +21,14 @@ namespace Vacations.API.Controllers
             _vacationStatusService = vacationStatusService;
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet]
         public IEnumerable<VacationStatusDto> GetVacationStatus()
         {
             return _vacationStatusService.Get();
         }
 
-        [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetVacationStatus([FromRoute] Guid id)
         {

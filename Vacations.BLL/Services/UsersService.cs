@@ -9,6 +9,7 @@ using Microsoft.IdentityModel.Tokens;
 using Vacations.DAL.Models;
 using Microsoft.Extensions.Configuration;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.WebUtilities;
@@ -20,17 +21,18 @@ namespace Vacations.BLL.Services
     {
         private readonly UserManager<User> _userManager;
         private readonly IConfiguration _configuration;
-        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly RoleManager<Role> _roleManager;
         private readonly SignInManager<User> _signInManager;
-        private IEmailSender _emailSender;
+        private readonly IEmailSender _emailSender;
+        private readonly IMapper _mapper;
 
         public UsersService(
             UserManager<User> userManager,
             IConfiguration configuration,
-            AccountsDbContext context,
-            RoleManager<IdentityRole> roleManager,
+            RoleManager<Role> roleManager,
             SignInManager<User> signInManager,
-            IEmailSender emailSender
+            IEmailSender emailSender,
+            IMapper mapper
         )
         {
             _emailSender = emailSender;
@@ -38,6 +40,7 @@ namespace Vacations.BLL.Services
             _userManager = userManager;
             _configuration = configuration;
             _signInManager = signInManager;
+            _mapper = mapper;
         }
 
         public async Task<TokenDto> GetTokenAsync(string authorizationHeader)
@@ -55,7 +58,7 @@ namespace Vacations.BLL.Services
                     var appUser = _userManager.Users.SingleOrDefault(r => r.Email == userEmailAndPass[0]);
 
                     var tokenDto = new TokenDto(
-                        await GenerateJwtTokenAsync(userEmailAndPass[0], appUser), 
+                        await GenerateJwtTokenAsync(userEmailAndPass[0], appUser),
                         (await _userManager.GetRolesAsync(appUser)).FirstOrDefault());
 
                     return tokenDto;
@@ -129,6 +132,75 @@ namespace Vacations.BLL.Services
                 $"{_configuration["Domain:RequestScheme"]}://{_configuration["Domain:DomainName"]}/auth/reset-password?id={user.Id}&code={codeEncoded}";
             await _emailSender.SendEmailAsync(email, "Reset Password",
                 $"Please reset your password by clicking here: <a href='{callbackUrl}'>link</a>");
+        }
+
+        public async Task<string> GetUserRole(User user)
+        {
+            return (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+        }
+
+        public async Task<string> GetUserRoleId(User user)
+        {
+            foreach (var role in _roleManager.Roles)
+            {
+                if(role.Name.Equals(await GetUserRole(user)))
+                {
+                    return role.Id;
+                }
+            }
+
+            return null;
+        }
+
+        public async Task UpdateUserRole(User user, string roleId)
+        {
+            var result4 = await _roleManager.FindByIdAsync(roleId);
+
+            if (result4 != null)
+            {
+                var oldRole = await GetUserRole(user);
+
+                var result3 = await _userManager.RemoveFromRoleAsync(user, oldRole);
+
+                await _userManager.AddToRoleAsync(user, result4.Name);
+            }
+        }
+
+        public async Task SetUserRole(User user, string roleId)
+        {
+            var result4 = await _roleManager.FindByIdAsync(roleId);
+
+            foreach (var role in _roleManager.Roles)
+            {
+                await _userManager.RemoveFromRoleAsync(user, role.Name);
+            }
+
+            if (result4 != null)
+            {
+                await _userManager.AddToRoleAsync(user, result4.Name);
+            }
+        }
+
+        public async Task UpdateUser(User user)
+        {
+            await _userManager.UpdateAsync(user);
+        }
+
+        public async Task CreateAsync(User user, string password)
+        {
+            await _userManager.CreateAsync(user, password);
+        }
+
+        public async Task<User> FindByEmailAsync(string email)
+        {
+            return await _userManager.FindByEmailAsync(email);
+        }
+
+        public IEnumerable<RoleDto> GetRoles()
+        {
+            var roles = _roleManager.Roles;
+
+            return _mapper.Map<IEnumerable<Role>, IEnumerable<RoleDto>>(roles);
         }
     }
 }

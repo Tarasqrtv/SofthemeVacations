@@ -16,11 +16,11 @@ namespace Vacations.BLL.Services
 
         IEnumerable<VacationDto> GetByEmployeeId(Guid idGuid);
 
-        Task<IEnumerable<VacationDto>> GetByCurrentEmployeeId(ClaimsPrincipal user);
+        Task<IEnumerable<VacationDto>> GetByCurrentEmployeeIdAsync(ClaimsPrincipal user);
 
-        Task<int> PostAsync(VacationDto employeeDto);
+        Task PutAsync(VacationDto employeeDto, ClaimsPrincipal user);
 
-        Task<int> PostCurrentAsync(ClaimsPrincipal user, VacationDto vacationDto);
+        Task PostCurrentAsync(ClaimsPrincipal user, VacationDto vacationDto);
 
         Task<IEnumerable<VacationDto>> GetVacationRequestsAsync(ClaimsPrincipal user);
     }

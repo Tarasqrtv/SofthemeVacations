@@ -38,7 +38,7 @@ namespace Vacations.API.Controllers
             return Ok(profileDto);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin, TeamLead")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetProfile([FromRoute] Guid id)
         {

@@ -4,6 +4,7 @@ using SendGrid;
 using SendGrid.Helpers.Mail;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
+using Vacations.BLL.Models;
 
 namespace Vacations.BLL.Services
 {
@@ -22,7 +23,7 @@ namespace Vacations.BLL.Services
             Options.SendGridUser = _configuration["EmailService:SendGridUser"];
         }
 
-        public AuthMessageSenderOptions Options { get; } //set only via Secret Manager
+        public AuthMessageSenderOptions Options { get; }
 
         public Task SendEmailAsync(string email, string subject, string message)
         {

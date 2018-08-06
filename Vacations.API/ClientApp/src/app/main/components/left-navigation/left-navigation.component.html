@@ -1,11 +1,11 @@
 <nav class="nav flex-column left-menu">
-  <a class="nav-link"  [routerLink]="['/add-new-employee']">Add New Employee</a>
-  <a class="nav-link" [routerLink]="['/add-new-team']">Add New Team</a>
+  <a class="nav-link"  [routerLink]="['/add-new-employee']" *ngIf="IsShow">Add New Employee</a>
+  <a class="nav-link" [routerLink]="['/add-new-team']" *ngIf="IsShow">Add New Team</a>
   <a class="nav-link active" [routerLink]="['/vacation-requests']">
     Vacation Requests
-    <span class="badge badge-pill">5</span>
+    <span class="badge badge-pill"> {{vacCount}} </span>
   </a>
   <a class="nav-link" [routerLink]="['/team-calendar']">Team Calendar</a>
   <a class="nav-link" [routerLink]="['/list-of-employees']">List Of Employees</a>
-  <a class="nav-link disabled" [routerLink]="['/list-of-teams']">List Of Teams</a>
+  <a class="nav-link disabled" [routerLink]="['/list-of-teams']" *ngIf="IsShow">List Of Teams</a>
 </nav>

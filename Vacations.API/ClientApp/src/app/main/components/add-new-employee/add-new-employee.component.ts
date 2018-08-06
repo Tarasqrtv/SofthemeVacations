@@ -11,6 +11,7 @@ import { JobTitle } from '../edit-profile/models/job-title.model';
 import { EmployeeStatus } from '../edit-profile/models/employee-status.model';
 import { Employee } from '../edit-profile/models/employee.model';
 import { EmployeeRole } from '../edit-profile/models/employee-roles.model';
+import { UUID } from 'angular2-uuid';
 
 @Component({
   selector: 'app-add-new-employee',
@@ -32,6 +33,7 @@ export class AddNewEmployeeComponent implements OnInit {
     private toast: ToastrService) { }
 
   fileToUpload: File = null;
+  newFileName: string;
   imgUrl: string;
 
   handleFileInput(files: FileList) {
@@ -39,7 +41,7 @@ export class AddNewEmployeeComponent implements OnInit {
   }
 
   uploadFileToActivity() {
-    this.imgUploadService.postFile(environment.baseUrl + "/images/upload", this.fileToUpload).subscribe(data => {
+    this.imgUploadService.postFile(environment.baseUrl + "/images/upload", this.fileToUpload, this.newFileName).subscribe(data => {
       this.toast.success("File uploaded!", "Success")
     }, error => {
       console.log(error);
@@ -52,6 +54,8 @@ export class AddNewEmployeeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.imgUrl = '../../../../assets/user-profile-icon.svg'
+    
     const successfnTeams = (response) => {
       this.teams = response;
       console.log(response);
@@ -81,21 +85,21 @@ export class AddNewEmployeeComponent implements OnInit {
     this.service.getJobTitle().subscribe(successfnJobTitles, errorfn, completefn);
     this.service.getEmployeeStatus().subscribe(successfnEmployeeStatus, errorfn, completefn);
     this.service.getEmployeeRole().subscribe(successfnEmployeeRole, errorfn, completefn);
-
-    this.imgUploadService.getImgUrl().subscribe(
-      response => { this.imgUrl = response; console.log(response); console.log(this.imgUrl); },
-      () => this.imgUrl = "default");
   }
 
   Save() {
     console.log(this.employee);
     console.log(this.fileToUpload);
     if (this.fileToUpload != null) {
+      this.newFileName = UUID.UUID()
+      this.employee.ImgUrl = this.newFileName;
       this.uploadFileToActivity();
     }
-    this.service.addEmployee(this.employee).subscribe(response => this.employee = response);;
-    this.location.back();
-    this.toast.success("You successfully added new profile", "");
-    console.log(this.employeeStatuses);
+    this.service.addEmployee(this.employee).subscribe(response => {
+      this.employee = response;
+      this.location.back();
+     this.toast.success("You successfully added new profile", "");
+     console.log(this.employeeStatuses);
+    });
   }
 }
